@@ -105,9 +105,10 @@ section{
 
 .collection{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:40px;
+    grid-template-columns:repeat(2,1fr);
+    gap:60px;
     text-align:center;
+    justify-items:center;
 }
 
 .product{
@@ -126,7 +127,7 @@ section{
 
 .product img{
     width:100%;
-    max-width:250px;
+    max-width:350px;
 }
 
 .product-name{
