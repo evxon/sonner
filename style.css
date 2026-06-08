@@ -210,3 +210,71 @@ section{
     }
 
 }
+
+.image-wrapper{
+    position:relative;
+    width:100%;
+    max-width:300px;
+    margin:0 auto;
+}
+
+.image-wrapper img{
+    width:100%;
+    display:block;
+    transition:opacity 0.3s ease;
+}
+
+/* second image sits on top */
+.hover-img{
+    position:absolute;
+    top:0;
+    left:0;
+    opacity:0;
+}
+
+/* hover effect */
+.hover-swap:hover .default-img{
+    opacity:0;
+}
+
+.hover-swap:hover .hover-img{
+    opacity:1;
+}
+
+.price-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:40px;
+}
+
+.color-options{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.color{
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    border:1px solid black;
+    cursor:pointer;
+    background:transparent;
+    padding:0;
+}
+
+/* actual colors */
+.color.black{
+    background:black;
+}
+
+.color.skin{
+    background:#d8b08c;
+}
+
+/* active state */
+.color.active{
+    outline:2px solid black;
+    outline-offset:2px;
+}
