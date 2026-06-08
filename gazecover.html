@@ -29,6 +29,7 @@ body{
     font-size:2rem;
 }
 
+/* PRODUCT SECTION */
 .product{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -40,6 +41,7 @@ body{
     width:100%;
 }
 
+/* TEXT */
 .title{
     font-size:3rem;
     margin-bottom:20px;
@@ -47,9 +49,42 @@ body{
 
 .price{
     font-size:1.3rem;
-    margin-bottom:40px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
+/* COLOR DOTS */
+.color-options{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-left:10px;
+}
+
+.color-btn{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    border:1px solid #aaa;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.color-btn:hover{
+    transform:scale(1.15);
+}
+
+.black{
+    background:black;
+}
+
+.skin{
+    background:#d8b49c;
+}
+
+/* BUTTON */
 .button{
     display:inline-block;
     padding:14px 28px;
@@ -63,6 +98,7 @@ body{
     color:white;
 }
 
+/* GALLERY */
 .gallery{
     margin-top:120px;
 }
@@ -73,6 +109,7 @@ body{
     margin-bottom:40px;
 }
 
+/* MOBILE */
 @media(max-width:900px){
 
 .product{
@@ -92,13 +129,22 @@ body{
 
 <div class="product">
 
-<img src="image/gaze-driver-cover.jpg" alt="">
+<!-- IMAGE -->
+<img id="productImage" src="image/gaze-driver-cover.jpg" alt="">
 
+<!-- INFO -->
 <div>
 
 <h1 class="title">The Gaze Cover</h1>
 
-<div class="price">$69</div>
+<div class="price">
+    $69
+
+    <div class="color-options">
+        <div class="color-btn black" onclick="setImage('black')"></div>
+        <div class="color-btn skin" onclick="setImage('skin')"></div>
+    </div>
+</div>
 
 <p>
 Protective golf head cover featuring the signature eye motif.
@@ -116,15 +162,26 @@ Designed to bring a different perspective to the game.
 <div class="gallery">
 
 <img src="image/gaze-cover-1.jpg" alt="">
-
 <img src="image/gaze-cover-2.jpg" alt="">
-
 <img src="image/gaze-cover-3.jpg" alt="">
 
-
 </div>
 
 </div>
+
+<script>
+function setImage(color){
+    const img = document.getElementById("productImage");
+
+    if(color === "black"){
+        img.src = "image/gaze-driver-cover.jpg";
+    }
+
+    if(color === "skin"){
+        img.src = "image/gaze-cover-color.jpg";
+    }
+}
+</script>
 
 </body>
 </html>
