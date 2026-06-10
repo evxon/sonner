@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LOST BALL — SØNNER</title>
+  <link rel="stylesheet" href="lostball.css">
+</head>
+
+<body>
+
+<!-- START SCREEN -->
+<div id="startScreen">
+
+  <img id="eye" src="image/eye.png" alt="eye">
+
+  <button id="enterBtn">LOST BALL</button>
+
+</div>
+
+<!-- WORLD -->
+<div id="world">
+
+  <div id="grid">
+
+    <!-- ROW 1 -->
+    <div class="tile" style="top:0; left:0; background-image:url('image/tl.jpg')"></div>
+    <div class="tile" style="top:0; left:100vw; background-image:url('image/tm.jpg')"></div>
+    <div class="tile" style="top:0; left:200vw; background-image:url('image/tr.jpg')"></div>
+
+    <!-- ROW 2 -->
+    <div class="tile" style="top:100vh; left:0; background-image:url('image/ml.jpg')"></div>
+    <div class="tile" style="top:100vh; left:100vw; background-image:url('image/mm.jpg')"></div>
+    <div class="tile" style="top:100vh; left:200vw; background-image:url('image/mr.jpg')"></div>
+
+    <!-- ROW 3 -->
+    <div class="tile" style="top:200vh; left:0; background-image:url('image/bl.jpg')"></div>
+    <div class="tile" style="top:200vh; left:100vw; background-image:url('image/bm.jpg')"></div>
+    <div class="tile" style="top:200vh; left:200vw; background-image:url('image/br.jpg')"></div>
+
+    <!-- BALLS -->
+    <img class="ball" src="image/lost-ball-1.png" style="top:120vh; left:120vw;">
+    <img class="ball" src="image/lost-ball-2.png" style="top:130vh; left:90vw;">
+    <img class="ball" src="image/lost-ball-1.png" style="top:80vh; left:180vw;">
+    <img class="ball" src="image/lost-ball-2.png" style="top:200vh; left:110vw;">
+
+    <img class="ball" src="image/lost-ball-1.png" style="top:40vh; left:60vw;">
+    <img class="ball" src="image/lost-ball-2.png" style="top:60vh; left:250vw;">
+    <img class="ball" src="image/lost-ball-1.png" style="top:160vh; left:40vw;">
+    <img class="ball" src="image/lost-ball-2.png" style="top:220vh; left:210vw;">
+
+    <img class="ball" src="image/lost-ball-1.png" style="top:10vh; left:150vw;">
+    <img class="ball" src="image/lost-ball-2.png" style="top:95vh; left:20vw;">
+    <img class="ball" src="image/lost-ball-1.png" style="top:175vh; left:170vw;">
+    <img class="ball" src="image/lost-ball-2.png" style="top:240vh; left:140vw;">
+
+  </div>
+</div>
+
+<!-- AUDIO (FIXED) -->
+<audio id="wind" loop preload="auto">
+  <source src="wind.mp3" type="audio/mpeg">
+</audio>
+
+<!-- END SCREEN -->
+<div id="endScreen">
+  <div id="endText">You can stop now.</div>
+</div>
+
+<!-- SCRIPT (IMPORTANT: MUST BE LAST) -->
+<script src="lostballscript.js"></script>
+
+</body>
+</html>
