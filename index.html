@@ -3,17 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SØNNER</title>
+
+<!-- SEO (IMPORTANT FOR GOOGLE) -->
+<title>SØNNER GOLF | Golf Beyond Performance</title>
+<meta name="description" content="SØNNER GOLF — a modern golf brand focused on design, presence, and experience beyond performance.">
+
+<link rel="canonical" href="https://sonnergolf.com/">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
+<link rel="stylesheet" href="lostball.css">
 </head>
 
 <body>
 
 <!-- HERO -->
-
 <section class="hero">
 
     <div class="hero-overlay"></div>
@@ -27,7 +31,6 @@
 </section>
 
 <!-- PHILOSOPHY -->
-
 <section>
 
     <h2 class="section-title">Philosophy</h2>
@@ -54,7 +57,6 @@
 </section>
 
 <!-- COLLECTION -->
-
 <section id="collection">
 
     <h2 class="section-title">The Gaze Collection</h2>
@@ -62,32 +64,35 @@
     <div class="collection">
 
         <a href="gazeglove.html" class="product">
-            <img src="image/gaze-glove.jpg" alt="">
-            <div class="product-name">Golf glove</div>
+            <img src="image/gaze-glove.jpg" alt="Golf glove">
+            <div class="product-name">Golf Glove</div>
         </a>
 
         <a href="gazecover.html" class="product hover-swap">
-            
             <div class="image-wrapper">
-                <img class="default-img" src="image/gaze-driver-cover.jpg" alt="">
-                <img class="hover-img" src="image/gaze-cover-color.jpg" alt="">
+                <img class="default-img" src="image/gaze-driver-cover.jpg" alt="Driver headcover">
+                <img class="hover-img" src="image/gaze-cover-color.jpg" alt="Color variation headcover">
             </div>
-
             <div class="product-name">Headcover</div>
         </a>
+
+        <a href="gazeiron.html" class="product">
+            <img src="image/gaze-iron-cover.jpg" alt="Iron headcover">
+            <div class="product-name">Iron Headcover</div>
+        </a>
+
     </div>
 
 </section>
 
 <!-- GLOVE -->
-
 <section>
 
     <h2 class="section-title">Golf Glove</h2>
 
     <div class="featured">
 
-        <img src="image/gaze-glove-detail.jpg" alt="">
+        <img src="image/gaze-glove-detail.jpg" alt="Golf glove detail">
 
         <div class="features">
 
@@ -112,21 +117,37 @@
 
 </section>
 
-<!-- FOOTER -->
+<!-- LOST BALL SECTION -->
+<section class="lost-ball-entry">
 
-<section class="footer">
+    <h2 class="section-title">After Play</h2>
 
-<a href="https://instagram.com/cfycyfvguvugigbhi" target="_blank" class="instagram-link">
+    <p class="lost-ball-text">
+        A space to release what cannot be changed.
+    </p>
 
-<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-    <circle cx="12" cy="12" r="4"></circle>
-    <circle cx="18" cy="6" r="1"></circle>
-</svg>
-
-</a>
+    <a href="lostball/lostballindex.html" class="lost-ball-link" target="_blank" rel="noopener noreferrer">
+        Enter Lost Ball
+    </a>
 
 </section>
+
+<!-- INSTAGRAM -->
+<section class="footer">
+
+    <a href="https://instagram.com/cfycyfvguvugigbhi" target="_blank" class="instagram-link">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="18" cy="6" r="1"></circle>
+        </svg>
+
+    </a>
+
+</section>
+
+<script src="lostball.js"></script>
 
 </body>
 </html>
