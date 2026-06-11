@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOST BALL</title>
+<title>LOST BALLS</title>
 
 <style>
 html, body {
@@ -11,7 +11,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* prevents scroll gaps */
   font-family: sans-serif;
   background: #000;
 }
@@ -39,30 +39,17 @@ html, body {
   z-index: 10;
 
   opacity: 1;
-  transition:
-    opacity 1.2s ease,
-    transform 1.2s ease;
+  transition: opacity 1.2s ease, transform 1.2s ease;
 
-  /* Ambient breathing movement */
   animation: breathe 12s ease-in-out infinite;
-  transform-origin: center center;
 }
 
 @keyframes breathe {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.04);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
 }
 
-/* ENTRY FADE OUT */
 #entry.fade-out {
   opacity: 0;
   transform: scale(1.08);
@@ -73,17 +60,20 @@ html, body {
 #field {
   position: absolute;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
 
-  background-image: url("image/image1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  /* IMPORTANT: prevents black showing during load */
+  background-color: #111;
 
   opacity: 0;
   transition: opacity 1.2s ease;
 }
 
-/* FIELD FADE IN */
 #field.visible {
   opacity: 1;
 }
@@ -92,11 +82,14 @@ html, body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.03);
+
+  /* subtle overlay but NOT black */
+  background: rgba(255,255,255,0.02);
+
   pointer-events: none;
 }
 
-/* GOLF BALLS */
+/* BALLS */
 .ball {
   position: absolute;
 
@@ -107,10 +100,7 @@ html, body {
 
   opacity: 0;
 
-  transition:
-    opacity 1s ease,
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 1s ease;
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1), filter 1s ease;
 
   z-index: 2;
   cursor: pointer;
@@ -131,7 +121,6 @@ html, body {
 <body>
 
 <div id="entry">LOST BALL</div>
-
 <div id="field"></div>
 
 <script>
@@ -140,8 +129,17 @@ const field = document.getElementById("field");
 
 const ballCount = 12;
 
-function randomScatter(i) {
+const backgrounds = [
+  "image/image1.png",
+  "image/image2.png",
+  "image/image3.png"
+];
 
+function randomBackground() {
+  return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+}
+
+function randomScatter(i) {
   const cols = 3;
   const rows = 4;
 
@@ -154,14 +152,13 @@ function randomScatter(i) {
   x += (Math.random() - 0.5) * 20;
   y += (Math.random() - 0.5) * 20;
 
-  x = Math.max(5, Math.min(90, x));
-  y = Math.max(5, Math.min(90, y));
+  x = Math.max(0, Math.min(100, x));
+  y = Math.max(0, Math.min(100, y));
 
   return { x, y };
 }
 
 function createBalls() {
-
   for (let i = 0; i < ballCount; i++) {
 
     const ball = document.createElement("div");
@@ -173,7 +170,6 @@ function createBalls() {
     ball.style.top = pos.y + "vh";
 
     const size = 190 + Math.random() * 10;
-
     ball.style.width = size + "px";
     ball.style.height = size + "px";
 
@@ -184,32 +180,27 @@ function createBalls() {
     });
 
     ball.addEventListener("click", () => {
-
       ball.style.pointerEvents = "none";
       ball.classList.add("fade");
 
       setTimeout(() => {
-
         ball.remove();
 
         if (field.querySelectorAll(".ball").length === 0) {
           setTimeout(reset, 1200);
         }
-
       }, 1000);
-
     });
   }
 }
 
 function start() {
+  field.style.backgroundImage = `url('${randomBackground()}')`;
 
   field.classList.add("visible");
   entry.classList.add("fade-out");
 
-  setTimeout(() => {
-    createBalls();
-  }, 500);
+  setTimeout(createBalls, 500);
 
   setTimeout(() => {
     entry.style.display = "none";
@@ -218,6 +209,7 @@ function start() {
 
 function reset() {
   field.innerHTML = "";
+  field.style.backgroundImage = `url('${randomBackground()}')`;
   createBalls();
 }
 
