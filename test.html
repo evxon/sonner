@@ -11,7 +11,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* prevents scroll gaps */
+  overflow: hidden;
   font-family: sans-serif;
   background: #000;
 }
@@ -20,40 +20,52 @@ html, body {
 #entry {
   position: absolute;
   inset: 0;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* THIS is the ONLY animated layer (background image) */
+#entryBg {
+  position: absolute;
+  inset: 0;
 
   background-image: url("image/picking.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: white;
-  font-size: 20px;
-  font-weight: 300;
-  letter-spacing: 6px;
-
-  cursor: pointer;
-  z-index: 10;
-
-  opacity: 1;
-  transition: opacity 1.2s ease, transform 1.2s ease;
-
   animation: breathe 12s ease-in-out infinite;
 }
 
+/* ONLY background moves */
 @keyframes breathe {
   0% { transform: scale(1); }
   50% { transform: scale(1.04); }
   100% { transform: scale(1); }
 }
 
+/* TEXT is completely separate → NO movement */
+#entryText {
+  position: relative;
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 6px;
+  z-index: 2;
+  pointer-events: none;
+  animation: none;
+  transform: none;
+}
+
 #entry.fade-out {
   opacity: 0;
-  transform: scale(1.08);
   pointer-events: none;
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  transform: scale(1.08);
 }
 
 /* FIELD */
@@ -67,7 +79,6 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
 
-  /* IMPORTANT: prevents black showing during load */
   background-color: #111;
 
   opacity: 0;
@@ -82,10 +93,7 @@ html, body {
   content: "";
   position: absolute;
   inset: 0;
-
-  /* subtle overlay but NOT black */
   background: rgba(255,255,255,0.02);
-
   pointer-events: none;
 }
 
@@ -120,7 +128,13 @@ html, body {
 
 <body>
 
-<div id="entry">LOST BALL</div>
+<!-- ENTRY -->
+<div id="entry">
+  <div id="entryBg"></div>
+  <div id="entryText">LOST BALL</div>
+</div>
+
+<!-- FIELD -->
 <div id="field"></div>
 
 <script>
