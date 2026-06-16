@@ -8,9 +8,6 @@
 
 <link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="score.css">
@@ -24,9 +21,7 @@
 
     <h1>Welcome</h1>
 
-    <p class="subtitle">
-      Create an account or log in to save rounds.
-    </p>
+    <p class="subtitle">Create an account or log in to save rounds.</p>
 
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
@@ -43,17 +38,14 @@
 <section id="heroScreen">
 
   <div class="hero-image">
-    <img src="image/heroimage.png" alt="Golf">
+    <img src="image/heroimage.png">
   </div>
 
   <div class="hero-content">
 
     <h1>Scoreboard</h1>
 
-    <p class="subtitle">
-      Record every round. Track every shot.
-      Keep a simple scorecard for the course.
-    </p>
+    <p class="subtitle">Record rounds. Track every shot.</p>
 
     <button onclick="showSetup()">Start Round</button>
 
@@ -64,17 +56,15 @@
 <!-- SETUP -->
 <section id="setupScreen" class="container">
 
-  <h1>Who's on<br>the card?</h1>
+  <h1>Who's on the card?</h1>
 
-  <p class="subtitle">
-    Enter up to four players before the first tee.
-  </p>
+  <p class="subtitle">Enter players before starting.</p>
 
   <div class="player-inputs">
-    <input type="text" id="player1" placeholder="Player 1">
-    <input type="text" id="player2" placeholder="Player 2">
-    <input type="text" id="player3" placeholder="Player 3">
-    <input type="text" id="player4" placeholder="Player 4">
+    <input id="player1" placeholder="Player 1">
+    <input id="player2" placeholder="Player 2">
+    <input id="player3" placeholder="Player 3">
+    <input id="player4" placeholder="Player 4">
   </div>
 
   <button onclick="startRound()">Begin Round</button>
@@ -85,56 +75,58 @@
 <section id="roundScreen" class="container">
 
   <div class="round-nav">
-    <button class="nav-btn" onclick="previousHole()">←</button>
-
+    <button onclick="previousHole()">←</button>
     <div id="roundLabel">R1</div>
-
-    <button class="nav-btn" onclick="nextHole()">→</button>
+    <button onclick="nextHole()">→</button>
   </div>
 
   <div id="playerScores"></div>
 
-  <button id="finishButton" onclick="finishRound()">
-    Complete Round
-  </button>
+  <button id="finishButton" onclick="finishRound()">Complete Round</button>
 
 </section>
 
 <!-- RESULTS -->
 <section id="resultsScreen" class="container">
 
-  <div class="result-title">Round Complete</div>
-
+  <h3>Round Complete</h3>
   <div id="playerResults"></div>
-
-  <div class="footer-note">
-    Scores have been recorded for this round.
-  </div>
 
 </section>
 
-<!-- SCRIPTS -->
+<!-- 🟢 ARCHIVE SECTION -->
+<section id="archiveScreen" class="container">
+
+  <h3>Your Archive</h3>
+
+  <div id="archiveList"></div>
+
+</section>
+
 <script>
 let players = [];
 let currentHole = 1;
 let scores = {};
+let currentUser = null;
 
+/* SHOW SETUP */
 function showSetup(){
   document.getElementById('heroScreen').style.display = 'none';
   document.getElementById('setupScreen').style.display = 'block';
 }
 
+/* START ROUND */
 function startRound(){
 
   players = [];
 
   for(let i=1;i<=4;i++){
-    const name = document.getElementById(`player${i}`).value.trim();
+    let name = document.getElementById(`player${i}`).value;
     if(name) players.push(name);
   }
 
   if(players.length === 0){
-    alert('Enter at least one player.');
+    alert("Add players");
     return;
   }
 
@@ -146,91 +138,60 @@ function startRound(){
   renderHole();
 }
 
+/* RENDER HOLE */
 function renderHole(){
 
   document.getElementById('roundLabel').innerText = `R${currentHole}`;
 
-  const container = document.getElementById('playerScores');
   let html = '';
 
-  players.forEach(player => {
+  players.forEach(p => {
+
     html += `
       <div class="player-row">
-        <div class="player-name">${player}</div>
+        <div>${p}</div>
         <input type="number"
           class="score-input"
-          value="${scores[player][currentHole-1]}"
-          onchange="updateScore('${player}', this.value)">
+          onchange="updateScore('${p}', this.value)">
       </div>
     `;
   });
 
-  container.innerHTML = html;
-
-  document.getElementById('finishButton').style.display =
-    currentHole === 18 ? 'block' : 'none';
+  document.getElementById('playerScores').innerHTML = html;
 }
 
-function updateScore(player, value){
-  scores[player][currentHole-1] = value;
-}
-
-function nextHole(){
-  saveInputs();
-  if(currentHole < 18){
-    currentHole++;
-    renderHole();
-  }
-}
-
-function previousHole(){
-  saveInputs();
-  if(currentHole > 1){
-    currentHole--;
-    renderHole();
-  }
-}
-
-function saveInputs(){
-  const inputs = document.querySelectorAll('.score-input');
-
-  inputs.forEach((input, i) => {
-    scores[players[i]][currentHole-1] = input.value;
-  });
-}
-
+/* FINISH ROUND */
 function finishRound(){
 
-  saveInputs();
+  let result = [];
 
-  let html = '';
-
-  players.forEach(player => {
+  players.forEach(p => {
 
     let total = 0;
 
-    scores[player].forEach(s => {
-      const v = parseInt(s);
+    scores[p].forEach(s => {
+      let v = parseInt(s);
       if(!isNaN(v)) total += v;
     });
 
-    html += `
-      <div class="player-result">
-        <span>${player}</span>
-        <span>${total}</span>
-      </div>
-    `;
+    result.push({ name: p, score: total });
   });
-
-  document.getElementById('playerResults').innerHTML = html;
 
   document.getElementById('roundScreen').style.display = 'none';
   document.getElementById('resultsScreen').style.display = 'block';
+
+  saveToFirebase(result); // 🔥 SAVE
 }
 
+/* ARCHIVE */
+function loadArchive(){}
+
+/* DELETE */
+function deleteRound(id){}
 </script>
 
 <script type="module" src="auth.js"></script>
+<script type="module" src="firebase.js"></script>
 
 </body>
 </html>
