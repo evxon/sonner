@@ -18,310 +18,214 @@
 
 <body>
 
-    <div id="authScreen">
+<!-- AUTH -->
+<div id="authScreen">
+  <div class="container">
 
-<div class="container">
+    <h1>Welcome</h1>
 
-<h1>
-Welcome
-</h1>
+    <p class="subtitle">
+      Create an account or log in to save rounds.
+    </p>
 
-<p class="subtitle">
-Create an account or log in to save rounds.
-</p>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
 
-<input
-type="email"
-id="email"
-placeholder="Email">
+    <div class="auth-buttons">
+      <button onclick="createAccount()">Create Account</button>
+      <button onclick="login()">Log In</button>
+    </div>
 
-<input
-type="password"
-id="password"
-placeholder="Password">
-
-<div class="auth-buttons">
-
-<button onclick="createAccount()">
-Create Account
-</button>
-
-<button onclick="login()">
-Log In
-</button>
-
-</div>
-
-</div>
-
+  </div>
 </div>
 
 <!-- HERO -->
-
 <section id="heroScreen">
 
-    <div class="hero-image">
-        <img src="image/heroimage.png" alt="Golf">
-    </div>
+  <div class="hero-image">
+    <img src="image/heroimage.png" alt="Golf">
+  </div>
 
-    <div class="hero-content">
+  <div class="hero-content">
 
-        <h1>Scoreboard</h1>
+    <h1>Scoreboard</h1>
 
-        <p class="subtitle">
-            Record every round. Track every shot.
-            Keep a simple scorecard for the course.
-        </p>
+    <p class="subtitle">
+      Record every round. Track every shot.
+      Keep a simple scorecard for the course.
+    </p>
 
-        <button onclick="showSetup()">
-            Start Round
-        </button>
+    <button onclick="showSetup()">Start Round</button>
 
-    </div>
+  </div>
 
 </section>
 
-<!-- PLAYER SETUP -->
-
+<!-- SETUP -->
 <section id="setupScreen" class="container">
 
-    <h1>
-        Who's on<br>
-        the card?
-    </h1>
+  <h1>Who's on<br>the card?</h1>
 
-    <p class="subtitle">
-        Enter up to four players before the first tee.
-    </p>
+  <p class="subtitle">
+    Enter up to four players before the first tee.
+  </p>
 
-    <div class="player-inputs">
+  <div class="player-inputs">
+    <input type="text" id="player1" placeholder="Player 1">
+    <input type="text" id="player2" placeholder="Player 2">
+    <input type="text" id="player3" placeholder="Player 3">
+    <input type="text" id="player4" placeholder="Player 4">
+  </div>
 
-        <input type="text" id="player1" placeholder="Player 1">
-        <input type="text" id="player2" placeholder="Player 2">
-        <input type="text" id="player3" placeholder="Player 3">
-        <input type="text" id="player4" placeholder="Player 4">
-
-    </div>
-
-    <button onclick="startRound()">
-        Begin Round
-    </button>
+  <button onclick="startRound()">Begin Round</button>
 
 </section>
 
 <!-- ROUND -->
-
 <section id="roundScreen" class="container">
 
-    <div class="round-nav">
+  <div class="round-nav">
+    <button class="nav-btn" onclick="previousHole()">←</button>
 
-        <button class="nav-btn" onclick="previousHole()">
-            ←
-        </button>
+    <div id="roundLabel">R1</div>
 
-        <div id="roundLabel">
-            R1
-        </div>
+    <button class="nav-btn" onclick="nextHole()">→</button>
+  </div>
 
-        <button class="nav-btn" onclick="nextHole()">
-            →
-        </button>
+  <div id="playerScores"></div>
 
-    </div>
-
-    <div id="playerScores"></div>
-
-    <button id="finishButton" onclick="finishRound()">
-        Complete Round
-    </button>
+  <button id="finishButton" onclick="finishRound()">
+    Complete Round
+  </button>
 
 </section>
 
 <!-- RESULTS -->
-
 <section id="resultsScreen" class="container">
 
-    <div class="result-title">
-        Round Complete
-    </div>
+  <div class="result-title">Round Complete</div>
 
-    <div id="playerResults"></div>
+  <div id="playerResults"></div>
 
-    <div class="footer-note">
-        Scores have been recorded for this round.
-    </div>
+  <div class="footer-note">
+    Scores have been recorded for this round.
+  </div>
 
 </section>
 
+<!-- SCRIPTS -->
 <script>
-
 let players = [];
 let currentHole = 1;
 let scores = {};
 
 function showSetup(){
-
-    document.getElementById('heroScreen').style.display = 'none';
-    document.getElementById('setupScreen').style.display = 'block';
-
-    window.scrollTo({
-        top:0,
-        behavior:'smooth'
-    });
-
+  document.getElementById('heroScreen').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'block';
 }
 
 function startRound(){
 
-    players = [];
+  players = [];
 
-    for(let i=1;i<=4;i++){
+  for(let i=1;i<=4;i++){
+    const name = document.getElementById(`player${i}`).value.trim();
+    if(name) players.push(name);
+  }
 
-        const name = document.getElementById(`player${i}`).value.trim();
+  if(players.length === 0){
+    alert('Enter at least one player.');
+    return;
+  }
 
-        if(name !== ''){
-            players.push(name);
-        }
+  players.forEach(p => scores[p] = Array(18).fill(''));
 
-    }
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('roundScreen').style.display = 'block';
 
-    if(players.length === 0){
-        alert('Enter at least one player.');
-        return;
-    }
-
-    players.forEach(player=>{
-        scores[player] = Array(18).fill('');
-    });
-
-    document.getElementById('setupScreen').style.display = 'none';
-    document.getElementById('roundScreen').style.display = 'block';
-
-    renderHole();
-
+  renderHole();
 }
 
 function renderHole(){
 
-    document.getElementById('roundLabel').innerText = `R${currentHole}`;
+  document.getElementById('roundLabel').innerText = `R${currentHole}`;
 
-    const container = document.getElementById('playerScores');
+  const container = document.getElementById('playerScores');
+  let html = '';
 
-    let html = '';
+  players.forEach(player => {
+    html += `
+      <div class="player-row">
+        <div class="player-name">${player}</div>
+        <input type="number"
+          class="score-input"
+          value="${scores[player][currentHole-1]}"
+          onchange="updateScore('${player}', this.value)">
+      </div>
+    `;
+  });
 
-    players.forEach(player=>{
+  container.innerHTML = html;
 
-        html += `
-        <div class="player-row">
-
-            <div class="player-name">
-                ${player}
-            </div>
-
-            <input
-                type="number"
-                min="1"
-                class="score-input"
-                value="${scores[player][currentHole-1]}"
-                onchange="updateScore('${player}', this.value)"
-            >
-
-        </div>
-        `;
-
-    });
-
-    container.innerHTML = html;
-
-    if(currentHole === 18){
-        document.getElementById('finishButton').style.display = 'inline-block';
-    }else{
-        document.getElementById('finishButton').style.display = 'none';
-    }
-
+  document.getElementById('finishButton').style.display =
+    currentHole === 18 ? 'block' : 'none';
 }
 
-function updateScore(player,value){
-
-    scores[player][currentHole-1] = value;
-
+function updateScore(player, value){
+  scores[player][currentHole-1] = value;
 }
 
 function nextHole(){
-
-    saveCurrentInputs();
-
-    if(currentHole < 18){
-        currentHole++;
-        renderHole();
-    }
-
+  saveInputs();
+  if(currentHole < 18){
+    currentHole++;
+    renderHole();
+  }
 }
 
 function previousHole(){
-
-    saveCurrentInputs();
-
-    if(currentHole > 1){
-        currentHole--;
-        renderHole();
-    }
-
+  saveInputs();
+  if(currentHole > 1){
+    currentHole--;
+    renderHole();
+  }
 }
 
-function saveCurrentInputs(){
+function saveInputs(){
+  const inputs = document.querySelectorAll('.score-input');
 
-    const inputs = document.querySelectorAll('.score-input');
-
-    inputs.forEach((input,index)=>{
-
-        const player = players[index];
-
-        scores[player][currentHole-1] = input.value;
-
-    });
-
+  inputs.forEach((input, i) => {
+    scores[players[i]][currentHole-1] = input.value;
+  });
 }
 
 function finishRound(){
 
-    saveCurrentInputs();
+  saveInputs();
 
-    let html = '';
+  let html = '';
 
-    players.forEach(player=>{
+  players.forEach(player => {
 
-        let total = 0;
+    let total = 0;
 
-        scores[player].forEach(score=>{
-
-            const value = parseInt(score);
-
-            if(!isNaN(value)){
-                total += value;
-            }
-
-        });
-
-        html += `
-        <div class="player-result">
-            <span>${player}</span>
-            <span>${total}</span>
-        </div>
-        `;
-
+    scores[player].forEach(s => {
+      const v = parseInt(s);
+      if(!isNaN(v)) total += v;
     });
 
-    document.getElementById('playerResults').innerHTML = html;
+    html += `
+      <div class="player-result">
+        <span>${player}</span>
+        <span>${total}</span>
+      </div>
+    `;
+  });
 
-    document.getElementById('roundScreen').style.display = 'none';
-    document.getElementById('resultsScreen').style.display = 'block';
+  document.getElementById('playerResults').innerHTML = html;
 
-    window.scrollTo({
-        top:0,
-        behavior:'smooth'
-    });
-
+  document.getElementById('roundScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
 }
 
 </script>
