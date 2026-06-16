@@ -10,61 +10,42 @@ import {
 
 const auth = getAuth(app);
 
-window.createAccount = async function(){
-
+/* CREATE ACCOUNT */
+window.createAccount = async function () {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
-  try{
-
-    await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    alert('Account created.');
-
-  }catch(error){
-
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+  } catch (error) {
     alert(error.message);
-
   }
+};
 
-}
-
-window.login = async function(){
-
+/* LOGIN */
+window.login = async function () {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
-  try{
-
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-  }catch(error){
-
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
     alert(error.message);
-
   }
+};
 
-}
-
-window.logout = async function(){
-
+/* LOGOUT */
+window.logout = async function () {
   await signOut(auth);
+};
 
-}
-
-import {
-  getAuth,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
-const auth = getAuth();
-
-signOut(auth);
+/* AUTH STATE */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById('authScreen').style.display = 'none';
+    document.getElementById('heroScreen').style.display = 'block';
+  } else {
+    document.getElementById('authScreen').style.display = 'block';
+    document.getElementById('heroScreen').style.display = 'none';
+  }
+});
