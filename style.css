@@ -76,11 +76,44 @@ body{
     color:black;
 }
 
-/* SECTIONS */
+/* =========================
+   SECTION BASE SPACING
+========================= */
 
 section{
-    padding:120px 8%;
+    padding:140px 8%;
 }
+
+/* make section rhythm more intentional */
+section + section{
+    margin-top:40px;
+}
+
+/* =========================
+   CUSTOM SECTION SPACING
+========================= */
+
+/* Philosophy (slightly tighter than others) */
+section:nth-of-type(2){
+    padding-top:140px;
+    padding-bottom:180px;
+}
+
+/* SØNNER EXPERIENCE (MORE AIR / EMPHASIS SPACE) */
+#lostball{
+    padding-top:220px;
+    padding-bottom:220px;
+}
+
+/* COLLECTION (big separation after experience) */
+#collection{
+    padding-top:240px;
+    padding-bottom:200px;
+}
+
+/* =========================
+   TITLES
+========================= */
 
 .section-title{
     font-size:2rem;
@@ -119,14 +152,6 @@ section{
     width:100%;
 }
 
-.product:visited{
-    color:black;
-}
-
-.product:hover{
-    color:black;
-}
-
 .product img{
     width:100%;
     max-width:300px;
@@ -140,72 +165,7 @@ section{
     color:black;
 }
 
-/* FEATURED PRODUCT */
-
-.featured{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:80px;
-    align-items:center;
-}
-
-.featured img{
-    width:100%;
-}
-
-.features{
-    display:flex;
-    flex-direction:column;
-    gap:30px;
-}
-
-
-
-/* FIXED INSTAGRAM */
-
-.footer{
-    text-align:center;
-    padding:80px 20px;
-}
-
-/* INSTAGRAM */
-
-.instagram-link{
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-
-    color:black;
-    text-decoration:none;
-
-    transition:opacity 0.3s ease;
-}
-
-.instagram-link:hover{
-    opacity:0.5;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-    .logo{
-        font-size:3rem;
-    }
-
-    .philosophy{
-        grid-template-columns:1fr;
-    }
-
-    .collection{
-        grid-template-columns:1fr;
-    }
-
-    .featured{
-        grid-template-columns:1fr;
-    }
-
-}
+/* IMAGE SWAP */
 
 .image-wrapper{
     position:relative;
@@ -220,7 +180,6 @@ section{
     transition:opacity 0.3s ease;
 }
 
-/* second image sits on top */
 .hover-img{
     position:absolute;
     top:0;
@@ -228,7 +187,6 @@ section{
     opacity:0;
 }
 
-/* hover effect */
 .hover-swap:hover .default-img{
     opacity:0;
 }
@@ -237,51 +195,10 @@ section{
     opacity:1;
 }
 
-.price-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:40px;
-}
-
-.color-options{
-    display:flex;
-    gap:10px;
-    align-items:center;
-}
-
-.color{
-    width:16px;
-    height:16px;
-    border-radius:50%;
-    border:1px solid black;
-    cursor:pointer;
-    background:transparent;
-    padding:0;
-}
-
-/* actual colors */
-.color.black{
-    background:black;
-}
-
-.color.skin{
-    background:#d8b08c;
-}
-
-/* active state */
-.color.active{
-    outline:2px solid black;
-    outline-offset:2px;
-}
+/* LOST BALL */
 
 .lost-ball-entry{
     text-align:center;
-
-    padding:160px 8%;
-
-    margin-top:180px;
-    margin-bottom:240px;
 }
 
 .lost-ball-text{
@@ -313,6 +230,29 @@ section{
     color:white;
 }
 
+/* INSTAGRAM */
+
+.footer{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.instagram-link{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    color:black;
+    text-decoration:none;
+
+    transition:opacity 0.3s ease;
+}
+
+.instagram-link:hover{
+    opacity:0.5;
+}
+
+/* REMOVE CENTER ALIGN OVERRIDE ISSUE */
 #collection,
 .featured,
 .section-title{
@@ -321,4 +261,21 @@ section{
 
 #lostball .section-title{
     text-align:center;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .logo{
+        font-size:3rem;
+    }
+
+    .philosophy{
+        grid-template-columns:1fr;
+    }
+
+    .collection{
+        grid-template-columns:1fr;
+    }
 }
