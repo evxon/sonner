@@ -7,9 +7,7 @@
 <title>Scoreboard</title>
 
 <link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="score.css">
 </head>
 
@@ -18,10 +16,8 @@
 <!-- AUTH -->
 <div id="authScreen">
   <div class="container">
-
     <h1>Welcome</h1>
-
-    <p class="subtitle">Create an account or log in to save rounds.</p>
+    <p class="subtitle">Login to save your rounds.</p>
 
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
@@ -30,50 +26,34 @@
       <button onclick="createAccount()">Create Account</button>
       <button onclick="login()">Log In</button>
     </div>
-
   </div>
 </div>
 
 <!-- HERO -->
-<section id="heroScreen">
-
-  <div class="hero-image">
-    <img src="image/heroimage.png">
-  </div>
-
+<section id="heroScreen" style="display:none;">
   <div class="hero-content">
-
     <h1>Scoreboard</h1>
-
-    <p class="subtitle">Record rounds. Track every shot.</p>
+    <p class="subtitle">Track your rounds and save history.</p>
 
     <button onclick="showSetup()">Start Round</button>
-
+    <button onclick="openArchive()">My Archive</button>
   </div>
-
 </section>
 
 <!-- SETUP -->
-<section id="setupScreen" class="container">
+<section id="setupScreen" class="container" style="display:none;">
+  <h1>Players</h1>
 
-  <h1>Who's on the card?</h1>
+  <input id="player1" placeholder="Player 1">
+  <input id="player2" placeholder="Player 2">
+  <input id="player3" placeholder="Player 3">
+  <input id="player4" placeholder="Player 4">
 
-  <p class="subtitle">Enter players before starting.</p>
-
-  <div class="player-inputs">
-    <input id="player1" placeholder="Player 1">
-    <input id="player2" placeholder="Player 2">
-    <input id="player3" placeholder="Player 3">
-    <input id="player4" placeholder="Player 4">
-  </div>
-
-  <button onclick="startRound()">Begin Round</button>
-
+  <button onclick="startRound()">Begin</button>
 </section>
 
 <!-- ROUND -->
-<section id="roundScreen" class="container">
-
+<section id="roundScreen" class="container" style="display:none;">
   <div class="round-nav">
     <button onclick="previousHole()">←</button>
     <div id="roundLabel">R1</div>
@@ -82,112 +62,101 @@
 
   <div id="playerScores"></div>
 
-  <button id="finishButton" onclick="finishRound()">Complete Round</button>
-
+  <button onclick="finishRound()">Finish</button>
 </section>
 
 <!-- RESULTS -->
-<section id="resultsScreen" class="container">
-
+<section id="resultsScreen" class="container" style="display:none;">
   <h3>Round Complete</h3>
   <div id="playerResults"></div>
-
 </section>
 
-<!-- 🟢 ARCHIVE SECTION -->
-<section id="archiveScreen" class="container">
-
+<!-- ARCHIVE -->
+<section id="archiveScreen" class="container" style="display:none;">
   <h3>Your Archive</h3>
-
   <div id="archiveList"></div>
-
 </section>
 
 <script>
 let players = [];
 let currentHole = 1;
 let scores = {};
-let currentUser = null;
 
-/* SHOW SETUP */
+/* NAV */
 function showSetup(){
-  document.getElementById('heroScreen').style.display = 'none';
-  document.getElementById('setupScreen').style.display = 'block';
+  document.getElementById("heroScreen").style.display="none";
+  document.getElementById("setupScreen").style.display="block";
 }
 
-/* START ROUND */
-function startRound(){
+function openArchive(){
+  hideAll();
+  document.getElementById("archiveScreen").style.display="block";
+  loadArchive();
+}
 
+function hideAll(){
+  ["heroScreen","setupScreen","roundScreen","resultsScreen","archiveScreen"]
+  .forEach(id => document.getElementById(id).style.display="none");
+}
+
+/* ROUND */
+function startRound(){
   players = [];
 
   for(let i=1;i<=4;i++){
-    let name = document.getElementById(`player${i}`).value;
+    let name = document.getElementById("player"+i).value;
     if(name) players.push(name);
   }
 
-  if(players.length === 0){
-    alert("Add players");
-    return;
-  }
+  players.forEach(p => scores[p] = Array(18).fill(""));
 
-  players.forEach(p => scores[p] = Array(18).fill(''));
-
-  document.getElementById('setupScreen').style.display = 'none';
-  document.getElementById('roundScreen').style.display = 'block';
+  hideAll();
+  document.getElementById("roundScreen").style.display="block";
 
   renderHole();
 }
 
-/* RENDER HOLE */
 function renderHole(){
+  document.getElementById("roundLabel").innerText = "R"+currentHole;
 
-  document.getElementById('roundLabel').innerText = `R${currentHole}`;
+  let html = "";
 
-  let html = '';
-
-  players.forEach(p => {
-
+  players.forEach(p=>{
     html += `
-      <div class="player-row">
-        <div>${p}</div>
-        <input type="number"
-          class="score-input"
-          onchange="updateScore('${p}', this.value)">
+      <div>
+        ${p}
+        <input type="number" onchange="scores['${p}'][currentHole-1]=this.value">
       </div>
     `;
   });
 
-  document.getElementById('playerScores').innerHTML = html;
+  document.getElementById("playerScores").innerHTML = html;
 }
 
-/* FINISH ROUND */
+function nextHole(){ if(currentHole<18){ currentHole++; renderHole(); } }
+function previousHole(){ if(currentHole>1){ currentHole--; renderHole(); } }
+
+/* FINISH */
 function finishRound(){
 
-  let result = [];
-
-  players.forEach(p => {
-
+  let result = players.map(p=>{
     let total = 0;
-
-    scores[p].forEach(s => {
-      let v = parseInt(s);
-      if(!isNaN(v)) total += v;
+    scores[p].forEach(v=>{
+      let n = parseInt(v);
+      if(!isNaN(n)) total += n;
     });
 
-    result.push({ name: p, score: total });
+    return {name:p, score:total};
   });
 
-  document.getElementById('roundScreen').style.display = 'none';
-  document.getElementById('resultsScreen').style.display = 'block';
+  hideAll();
+  document.getElementById("resultsScreen").style.display="block";
 
-  saveToFirebase(result); // 🔥 SAVE
+  document.getElementById("playerResults").innerHTML =
+    result.map(r=>`<div>${r.name} — ${r.score}</div>`).join("");
+
+  saveToFirebase(result);
 }
-
-/* ARCHIVE */
-function loadArchive(){}
-
-/* DELETE */
-function deleteRound(id){}
 </script>
 
 <script type="module" src="auth.js"></script>
