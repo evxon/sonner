@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Scoreboard</title>
+
+<link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="score.css">
+</head>
+
+<body>
+
+    <div id="authScreen">
+
+<div class="container">
+
+<h1>
+Welcome
+</h1>
+
+<p class="subtitle">
+Create an account or log in to save rounds.
+</p>
+
+<input
+type="email"
+id="email"
+placeholder="Email">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<div class="auth-buttons">
+
+<button onclick="createAccount()">
+Create Account
+</button>
+
+<button onclick="login()">
+Log In
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<section id="heroScreen">
+
+    <div class="hero-image">
+        <img src="image/heroimage.png" alt="Golf">
+    </div>
+
+    <div class="hero-content">
+
+        <h1>Scoreboard</h1>
+
+        <p class="subtitle">
+            Record every round. Track every shot.
+            Keep a simple scorecard for the course.
+        </p>
+
+        <button onclick="showSetup()">
+            Start Round
+        </button>
+
+    </div>
+
+</section>
+
+<!-- PLAYER SETUP -->
+
+<section id="setupScreen" class="container">
+
+    <h1>
+        Who's on<br>
+        the card?
+    </h1>
+
+    <p class="subtitle">
+        Enter up to four players before the first tee.
+    </p>
+
+    <div class="player-inputs">
+
+        <input type="text" id="player1" placeholder="Player 1">
+        <input type="text" id="player2" placeholder="Player 2">
+        <input type="text" id="player3" placeholder="Player 3">
+        <input type="text" id="player4" placeholder="Player 4">
+
+    </div>
+
+    <button onclick="startRound()">
+        Begin Round
+    </button>
+
+</section>
+
+<!-- ROUND -->
+
+<section id="roundScreen" class="container">
+
+    <div class="round-nav">
+
+        <button class="nav-btn" onclick="previousHole()">
+            ←
+        </button>
+
+        <div id="roundLabel">
+            R1
+        </div>
+
+        <button class="nav-btn" onclick="nextHole()">
+            →
+        </button>
+
+    </div>
+
+    <div id="playerScores"></div>
+
+    <button id="finishButton" onclick="finishRound()">
+        Complete Round
+    </button>
+
+</section>
+
+<!-- RESULTS -->
+
+<section id="resultsScreen" class="container">
+
+    <div class="result-title">
+        Round Complete
+    </div>
+
+    <div id="playerResults"></div>
+
+    <div class="footer-note">
+        Scores have been recorded for this round.
+    </div>
+
+</section>
+
+<script>
+
+let players = [];
+let currentHole = 1;
+let scores = {};
+
+function showSetup(){
+
+    document.getElementById('heroScreen').style.display = 'none';
+    document.getElementById('setupScreen').style.display = 'block';
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
+
+}
+
+function startRound(){
+
+    players = [];
+
+    for(let i=1;i<=4;i++){
+
+        const name = document.getElementById(`player${i}`).value.trim();
+
+        if(name !== ''){
+            players.push(name);
+        }
+
+    }
+
+    if(players.length === 0){
+        alert('Enter at least one player.');
+        return;
+    }
+
+    players.forEach(player=>{
+        scores[player] = Array(18).fill('');
+    });
+
+    document.getElementById('setupScreen').style.display = 'none';
+    document.getElementById('roundScreen').style.display = 'block';
+
+    renderHole();
+
+}
+
+function renderHole(){
+
+    document.getElementById('roundLabel').innerText = `R${currentHole}`;
+
+    const container = document.getElementById('playerScores');
+
+    let html = '';
+
+    players.forEach(player=>{
+
+        html += `
+        <div class="player-row">
+
+            <div class="player-name">
+                ${player}
+            </div>
+
+            <input
+                type="number"
+                min="1"
+                class="score-input"
+                value="${scores[player][currentHole-1]}"
+                onchange="updateScore('${player}', this.value)"
+            >
+
+        </div>
+        `;
+
+    });
+
+    container.innerHTML = html;
+
+    if(currentHole === 18){
+        document.getElementById('finishButton').style.display = 'inline-block';
+    }else{
+        document.getElementById('finishButton').style.display = 'none';
+    }
+
+}
+
+function updateScore(player,value){
+
+    scores[player][currentHole-1] = value;
+
+}
+
+function nextHole(){
+
+    saveCurrentInputs();
+
+    if(currentHole < 18){
+        currentHole++;
+        renderHole();
+    }
+
+}
+
+function previousHole(){
+
+    saveCurrentInputs();
+
+    if(currentHole > 1){
+        currentHole--;
+        renderHole();
+    }
+
+}
+
+function saveCurrentInputs(){
+
+    const inputs = document.querySelectorAll('.score-input');
+
+    inputs.forEach((input,index)=>{
+
+        const player = players[index];
+
+        scores[player][currentHole-1] = input.value;
+
+    });
+
+}
+
+function finishRound(){
+
+    saveCurrentInputs();
+
+    let html = '';
+
+    players.forEach(player=>{
+
+        let total = 0;
+
+        scores[player].forEach(score=>{
+
+            const value = parseInt(score);
+
+            if(!isNaN(value)){
+                total += value;
+            }
+
+        });
+
+        html += `
+        <div class="player-result">
+            <span>${player}</span>
+            <span>${total}</span>
+        </div>
+        `;
+
+    });
+
+    document.getElementById('playerResults').innerHTML = html;
+
+    document.getElementById('roundScreen').style.display = 'none';
+    document.getElementById('resultsScreen').style.display = 'block';
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
+
+}
+
+</script>
+
+<script type="module" src="auth.js"></script>
+<script type="module" src="score.js"></script>
+
+</body>
+</html>
