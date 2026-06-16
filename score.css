@@ -261,3 +261,21 @@ button:hover {
         font-size: 28px;
     }
 }
+
+/* =========================
+   SECTION SPACING FIX
+========================= */
+
+section {
+    padding: 120px 40px;
+}
+
+/* specifically control spacing between key blocks if needed */
+#lostball {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+#collection {
+    margin-top: 80px;
+}
