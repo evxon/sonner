@@ -1,227 +1,263 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    font-family:'Inter',sans-serif;
-    background:#fff;
-    color:#111;
-    -webkit-font-smoothing:antialiased;
+body {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #111;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* HERO */
-
-.hero-image{
-    width:100%;
-    height:55vh;
-    overflow:hidden;
-}
-
-.hero-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter:blur(10px);
-    transform:scale(1.08);
-}
-
-.hero-content{
-    max-width:700px;
-    margin:auto;
-    padding:80px 40px;
-}
-
-.container{
-    max-width:700px;
-    margin:auto;
-    padding:80px 40px;
-}
+/* =========================
+   DEFAULT VISIBILITY FLOW
+   (auth is handled by JS)
+========================= */
 
 #setupScreen,
 #roundScreen,
-#resultsScreen{
-    display:none;
+#resultsScreen {
+    display: none;
 }
 
-h1{
-    font-size:64px;
-    font-weight:300;
-    line-height:1;
-    letter-spacing:-2px;
-    margin-bottom:20px;
+#heroScreen {
+    display: none;
 }
 
-.subtitle{
-    font-size:14px;
-    color:#777;
-    line-height:1.8;
-    max-width:420px;
-    margin-bottom:80px;
+/* =========================
+   CONTAINERS
+========================= */
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 80px 40px;
 }
 
-/* BUTTON */
+/* =========================
+   AUTH SCREEN
+========================= */
 
-button{
-    border:none;
-    background:#111;
-    color:#fff;
-    padding:16px 28px;
-    font-size:11px;
-    letter-spacing:3px;
-    text-transform:uppercase;
-    cursor:pointer;
-    font-family:'Inter',sans-serif;
+#authScreen {
+    display: block;
 }
 
-button:hover{
-    opacity:.85;
+#authScreen input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px 0;
+    margin-bottom: 24px;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
 }
 
-/* PLAYER SETUP */
-
-.player-inputs{
-    display:grid;
-    gap:24px;
+#authScreen input:focus {
+    outline: none;
+    border-bottom: 1px solid #111;
 }
 
-.player-inputs input{
-    border:none;
-    border-bottom:1px solid #e5e5e5;
-    padding:14px 0;
-    font-size:18px;
-    font-family:'Inter',sans-serif;
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-.player-inputs input:focus{
-    outline:none;
-    border-bottom:1px solid #111;
+/* =========================
+   HERO SCREEN
+========================= */
+
+.hero-image {
+    width: 100%;
+    height: 55vh;
+    overflow: hidden;
 }
 
-/* ROUND */
-
-.round-nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:80px;
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(10px);
+    transform: scale(1.08);
 }
 
-.nav-btn{
-    background:none;
-    color:#111;
-    font-size:24px;
-    padding:0;
-    letter-spacing:0;
+.hero-content {
+    max-width: 700px;
+    margin: auto;
+    padding: 80px 40px;
 }
 
-#roundLabel{
-    font-size:72px;
-    font-weight:300;
-    letter-spacing:-3px;
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h1 {
+    font-size: 64px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
 }
 
-.player-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:28px 0;
-    border-bottom:1px solid #f0f0f0;
+.subtitle {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.8;
+    max-width: 420px;
+    margin-bottom: 80px;
 }
 
-.player-name{
-    font-size:20px;
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    border: none;
+    background: #111;
+    color: #fff;
+    padding: 16px 28px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }
 
-.score-input{
-    width:100px;
-    border:none;
-    border-bottom:1px solid #ddd;
-    font-size:32px;
-    text-align:right;
-    font-family:'Inter',sans-serif;
-    background:transparent;
+button:hover {
+    opacity: 0.85;
 }
 
-.score-input:focus{
-    outline:none;
-    border-bottom:1px solid #111;
+/* =========================
+   PLAYER SETUP
+========================= */
+
+.player-inputs {
+    display: grid;
+    gap: 24px;
 }
 
-#finishButton{
-    display:none;
-    margin-top:60px;
+.player-inputs input {
+    border: none;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 14px 0;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
 }
 
-/* RESULTS */
-
-.result-title{
-    font-size:11px;
-    letter-spacing:3px;
-    text-transform:uppercase;
-    color:#777;
-    margin-bottom:40px;
+.player-inputs input:focus {
+    outline: none;
+    border-bottom: 1px solid #111;
 }
 
-.player-result{
-    display:flex;
-    justify-content:space-between;
-    padding:18px 0;
-    border-bottom:1px solid #f0f0f0;
-    font-size:18px;
+/* =========================
+   ROUND NAVIGATION
+========================= */
+
+.round-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 80px;
 }
 
-.footer-note{
-    margin-top:40px;
-    font-size:13px;
-    color:#777;
-    line-height:1.8;
+.nav-btn {
+    background: none;
+    color: #111;
+    font-size: 24px;
+    padding: 0;
 }
 
-@media(max-width:700px){
+#roundLabel {
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: -3px;
+}
+
+/* =========================
+   PLAYER SCORE ROW
+========================= */
+
+.player-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.player-name {
+    font-size: 20px;
+}
+
+.score-input {
+    width: 100px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 32px;
+    text-align: right;
+    font-family: 'Inter', sans-serif;
+    background: transparent;
+}
+
+.score-input:focus {
+    outline: none;
+    border-bottom: 1px solid #111;
+}
+
+/* =========================
+   RESULTS
+========================= */
+
+.result-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #777;
+    margin-bottom: 40px;
+}
+
+.player-result {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 18px;
+}
+
+.footer-note {
+    margin-top: 40px;
+    font-size: 13px;
+    color: #777;
+    line-height: 1.8;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
 
     .container,
-    .hero-content{
-        padding:50px 24px;
+    .hero-content {
+        padding: 50px 24px;
     }
 
-    h1{
-        font-size:44px;
+    h1 {
+        font-size: 44px;
     }
 
-    #roundLabel{
-        font-size:52px;
+    #roundLabel {
+        font-size: 52px;
     }
 
-    .score-input{
-        width:80px;
-        font-size:28px;
+    .score-input {
+        width: 80px;
+        font-size: 28px;
     }
-
-}
-
-#authScreen{
-display:block;
-}
-
-.auth-buttons{
-display:flex;
-gap:12px;
-margin-top:20px;
-}
-
-#authScreen input{
-width:100%;
-border:none;
-border-bottom:1px solid #e5e5e5;
-padding:16px 0;
-margin-bottom:24px;
-font-size:18px;
-font-family:'Inter',sans-serif;
-}
-
-#authScreen input:focus{
-outline:none;
-border-bottom:1px solid #111;
 }
