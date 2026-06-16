@@ -12,6 +12,7 @@ const auth = getAuth(app);
 
 /* CREATE ACCOUNT */
 window.createAccount = async function () {
+
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
@@ -24,6 +25,7 @@ window.createAccount = async function () {
 
 /* LOGIN */
 window.login = async function () {
+
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
@@ -34,18 +36,37 @@ window.login = async function () {
   }
 };
 
-/* LOGOUT */
+/* LOGOUT (optional) */
 window.logout = async function () {
   await signOut(auth);
 };
 
-/* AUTH STATE */
+/* AUTH FLOW */
 onAuthStateChanged(auth, (user) => {
+
+  const authScreen = document.getElementById('authScreen');
+  const hero = document.getElementById('heroScreen');
+  const setup = document.getElementById('setupScreen');
+  const round = document.getElementById('roundScreen');
+  const results = document.getElementById('resultsScreen');
+
   if (user) {
-    document.getElementById('authScreen').style.display = 'none';
-    document.getElementById('heroScreen').style.display = 'block';
+
+    authScreen.style.display = 'none';
+    hero.style.display = 'block';
+
+    setup.style.display = 'none';
+    round.style.display = 'none';
+    results.style.display = 'none';
+
   } else {
-    document.getElementById('authScreen').style.display = 'block';
-    document.getElementById('heroScreen').style.display = 'none';
+
+    authScreen.style.display = 'block';
+
+    hero.style.display = 'none';
+    setup.style.display = 'none';
+    round.style.display = 'none';
+    results.style.display = 'none';
+
   }
 });
