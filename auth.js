@@ -60,18 +60,11 @@ window.logout = async function(){
 
 }
 
-onAuthStateChanged(auth,(user)=>{
+import {
+  getAuth,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-  if(user){
+const auth = getAuth();
 
-    document.getElementById('authScreen').style.display='none';
-    document.getElementById('heroScreen').style.display='block';
-
-  }else{
-
-    document.getElementById('authScreen').style.display='block';
-    document.getElementById('heroScreen').style.display='none';
-
-  }
-
-});
+signOut(auth);
