@@ -1,19 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: #fff;
-    color: #111;
-}
-
-/* =========================
-   AUTH SCREEN (NEW DESIGN)
-========================= */
-
 #authScreen {
     position: fixed;
     inset: 0;
@@ -24,7 +8,6 @@ body {
     background: #fff;
 }
 
-/* CARD */
 .auth-card {
     width: 92%;
     max-width: 420px;
@@ -34,15 +17,9 @@ body {
     box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
 
-/* IMAGE */
 .auth-image {
     width: 100%;
     height: 180px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f5f5f5;
 }
 
 .auth-image img {
@@ -51,13 +28,11 @@ body {
     object-fit: cover;
 }
 
-/* FORM AREA */
 .auth-form {
     padding: 28px;
     text-align: center;
 }
 
-/* INPUTS */
 .auth-form input {
     width: 100%;
     border: none;
@@ -68,78 +43,7 @@ body {
     outline: none;
 }
 
-.auth-form input:focus {
-    border-bottom: 1px solid #111;
-}
-
-/* TEXT */
-h1 {
-    font-size: 34px;
-    font-weight: 300;
-    margin-bottom: 8px;
-}
-
-.subtitle {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 24px;
-}
-
-/* BUTTONS */
 .auth-buttons {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
-}
-
-button {
-    flex: 1;
-    border: none;
-    background: #111;
-    color: #fff;
-    padding: 14px;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.85;
-}
-
-/* =========================
-   REST OF YOUR ORIGINAL UI
-   (UNCHANGED)
-========================= */
-
-.container {
-    max-width: 700px;
-    margin: auto;
-    padding: 80px 40px;
-}
-
-#setupScreen,
-#roundScreen,
-#resultsScreen,
-#heroScreen {
-    display: none;
-}
-
-.hero-content {
-    max-width: 700px;
-    margin: auto;
-    padding: 80px 40px;
-}
-
-.round-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 80px;
-}
-
-#roundLabel {
-    font-size: 72px;
-    font-weight: 300;
 }
