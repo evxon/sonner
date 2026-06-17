@@ -7,33 +7,40 @@
 html, body {
     height: 100%;
     background: #fff;
-    overflow: hidden; /* 🔥 prevents page shift */
+    overflow: hidden;
     font-family: 'Inter', sans-serif;
 }
 
-/* LOGIN SCREEN LOCKED */
+/* =========================
+   LOGIN SCREEN POSITION FIX
+========================= */
+
 #authScreen {
     position: fixed;
     inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 60px;
     background: #fff;
+
+    /* 🔥 KEY FIX */
+    display: flex;
+    justify-content: center;   /* horizontal center */
+    align-items: flex-end;     /* push to bottom */
+
+    padding-bottom: 60px;      /* distance from bottom */
 }
 
-/* CARD STAYS FIXED */
+/* LOGIN CARD */
 .auth-card {
     width: 92%;
     max-width: 420px;
+
     border-radius: 28px;
     overflow: hidden;
+
     background: #fff;
     box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 
+    /* prevents tiny shifts */
     position: relative;
-    transform: translateZ(0);
-    will-change: transform;
 }
 
 /* IMAGE */
