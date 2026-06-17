@@ -12,16 +12,17 @@
 
 <body>
 
-<div class="screen">
+<!-- SCREEN 1 -->
+<section class="section">
 
   <div class="card">
 
     <h1>Successfully Logged In</h1>
 
     <p>Welcome to SØNNER Experience</p>
-    <p class="sub">Scoreboard Setup</p>
 
     <div class="select-box">
+
       <label>Players</label>
 
       <select id="players">
@@ -31,19 +32,96 @@
         <option value="4">4 Players</option>
         <option value="5">5 Players</option>
       </select>
+
     </div>
 
-    <button onclick="next()">OK</button>
+    <button onclick="showPlayers()">OK</button>
 
   </div>
 
-</div>
+</section>
+
+<!-- SCREEN 2 -->
+<section class="section" id="playersSection">
+
+  <div id="playerContainer"></div>
+
+  <div id="nextSection">
+    <button id="nextBtn" onclick="goToHole()">NEXT</button>
+  </div>
+
+</section>
 
 <script>
-function next() {
-  const players = document.getElementById("players").value;
-  localStorage.setItem("players", players);
-  window.location.href = "players.html";
+function showPlayers() {
+
+  const count = parseInt(
+    document.getElementById("players").value
+  );
+
+  const container =
+    document.getElementById("playerContainer");
+
+  container.innerHTML = "";
+
+  const images = [
+    "image/picking.png",
+    "image/eye.png",
+    "image/heroimage.png"
+  ];
+
+  for (let i = 1; i <= count; i++) {
+
+    const image =
+      images[Math.floor(Math.random() * images.length)];
+
+    const player = document.createElement("div");
+
+    player.className = "player-circle";
+
+    player.innerHTML = `
+      <img src="${image}" alt="Player">
+      <input type="text" placeholder="Player ${i}">
+    `;
+
+    container.appendChild(player);
+  }
+
+  document.getElementById("playersSection")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+}
+
+function goToHole() {
+
+  const names = [];
+  const images = [];
+
+  document.querySelectorAll(".player-circle")
+    .forEach(circle => {
+
+      names.push(
+        circle.querySelector("input").value ||
+        circle.querySelector("input").placeholder
+      );
+
+      images.push(
+        circle.querySelector("img").src
+      );
+    });
+
+  localStorage.setItem(
+    "playerNames",
+    JSON.stringify(names)
+  );
+
+  localStorage.setItem(
+    "playerImages",
+    JSON.stringify(images)
+  );
+
+  window.location.href = "hole.html";
 }
 </script>
 
