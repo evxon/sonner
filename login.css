@@ -9,7 +9,7 @@ body {
     background: #fff;
 }
 
-/* CENTER LOGIN AT BOTTOM */
+/* LOGIN SCREEN */
 #authScreen {
     position: fixed;
     inset: 0;
@@ -20,7 +20,7 @@ body {
     background: #fff;
 }
 
-/* LOGIN CARD */
+/* CARD */
 .auth-card {
     width: 92%;
     max-width: 420px;
