@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Score Setup</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="score.css">
+</head>
+
+<body>
+
+<div class="screen">
+
+  <div class="card">
+
+    <h1>Successfully Logged In</h1>
+
+    <p>Welcome to SØNNER Experience</p>
+    <p class="sub">Scoreboard Setup</p>
+
+    <div class="select-box">
+      <label>Players</label>
+
+      <select id="players">
+        <option value="1">1 Player</option>
+        <option value="2">2 Players</option>
+        <option value="3">3 Players</option>
+        <option value="4">4 Players</option>
+        <option value="5">5 Players</option>
+      </select>
+    </div>
+
+    <button onclick="next()">OK</button>
+
+  </div>
+
+</div>
+
+<script>
+function next() {
+  const players = document.getElementById("players").value;
+  localStorage.setItem("players", players);
+  window.location.href = "players.html";
+}
+</script>
+
+</body>
+</html>
