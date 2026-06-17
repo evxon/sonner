@@ -12,7 +12,7 @@
 
 <body>
 
-<!-- LOGIN ONLY -->
+<!-- ALWAYS SHOWN FIRST -->
 <div id="authScreen">
   <div class="auth-card">
 
@@ -37,7 +37,7 @@
   </div>
 </div>
 
-<!-- APP (HIDDEN UNTIL LOGIN) -->
+<!-- APP (HIDDEN ALWAYS UNTIL MANUAL LOGIN) -->
 <section id="heroScreen" style="display:none;">
   <div class="hero-content">
     <h1>Scoreboard</h1>
@@ -87,10 +87,8 @@ let currentHole = 1;
 let scores = {};
 
 /* =========================
-   IMPORTANT: HARD LOGIN LOCK
+   HARD RULE: NEVER AUTO LOGIN
 ========================= */
-
-let allowAutoLogin = false;
 
 function showLogin(){
   document.getElementById("authScreen").style.display = "flex";
@@ -113,7 +111,7 @@ window.onload = () => {
 };
 
 /* =========================
-   AUTH (FIREBASE HOOKS)
+   AUTH ACTIONS (ONLY USER CLICKED)
 ========================= */
 
 function login(){
@@ -130,27 +128,10 @@ function createAccount(){
   window.doCreateAccount(email, password);
 }
 
-/* ONLY CALL AFTER SUCCESS */
+/* ONLY CALLED AFTER SUCCESSFUL LOGIN CLICK */
 function loginSuccess(){
-  allowAutoLogin = true;
   showApp();
 }
-
-/* =========================
-   FIREBASE AUTO LOGIN BLOCK
-   (IMPORTANT FIX FOR YOUR BUG)
-========================= */
-
-window.handleAuthState = function(user){
-
-  // IGNORE automatic Firebase login unless user already clicked login
-  if (user && allowAutoLogin) {
-    showApp();
-  } else {
-    showLogin();
-  }
-
-};
 </script>
 
 <script type="module" src="auth.js"></script>
