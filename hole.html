@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hole</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: Inter;
+  background: #fff;
+}
+
+/* TOP HEADER */
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #fff;
+}
+
+/* WRAPPER */
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* TEXT */
+.hole {
+  font-size: 26px;
+  font-weight: 400;
+}
+
+/* ARROWS */
+.btn {
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+  color: #111;
+}
+
+/* hidden back */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* JUST SPACE BELOW HEADER */
+.content {
+  padding-top: 120px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP NAV -->
+<div class="top">
+  <div class="wrapper">
+    <div class="btn hidden" id="back" onclick="prev()">&lt;</div>
+    <div class="hole" id="holeText">Hole 1</div>
+    <div class="btn" onclick="next()">&gt;</div>
+  </div>
+</div>
+
+<!-- BODY CONTENT -->
+<div class="content">
+  <!-- later: scorecards go here -->
+</div>
+
+<script>
+let hole = 1;
+const max = 18;
+
+const holeText = document.getElementById("holeText");
+const back = document.getElementById("back");
+
+function update() {
+  holeText.innerText = "Hole " + hole;
+
+  if (hole === 1) {
+    back.classList.add("hidden");
+  } else {
+    back.classList.remove("hidden");
+  }
+}
+
+function next() {
+  if (hole < max) {
+    hole++;
+    update();
+  }
+}
+
+function prev() {
+  if (hole > 1) {
+    hole--;
+    update();
+  }
+}
+
+update();
+</script>
+
+</body>
+</html>
