@@ -4,101 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SØNNER GOLF | Golf Beyond Performance</title>
-<meta name="description" content="SØNNER GOLF — a modern golf brand focused on design, presence, and experience beyond performance.">
-
-<link rel="canonical" href="https://sonnergolf.com/">
-<link rel="icon" type="image/png" href="image/SØNNER LOGO.JPG">
+<title>Login</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="login.css">
 </head>
 
 <body>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-overlay"></div>
+<div id="authScreen">
 
-    <div class="hero-content">
-        <div class="logo">SØNNER</div>
-        <div class="tagline">Golf Beyond Performance</div>
+  <div class="auth-card">
 
-        <!-- SCROLL LINK -->
-        <a href="#experience" class="button">Explore</a>
+    <div class="auth-image">
+      <img src="image/eye.png" alt="eye">
     </div>
-</section>
 
-<!-- PHILOSOPHY -->
-<section>
-    <h2 class="section-title">Philosophy</h2>
+    <div class="auth-form">
 
-    <div class="philosophy">
-        <div>
-            <h3>Observation</h3>
-            <p>Golf begins before the swing. Notice what often goes unseen.</p>
-        </div>
+      <h1>Welcome</h1>
+      <p class="subtitle">Sign in to continue</p>
 
-        <div>
-            <h3>Presence</h3>
-            <p>The most meaningful moments happen between shots.</p>
-        </div>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
 
-        <div>
-            <h3>Freedom</h3>
-            <p>Freedom is found in how you play the game.</p>
-        </div>
-    </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience" class="experience-section">
-
-    <h2 class="experience-title">EXPERIENCE</h2>
-
-    <div class="experience-grid">
-
-        <!-- CARD 1 -->
-        <div class="experience-card card-eye">
-
-            <div class="card-overlay"></div>
-
-            <div class="card-content">
-                <h2 class="scoreboard-title">SCOREBOARD</h2>
-
-                <p class="lost-ball-text">
-                    A scoreboard for tracking your score, keeping each round clear and structured.
-                </p>
-
-                <a href="login.html" class="lost-ball-link">
-                    Create account
-                </a>
-            </div>
-
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="experience-card card-picking">
-
-            <div class="card-overlay"></div>
-
-            <div class="card-content">
-                <h2 class="scoreboard-title">LOST BALL</h2>
-
-                <p class="lost-ball-text">
-                    A ritual beyond score, where you collect your lost moments and reset your mind between shots.
-                </p>
-
-                <a href="test.html" class="lost-ball-link">
-                    Enter
-                </a>
-            </div>
-
-        </div>
+      <div class="auth-buttons">
+        <button onclick="login()">Log In</button>
+        <button onclick="createAccount()">Create</button>
+      </div>
 
     </div>
 
-</section>
+  </div>
+
+</div>
+
+<script type="module" src="auth.js"></script>
+<script type="module" src="firebase.js"></script>
 
 </body>
 </html>
