@@ -30,7 +30,6 @@ body {
   height: 320px;
 
   border-radius: 28px;
-
   background: #fff;
 
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
@@ -44,7 +43,6 @@ body {
   text-align: center;
 }
 
-/* TEXT */
 h1,
 p {
   font-size: 14px;
@@ -77,6 +75,8 @@ select {
 
   background: transparent;
   outline: none;
+
+  font-size: 14px;
 }
 
 /* BUTTON */
@@ -104,54 +104,65 @@ button {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 24px;
 
-  max-width: 700px;
+  gap: 50px;
+
+  max-width: 1200px;
 }
 
-.player-circle {
-  width: 120px;
-  height: 120px;
-
-  border-radius: 50%;
-
-  background: white;
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-
+/* PLAYER CARD */
+.player-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
-.player-circle img {
-  width: 55px;
-  height: 55px;
+/* IMAGE CIRCLE */
+.player-circle {
+  width: 200px;
+  height: 200px;
 
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden;
 
-  margin-bottom: 8px;
+  flex-shrink: 0;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
-.player-circle input {
-  width: 80px;
+.player-circle img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  display: block;
+}
+
+/* NAME INPUT BELOW */
+.player-card input {
+  width: 140px;
+
+  margin-top: 14px;
+  padding-bottom: 4px;
 
   border: none;
   border-bottom: 1px solid #ddd;
 
-  text-align: center;
-  outline: none;
+  background: transparent;
 
-  font-size: 12px;
+  text-align: center;
+
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+
+  outline: none;
 }
 
-/* NEXT */
+/* NEXT BUTTON */
 #nextSection {
-  margin-top: 40px;
+  margin-top: 60px;
 }
 
 #nextBtn {
-  width: 200px;
+  width: 220px;
 }
