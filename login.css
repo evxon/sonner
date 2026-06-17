@@ -7,13 +7,9 @@
 body {
     font-family: 'Inter', sans-serif;
     background: #fff;
-    color: #111;
 }
 
-/* =========================
-   AUTH SCREEN (NEW DESIGN)
-========================= */
-
+/* CENTER LOGIN AT BOTTOM */
 #authScreen {
     position: fixed;
     inset: 0;
@@ -30,15 +26,13 @@ body {
     max-width: 420px;
     border-radius: 28px;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 25px 70px rgba(0,0,0,0.12);
+    background: white;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
 
-/* TOP IMAGE (eye.png) */
+/* IMAGE */
 .auth-image {
-    width: 100%;
     height: 180px;
-    overflow: hidden;
 }
 
 .auth-image img {
@@ -47,117 +41,48 @@ body {
     object-fit: cover;
 }
 
-/* FORM AREA */
+/* FORM */
 .auth-form {
     padding: 28px;
     text-align: center;
 }
 
-.auth-form h1 {
+h1 {
     font-size: 34px;
     font-weight: 300;
-    margin-bottom: 8px;
 }
 
 .subtitle {
     font-size: 13px;
     color: #777;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 /* INPUTS */
-.auth-form input {
+input {
     width: 100%;
     border: none;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #ddd;
     padding: 14px 0;
     margin-bottom: 16px;
-    font-size: 16px;
     outline: none;
-    background: transparent;
-}
-
-.auth-form input:focus {
-    border-bottom: 1px solid #111;
+    font-size: 16px;
 }
 
 /* BUTTONS */
 .auth-buttons {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
 }
 
 button {
     flex: 1;
     border: none;
     background: #111;
-    color: #fff;
+    color: white;
     padding: 14px;
     font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.85;
-}
-
-/* =========================
-   HERO SCREEN
-========================= */
-
-.hero-content {
-    max-width: 700px;
-    margin: auto;
-    padding: 80px 40px;
-}
-
-/* =========================
-   CONTAINER SECTIONS
-========================= */
-
-.container {
-    max-width: 700px;
-    margin: auto;
-    padding: 80px 40px;
-}
-
-/* =========================
-   DEFAULT HIDDEN SCREENS
-========================= */
-
-#heroScreen,
-#setupScreen,
-#roundScreen,
-#resultsScreen,
-#archiveScreen {
-    display: none;
-}
-
-/* =========================
-   ROUND NAV
-========================= */
-
-.round-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 80px;
-}
-
-#roundLabel {
-    font-size: 72px;
-    font-weight: 300;
-}
-
-/* =========================
-   SCORE INPUT ROWS (basic fallback)
-========================= */
-
-.player-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 0;
 }
