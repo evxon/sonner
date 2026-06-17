@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Scoreboard Login</title>
+<title>Login</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="login.css">
@@ -12,7 +12,6 @@
 
 <body>
 
-<!-- LOGIN ONLY -->
 <div id="authScreen">
 
   <div class="auth-card">
@@ -39,154 +38,6 @@
   </div>
 
 </div>
-
-<!-- APP -->
-<section id="heroScreen" style="display:none;">
-  <div class="hero-content">
-    <h1>Scoreboard</h1>
-    <p class="subtitle">Track your rounds and save history.</p>
-
-    <button onclick="showSetup()">Start Round</button>
-    <button onclick="openArchive()">My Archive</button>
-  </div>
-</section>
-
-<section id="setupScreen" style="display:none;" class="container">
-  <h1>Players</h1>
-
-  <input id="player1" placeholder="Player 1">
-  <input id="player2" placeholder="Player 2">
-  <input id="player3" placeholder="Player 3">
-  <input id="player4" placeholder="Player 4">
-
-  <button onclick="startRound()">Begin</button>
-</section>
-
-<section id="roundScreen" style="display:none;" class="container">
-  <div class="round-nav">
-    <button onclick="previousHole()">←</button>
-    <div id="roundLabel">R1</div>
-    <button onclick="nextHole()">→</button>
-  </div>
-
-  <div id="playerScores"></div>
-
-  <button onclick="finishRound()">Finish</button>
-</section>
-
-<section id="resultsScreen" style="display:none;" class="container">
-  <h3>Round Complete</h3>
-  <div id="playerResults"></div>
-</section>
-
-<section id="archiveScreen" style="display:none;" class="container">
-  <h3>Archive</h3>
-  <div id="archiveList"></div>
-</section>
-
-<script>
-let players = [];
-let currentHole = 1;
-let scores = {};
-
-/* ALWAYS LOCK LOGIN FIRST */
-window.onload = () => {
-  document.getElementById("authScreen").style.display = "flex";
-};
-
-/* AUTH */
-function login(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  window.doLogin(email, password);
-}
-
-function createAccount(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  window.doCreateAccount(email, password);
-}
-
-/* ONLY AFTER SUCCESS */
-function loginSuccess(){
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("heroScreen").style.display = "block";
-}
-
-/* NAV */
-function showSetup(){
-  hideAll();
-  document.getElementById("setupScreen").style.display = "block";
-}
-
-function openArchive(){
-  hideAll();
-  document.getElementById("archiveScreen").style.display = "block";
-}
-
-function hideAll(){
-  ["heroScreen","setupScreen","roundScreen","resultsScreen","archiveScreen"]
-  .forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
-}
-
-/* ROUND */
-function startRound(){
-  players = [];
-
-  for(let i=1;i<=4;i++){
-    let name = document.getElementById("player"+i).value;
-    if(name) players.push(name);
-  }
-
-  players.forEach(p => scores[p] = Array(18).fill(""));
-
-  hideAll();
-  document.getElementById("roundScreen").style.display = "block";
-
-  renderHole();
-}
-
-function renderHole(){
-  document.getElementById("roundLabel").innerText = "R"+currentHole;
-
-  let html = "";
-
-  players.forEach(p=>{
-    html += `
-      <div>
-        ${p}
-        <input type="number" onchange="scores['${p}'][currentHole-1]=this.value">
-      </div>
-    `;
-  });
-
-  document.getElementById("playerScores").innerHTML = html;
-}
-
-function nextHole(){ if(currentHole<18){ currentHole++; renderHole(); } }
-function previousHole(){ if(currentHole>1){ currentHole--; renderHole(); } }
-
-function finishRound(){
-  let result = players.map(p=>{
-    let total = 0;
-    scores[p].forEach(v=>{
-      let n = parseInt(v);
-      if(!isNaN(n)) total += n;
-    });
-
-    return {name:p, score:total};
-  });
-
-  hideAll();
-  document.getElementById("resultsScreen").style.display = "block";
-
-  document.getElementById("playerResults").innerHTML =
-    result.map(r=>`<div>${r.name} — ${r.score}</div>`).join("");
-}
-</script>
 
 <script type="module" src="auth.js"></script>
 <script type="module" src="firebase.js"></script>
