@@ -4,30 +4,36 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
+html, body {
+    height: 100%;
     background: #fff;
+    overflow: hidden; /* 🔥 prevents page shift */
+    font-family: 'Inter', sans-serif;
 }
 
-/* LOGIN SCREEN ONLY */
+/* LOGIN SCREEN LOCKED */
 #authScreen {
     position: fixed;
     inset: 0;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    padding-bottom: 50px;
+    padding-bottom: 60px;
     background: #fff;
 }
 
-/* CARD */
+/* CARD STAYS FIXED */
 .auth-card {
     width: 92%;
     max-width: 420px;
     border-radius: 28px;
     overflow: hidden;
-    background: white;
+    background: #fff;
     box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 /* IMAGE */
@@ -79,7 +85,7 @@ button {
     flex: 1;
     border: none;
     background: #111;
-    color: white;
+    color: #fff;
     padding: 14px;
     font-size: 11px;
     letter-spacing: 2px;
