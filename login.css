@@ -11,28 +11,19 @@ html, body {
     font-family: 'Inter', sans-serif;
 }
 
-/* =========================
-   LOGIN SCREEN (FIXED POSITION)
-========================= */
-
+/* LOGIN SCREEN */
 #authScreen {
     position: fixed;
     inset: 0;
     background: #fff;
 }
 
-/* =========================
-   LOGIN CARD POSITION FIX
-   🔥 THIS IS THE IMPORTANT PART
-========================= */
-
+/* CENTER CARD (BOTTOM + CENTERED) */
 .auth-card {
     position: absolute;
-
-    left: 50%;              /* horizontal center anchor */
-    bottom: 60px;           /* distance from bottom */
-
-    transform: translateX(-50%); /* PERFECT horizontal centering */
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
 
     width: 92%;
     max-width: 420px;
