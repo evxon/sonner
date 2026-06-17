@@ -5,10 +5,7 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-/* =========================
-   FORCE LOGOUT ON EVERY LOAD
-   (THIS IS THE KEY FIX)
-========================= */
+/* OPTIONAL: FORCE LOGOUT ON LOGIN PAGE */
 signOut(auth);
 
 /* CREATE ACCOUNT */
@@ -18,8 +15,7 @@ window.createAccount = async function () {
 
   try {
     await createUserWithEmailAndPassword(auth, email, password);
-    alert("Account created");
-    loginSuccess();
+    window.location.href = "score.html";
   } catch (e) {
     alert(e.code);
   }
@@ -32,14 +28,14 @@ window.login = async function () {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    alert("Logged in");
-    loginSuccess();
+    window.location.href = "score.html";
   } catch (e) {
     alert(e.code);
   }
 };
 
-/* LOGOUT */
+/* LOGOUT (optional use inside score.html) */
 window.logout = async function () {
   await signOut(auth);
+  window.location.href = "login.html";
 };
