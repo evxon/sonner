@@ -71,6 +71,7 @@ section{
     padding:120px 8%;
 }
 
+/* PHILOSOPHY */
 .section-title{
     font-size:2rem;
     margin-bottom:60px;
@@ -78,19 +79,18 @@ section{
     letter-spacing:0.1em;
 }
 
-/* PHILOSOPHY */
 .philosophy{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:60px;
 }
 
-/* =========================
-   EXPERIENCE SECTION
-========================= */
-
-.lost-ball-entry{
-    padding:160px 8%;
+/* EXPERIENCE SECTION (FULL SCREEN FEEL) */
+.experience-section{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 /* TITLE */
@@ -101,38 +101,36 @@ section{
     letter-spacing:0.1em;
 }
 
+/* GRID — THIS IS THE KEY FIX */
+.experience-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:40px;
+    align-items:center;
+}
+
 /* CARD */
 .experience-card{
     position:relative;
-    max-width:520px;
-    height:340px;
-
-    margin:0 auto 60px auto;
-
+    height:360px;
     border-radius:16px;
     overflow:hidden;
-
     border:1px solid rgba(0,0,0,0.12);
-
-    z-index:0;
 }
 
-/* BACKGROUND LAYER (IMPORTANT FIX) */
+/* BACKGROUND */
 .card-eye::before,
 .card-picking::before{
     content:"";
     position:absolute;
     inset:0;
-    z-index:0;
-
     background-size:cover;
     background-position:center;
-
     filter:blur(2px);
     transform:scale(1.2);
+    z-index:0;
 }
 
-/* IMAGES */
 .card-eye::before{
     background-image:url("image/eye.png");
 }
@@ -145,39 +143,34 @@ section{
 .card-overlay{
     position:absolute;
     inset:0;
-    z-index:1;
     background:rgba(255,255,255,0.25);
+    z-index:1;
 }
 
 /* CONTENT */
 .card-content{
     position:relative;
     z-index:2;
-
     height:100%;
-    padding:60px 40px;
-
+    padding:40px;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
     text-align:center;
     color:white;
 }
 
-/* TEXT */
 .scoreboard-title{
     font-size:2rem;
     margin-bottom:20px;
-    text-transform:uppercase;
     letter-spacing:0.1em;
 }
 
 .lost-ball-text{
     font-size:1rem;
     opacity:0.85;
-    margin-bottom:40px;
+    margin-bottom:30px;
     line-height:1.6;
     max-width:420px;
 }
@@ -188,7 +181,6 @@ section{
     text-decoration:none;
     color:white;
     text-transform:uppercase;
-    letter-spacing:0.1em;
     transition:0.3s ease;
 }
 
@@ -200,5 +192,12 @@ section{
 /* MOBILE */
 @media(max-width:900px){
     .logo{ font-size:3rem; }
-    .philosophy{ grid-template-columns:1fr; }
+
+    .philosophy{
+        grid-template-columns:1fr;
+    }
+
+    .experience-grid{
+        grid-template-columns:1fr;
+    }
 }
