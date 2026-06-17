@@ -4,50 +4,61 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
+html,
+body {
   font-family: 'Inter', sans-serif;
   background: #fff;
+  scroll-behavior: smooth;
 }
 
-/* SCREEN CENTER */
-.screen {
-  height: 100%;
+/* FULL SCREEN */
+.section {
+  min-height: 100vh;
+
   display: flex;
+  flex-direction: column;
+
   justify-content: center;
   align-items: center;
+
+  padding: 20px;
 }
 
-/* CARD (same vibe as login) */
+/* CARD */
 .card {
-  width: 92%;
-  max-width: 420px;
+  width: 320px;
+  height: 320px;
+
   border-radius: 28px;
-  padding: 34px;
-  text-align: center;
+
   background: #fff;
+
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  text-align: center;
 }
 
-h1 {
-  font-size: 26px;
+/* TEXT */
+h1,
+p {
+  font-size: 14px;
   font-weight: 400;
-  margin-bottom: 10px;
+  color: #111;
 }
 
 p {
-  font-size: 13px;
-  color: #777;
-}
-
-.sub {
   margin-top: 6px;
-  margin-bottom: 20px;
 }
 
 /* SELECT */
 .select-box {
-  margin-top: 20px;
+  margin-top: 24px;
   text-align: left;
 }
 
@@ -59,25 +70,88 @@ label {
 select {
   width: 100%;
   margin-top: 8px;
-  padding: 12px;
+  padding: 10px;
+
   border: none;
   border-bottom: 1px solid #ddd;
-  font-size: 16px;
+
   background: transparent;
   outline: none;
 }
 
 /* BUTTON */
 button {
-  margin-top: 30px;
+  margin-top: 24px;
+
   width: 100%;
+  padding: 12px;
+
   border: none;
+  border-radius: 10px;
+
   background: #111;
-  color: #fff;
-  padding: 14px;
+  color: white;
+
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
+
   cursor: pointer;
-  border-radius: 10px;
+}
+
+/* PLAYERS */
+#playerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+
+  max-width: 700px;
+}
+
+.player-circle {
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-circle img {
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  margin-bottom: 8px;
+}
+
+.player-circle input {
+  width: 80px;
+
+  border: none;
+  border-bottom: 1px solid #ddd;
+
+  text-align: center;
+  outline: none;
+
+  font-size: 12px;
+}
+
+/* NEXT */
+#nextSection {
+  margin-top: 40px;
+}
+
+#nextBtn {
+  width: 200px;
 }
