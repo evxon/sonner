@@ -22,10 +22,8 @@
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
 
-    <div class="auth-buttons">
-      <button onclick="createAccount()">Create Account</button>
-      <button onclick="login()">Log In</button>
-    </div>
+    <button onclick="createAccount()">Create Account</button>
+    <button onclick="login()">Log In</button>
   </div>
 </div>
 
@@ -96,12 +94,16 @@ function openArchive(){
 
 function hideAll(){
   ["heroScreen","setupScreen","roundScreen","resultsScreen","archiveScreen"]
-  .forEach(id => document.getElementById(id).style.display="none");
+  .forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display="none";
+  });
 }
 
-/* ROUND */
+/* START ROUND */
 function startRound(){
   players = [];
+  currentHole = 1;
 
   for(let i=1;i<=4;i++){
     let name = document.getElementById("player"+i).value;
@@ -116,31 +118,56 @@ function startRound(){
   renderHole();
 }
 
+/* SAFE RENDER (MOBILE FIX) */
 function renderHole(){
-  document.getElementById("roundLabel").innerText = "R"+currentHole;
+  document.getElementById("roundLabel").innerText = "R" + currentHole;
 
-  let html = "";
+  const container = document.getElementById("playerScores");
+  container.innerHTML = "";
 
-  players.forEach(p=>{
-    html += `
-      <div>
-        ${p}
-        <input type="number" onchange="scores['${p}'][currentHole-1]=this.value">
-      </div>
-    `;
+  players.forEach((p) => {
+    const row = document.createElement("div");
+    row.className = "player-row";
+
+    const name = document.createElement("div");
+    name.className = "player-name";
+    name.textContent = p;
+
+    const input = document.createElement("input");
+    input.className = "score-input";
+    input.type = "number";
+    input.value = scores[p][currentHole - 1] || "";
+
+    input.addEventListener("input", (e) => {
+      scores[p][currentHole - 1] = e.target.value;
+    });
+
+    row.appendChild(name);
+    row.appendChild(input);
+    container.appendChild(row);
   });
-
-  document.getElementById("playerScores").innerHTML = html;
 }
 
-function nextHole(){ if(currentHole<18){ currentHole++; renderHole(); } }
-function previousHole(){ if(currentHole>1){ currentHole--; renderHole(); } }
+/* HOLES */
+function nextHole(){
+  if(currentHole < 18){
+    currentHole++;
+    renderHole();
+  }
+}
+
+function previousHole(){
+  if(currentHole > 1){
+    currentHole--;
+    renderHole();
+  }
+}
 
 /* FINISH */
 function finishRound(){
-
   let result = players.map(p=>{
     let total = 0;
+
     scores[p].forEach(v=>{
       let n = parseInt(v);
       if(!isNaN(n)) total += n;
