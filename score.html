@@ -12,7 +12,6 @@
 
 <body>
 
-<!-- SCREEN 1 -->
 <section class="section">
 
   <div class="card">
@@ -41,7 +40,6 @@
 
 </section>
 
-<!-- SCREEN 2 -->
 <section class="section" id="playersSection">
 
   <div id="playerContainer"></div>
@@ -55,13 +53,9 @@
 <script>
 function showPlayers() {
 
-  const count = parseInt(
-    document.getElementById("players").value
-  );
+  const count = parseInt(document.getElementById("players").value);
 
-  const container =
-    document.getElementById("playerContainer");
-
+  const container = document.getElementById("playerContainer");
   container.innerHTML = "";
 
   const images = [
@@ -77,10 +71,13 @@ function showPlayers() {
 
     const player = document.createElement("div");
 
-    player.className = "player-circle";
+    player.className = "player-card";
 
     player.innerHTML = `
-      <img src="${image}" alt="Player">
+      <div class="player-circle">
+        <img src="${image}" alt="Player">
+      </div>
+
       <input type="text" placeholder="Player ${i}">
     `;
 
@@ -96,29 +93,19 @@ function showPlayers() {
 function goToHole() {
 
   const names = [];
-  const images = [];
 
-  document.querySelectorAll(".player-circle")
-    .forEach(circle => {
+  document.querySelectorAll(".player-card input")
+    .forEach(input => {
 
       names.push(
-        circle.querySelector("input").value ||
-        circle.querySelector("input").placeholder
+        input.value || input.placeholder
       );
 
-      images.push(
-        circle.querySelector("img").src
-      );
     });
 
   localStorage.setItem(
     "playerNames",
     JSON.stringify(names)
-  );
-
-  localStorage.setItem(
-    "playerImages",
-    JSON.stringify(images)
   );
 
   window.location.href = "hole.html";
