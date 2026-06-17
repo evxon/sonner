@@ -5,36 +5,44 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-/* OPTIONAL: FORCE LOGOUT ON LOGIN PAGE */
-signOut(auth);
+/* =========================
+   LOGIN (MOBILE SAFE)
+========================= */
 
-/* CREATE ACCOUNT */
-window.createAccount = async function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    window.location.href = "score.html";
-  } catch (e) {
-    alert(e.code);
-  }
-};
-
-/* LOGIN */
 window.login = async function () {
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
     window.location.href = "score.html";
   } catch (e) {
+    console.log(e.code, e.message);
     alert(e.code);
   }
 };
 
-/* LOGOUT (optional use inside score.html) */
+/* =========================
+   CREATE ACCOUNT
+========================= */
+
+window.createAccount = async function () {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    window.location.href = "score.html";
+  } catch (e) {
+    console.log(e.code, e.message);
+    alert(e.code);
+  }
+};
+
+/* =========================
+   LOGOUT (for score.html)
+========================= */
+
 window.logout = async function () {
   await signOut(auth);
   window.location.href = "login.html";
