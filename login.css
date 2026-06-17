@@ -12,24 +12,28 @@ html, body {
 }
 
 /* =========================
-   LOGIN SCREEN POSITION FIX
+   LOGIN SCREEN (FIXED POSITION)
 ========================= */
 
 #authScreen {
     position: fixed;
     inset: 0;
     background: #fff;
-
-    /* 🔥 KEY FIX */
-    display: flex;
-    justify-content: center;   /* horizontal center */
-    align-items: flex-end;     /* push to bottom */
-
-    padding-bottom: 60px;      /* distance from bottom */
 }
 
-/* LOGIN CARD */
+/* =========================
+   LOGIN CARD POSITION FIX
+   🔥 THIS IS THE IMPORTANT PART
+========================= */
+
 .auth-card {
+    position: absolute;
+
+    left: 50%;              /* horizontal center anchor */
+    bottom: 60px;           /* distance from bottom */
+
+    transform: translateX(-50%); /* PERFECT horizontal centering */
+
     width: 92%;
     max-width: 420px;
 
@@ -38,9 +42,6 @@ html, body {
 
     background: #fff;
     box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-
-    /* prevents tiny shifts */
-    position: relative;
 }
 
 /* IMAGE */
