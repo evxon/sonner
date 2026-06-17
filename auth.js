@@ -6,7 +6,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 /* =========================
-   LOGIN (MOBILE SAFE)
+   LOGIN
 ========================= */
 
 window.login = async function () {
@@ -18,7 +18,8 @@ window.login = async function () {
     window.location.href = "score.html";
   } catch (e) {
     console.log(e.code, e.message);
-    alert(e.code);
+
+    handleAuthError(e);
   }
 };
 
@@ -35,15 +36,51 @@ window.createAccount = async function () {
     window.location.href = "score.html";
   } catch (e) {
     console.log(e.code, e.message);
-    alert(e.code);
+
+    handleAuthError(e);
   }
 };
 
 /* =========================
-   LOGOUT (for score.html)
+   LOGOUT
 ========================= */
 
 window.logout = async function () {
   await signOut(auth);
   window.location.href = "login.html";
 };
+
+/* =========================
+   CLEAN ERROR MESSAGES
+========================= */
+
+function handleAuthError(e) {
+  let message = "Something went wrong";
+
+  switch (e.code) {
+
+    case "auth/invalid-credential":
+    case "auth/wrong-password":
+    case "auth/user-not-found":
+      message = "Wrong email or password";
+      break;
+
+    case "auth/invalid-email":
+      message = "Invalid email address";
+      break;
+
+    case "auth/weak-password":
+      message = "Password should be at least 6 characters";
+      break;
+
+    case "auth/email-already-in-use":
+      message = "Account already exists";
+      break;
+
+    case "auth/too-many-requests":
+      message = "Too many attempts. Try again later";
+      break;
+  }
+
+  alert(message);
+}
