@@ -13,8 +13,10 @@ window.createAccount = async function () {
 
   try {
     await createUserWithEmailAndPassword(auth, email, password);
+    alert("Account created");
   } catch (e) {
-    alert(e.message);
+    console.error(e.code, e.message);
+    alert(e.code);
   }
 };
 
@@ -25,8 +27,10 @@ window.login = async function () {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    alert("Logged in");
   } catch (e) {
-    alert(e.message);
+    console.error(e.code, e.message);
+    alert(e.code);
   }
 };
 
@@ -35,13 +39,32 @@ window.logout = async function () {
   await signOut(auth);
 };
 
-/* AUTH STATE CONTROL */
+/* SCREEN CONTROL */
+function showApp(user) {
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("heroScreen").style.display = "block";
+}
+
+function showAuth() {
+  document.getElementById("authScreen").style.display = "block";
+  document.getElementById("heroScreen").style.display = "none";
+  hideAll();
+}
+
+/* AUTH STATE */
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    document.getElementById("authScreen").style.display = "none";
-    document.getElementById("heroScreen").style.display = "block";
+    showApp(user);
   } else {
-    document.getElementById("authScreen").style.display = "block";
-    document.getElementById("heroScreen").style.display = "none";
+    showAuth();
   }
 });
+
+/* helper (must exist because score screens exist elsewhere) */
+function hideAll() {
+  const ids = ["setupScreen","roundScreen","resultsScreen","archiveScreen"];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+}
