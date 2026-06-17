@@ -9,7 +9,7 @@ body {
     background: #fff;
 }
 
-/* LOGIN SCREEN */
+/* LOGIN SCREEN ONLY */
 #authScreen {
     position: fixed;
     inset: 0;
