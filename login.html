@@ -6,25 +6,25 @@
 
 <title>Scoreboard</title>
 
-<link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
+<link rel="icon" href="image/SØNNER LOGO.JPG">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
 
-<!-- AUTH -->
+<!-- AUTH ONLY (VISIBLE FIRST) -->
 <div id="authScreen">
   <div class="auth-card">
 
     <div class="auth-image">
-      <img src="image/eye.png" alt="Eye">
+      <img src="image/eye.png" alt="eye">
     </div>
 
     <div class="auth-form">
 
       <h1>Welcome</h1>
-      <p class="subtitle">Login to save your rounds.</p>
+      <p class="subtitle">Login to continue</p>
 
       <input type="email" id="email" placeholder="Email">
       <input type="password" id="password" placeholder="Password">
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<!-- HERO -->
+<!-- EVERYTHING ELSE HIDDEN INITIALLY -->
 <section id="heroScreen" style="display:none;">
   <div class="hero-content">
     <h1>Scoreboard</h1>
@@ -49,8 +49,7 @@
   </div>
 </section>
 
-<!-- SETUP -->
-<section id="setupScreen" class="container" style="display:none;">
+<section id="setupScreen" style="display:none;" class="container">
   <h1>Players</h1>
 
   <input id="player1" placeholder="Player 1">
@@ -61,8 +60,7 @@
   <button onclick="startRound()">Begin</button>
 </section>
 
-<!-- ROUND -->
-<section id="roundScreen" class="container" style="display:none;">
+<section id="roundScreen" style="display:none;" class="container">
   <div class="round-nav">
     <button onclick="previousHole()">←</button>
     <div id="roundLabel">R1</div>
@@ -74,15 +72,13 @@
   <button onclick="finishRound()">Finish</button>
 </section>
 
-<!-- RESULTS -->
-<section id="resultsScreen" class="container" style="display:none;">
+<section id="resultsScreen" style="display:none;" class="container">
   <h3>Round Complete</h3>
   <div id="playerResults"></div>
 </section>
 
-<!-- ARCHIVE -->
-<section id="archiveScreen" class="container" style="display:none;">
-  <h3>Your Archive</h3>
+<section id="archiveScreen" style="display:none;" class="container">
+  <h3>Archive</h3>
   <div id="archiveList"></div>
 </section>
 
@@ -92,38 +88,32 @@ let currentHole = 1;
 let scores = {};
 
 /* =========================
-   SCREEN CONTROL (IMPORTANT FIX)
+   IMPORTANT: ONLY LOGIN CONTROLS VISIBILITY
 ========================= */
 
-function hideAll(){
-  ["authScreen","heroScreen","setupScreen","roundScreen","resultsScreen","archiveScreen"]
-  .forEach(id => document.getElementById(id).style.display="none");
-}
-
 function showApp(){
-  hideAll();
+  document.getElementById("authScreen").style.display = "none";
   document.getElementById("heroScreen").style.display = "block";
 }
 
 function showAuth(){
-  hideAll();
   document.getElementById("authScreen").style.display = "flex";
+  document.getElementById("heroScreen").style.display = "none";
 }
 
-/* FORCE START ON AUTH SCREEN */
-window.addEventListener("load", () => {
+/* FORCE START HERE (NO AUTO JUMP ANYWHERE) */
+window.onload = () => {
   showAuth();
-});
+};
 
 /* =========================
-   AUTH (YOU CONNECT FIREBASE HERE)
+   AUTH FUNCTIONS (CONNECT FIREBASE)
 ========================= */
 
 function login(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  // CALL FIREBASE LOGIN (from auth.js)
   window.doLogin(email, password);
 }
 
@@ -134,27 +124,32 @@ function createAccount(){
   window.doCreateAccount(email, password);
 }
 
-/* called AFTER successful login */
+/* CALL THIS ONLY AFTER SUCCESS LOGIN */
 function loginSuccess(){
   showApp();
 }
 
 /* =========================
-   NAV
+   NAVIGATION (ONLY AFTER LOGIN)
 ========================= */
 
 function showSetup(){
   hideAll();
-  document.getElementById("setupScreen").style.display="block";
+  document.getElementById("setupScreen").style.display = "block";
 }
 
 function openArchive(){
   hideAll();
-  document.getElementById("archiveScreen").style.display="block";
+  document.getElementById("archiveScreen").style.display = "block";
+}
+
+function hideAll(){
+  ["heroScreen","setupScreen","roundScreen","resultsScreen","archiveScreen"]
+  .forEach(id => document.getElementById(id).style.display = "none");
 }
 
 /* =========================
-   ROUND
+   ROUND LOGIC
 ========================= */
 
 function startRound(){
@@ -168,7 +163,7 @@ function startRound(){
   players.forEach(p => scores[p] = Array(18).fill(""));
 
   hideAll();
-  document.getElementById("roundScreen").style.display="block";
+  document.getElementById("roundScreen").style.display = "block";
 
   renderHole();
 }
@@ -193,12 +188,7 @@ function renderHole(){
 function nextHole(){ if(currentHole<18){ currentHole++; renderHole(); } }
 function previousHole(){ if(currentHole>1){ currentHole--; renderHole(); } }
 
-/* =========================
-   FINISH
-========================= */
-
 function finishRound(){
-
   let result = players.map(p=>{
     let total = 0;
     scores[p].forEach(v=>{
@@ -210,7 +200,7 @@ function finishRound(){
   });
 
   hideAll();
-  document.getElementById("resultsScreen").style.display="block";
+  document.getElementById("resultsScreen").style.display = "block";
 
   document.getElementById("playerResults").innerHTML =
     result.map(r=>`<div>${r.name} — ${r.score}</div>`).join("");
