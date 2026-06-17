@@ -138,7 +138,7 @@ section{
 }
 
 .card-picking::before{
-    background-image:url("image/picking.png");
+    background-image:url("image/heroimage.png");
 }
 
 /* OVERLAY */
