@@ -12,7 +12,6 @@
 
 <body>
 
-<!-- APPLE STYLE TOAST -->
 <div id="toast">Successfully logged in</div>
 
 <section class="section">
@@ -53,9 +52,6 @@
 </section>
 
 <script>
-/* =========================
-   SHOW PLAYERS (NO REPEAT IMAGES)
-========================= */
 
 function showPlayers() {
 
@@ -64,7 +60,6 @@ function showPlayers() {
 
   container.innerHTML = "";
 
-  // ✅ UPDATED IMAGE LIST (5 images)
   const images = [
     "image/player1.png",
     "image/player2.png",
@@ -73,19 +68,21 @@ function showPlayers() {
     "image/player5.png"
   ];
 
-  // copy array so we can safely remove used images
   const availableImages = [...images];
+  const playerData = [];
 
   for (let i = 1; i <= count; i++) {
 
-    // safety fallback if players > images
     if (availableImages.length === 0) {
       availableImages.push(...images);
     }
 
-    // pick random WITHOUT repeating
     const randomIndex = Math.floor(Math.random() * availableImages.length);
     const image = availableImages.splice(randomIndex, 1)[0];
+
+    const name = `Player ${i}`;
+
+    playerData.push({ name, image });
 
     const player = document.createElement("div");
     player.className = "player-card";
@@ -94,51 +91,44 @@ function showPlayers() {
       <div class="player-circle">
         <img src="${image}" alt="Player">
       </div>
-      <input type="text" placeholder="Player ${i}">
+      <input type="text" value="${name}" placeholder="${name}">
     `;
 
     container.appendChild(player);
   }
+
+  localStorage.setItem("playerData", JSON.stringify(playerData));
 
   document.getElementById("playersSection").scrollIntoView({
     behavior: "smooth"
   });
 }
 
-/* =========================
-   NEXT BUTTON
-========================= */
-
 function goToHole() {
 
-  const names = [];
+  const inputs = document.querySelectorAll(".player-card input");
+  const data = JSON.parse(localStorage.getItem("playerData")) || [];
 
-  document.querySelectorAll(".player-card input").forEach(input => {
-    names.push(input.value || input.placeholder);
+  inputs.forEach((input, i) => {
+    if (data[i]) {
+      data[i].name = input.value || input.placeholder;
+    }
   });
 
-  localStorage.setItem("playerNames", JSON.stringify(names));
+  localStorage.setItem("playerData", JSON.stringify(data));
 
   window.location.href = "hole.html";
 }
-
-/* =========================
-   TOAST
-========================= */
 
 window.addEventListener("DOMContentLoaded", () => {
 
   const toast = document.getElementById("toast");
 
-  setTimeout(() => {
-    toast.classList.add("show");
-  }, 200);
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
+  setTimeout(() => toast.classList.add("show"), 200);
+  setTimeout(() => toast.classList.remove("show"), 3000);
 
 });
+
 </script>
 
 </body>
