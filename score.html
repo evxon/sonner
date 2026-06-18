@@ -7,11 +7,22 @@
 <title>SCOREBOARD</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="score.css">
 
 <style>
 
-/* ===== ARCHIVE BUTTON ===== */
+/* ================= GLOBAL ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+}
+
+/* ================= ARCHIVE BUTTON ================= */
 .archive-bar {
   position: fixed;
   bottom: 28px;
@@ -33,7 +44,6 @@
   letter-spacing: 2px;
 
   cursor: pointer;
-
   z-index: 6000;
 
   backdrop-filter: blur(10px);
@@ -48,23 +58,168 @@
   transform: translateY(10px);
 }
 
-.archive-bar:active {
-  transform: scale(0.96);
+/* ================= LAYOUT ================= */
+.section {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* ================= CARD ================= */
+.card {
+  width: 320px;
+  height: 320px;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+label {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+select {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+}
+
+button {
+  margin-top: 24px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+/* ================= PLAYERS ================= */
+#playerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: nowrap;
+}
+
+#playerContainer.grid-4 {
+  display: flex !important;
+  flex-wrap: nowrap;
+}
+
+.player-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+              opacity 0.6s ease;
+}
+
+.player-card.stack {
+  transform: translateY(-40px) scale(0.82);
+  opacity: 0;
+}
+
+.player-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.player-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-card input {
+  width: 120px;
+  margin-top: 12px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  outline: none;
+  font-size: 16px;
+}
+
+/* ================= NEXT ================= */
+#nextWrap {
+  margin-top: 40px;
+}
+
+#nextBtn {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#nextBtn.fade {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* ================= TOAST ================= */
+#toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20,20,20,0.92);
+  color: white;
+  padding: 14px 22px;
+  border-radius: 999px;
+  opacity: 0;
+  transition: 0.4s;
+  z-index: 9999;
+  font-size: 14px;
+}
+
+#toast.show {
+  opacity: 1;
+}
+
+/* blur */
+#playerContainer.transitioning {
+  filter: blur(10px);
+  transition: filter 0.6s ease;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+  #playerContainer {
+    flex-wrap: wrap;
+    gap: 30px;
+  }
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div id="blur"></div>
 <div id="toast">Successfully logged in</div>
 
-<!-- ARCHIVE BUTTON -->
 <div class="archive-bar" onclick="goArchive()">ARCHIVE</div>
 
-<!-- FIRST SCREEN -->
+<!-- SETUP -->
 <section class="section" id="setupSection">
 
   <div class="card">
@@ -85,7 +240,7 @@
 
 </section>
 
-<!-- SECOND SCREEN -->
+<!-- PLAYERS -->
 <section class="section" id="playersSection">
 
   <div id="playerContainer"></div>
@@ -100,7 +255,7 @@
 
 let playerData = [];
 
-/* ===== SHOW PLAYERS ===== */
+/* SHOW PLAYERS */
 function showPlayers() {
 
   const count = +document.getElementById("players").value;
@@ -145,9 +300,11 @@ function showPlayers() {
 
   document.getElementById("playersSection")
     .scrollIntoView({ behavior: "smooth" });
+
+  updateArchiveVisibility(); // 🔥 important
 }
 
-/* ===== NEXT (SAVE TO ARCHIVE) ===== */
+/* NEXT */
 function goToHole() {
 
   const inputs = document.querySelectorAll(".player-card input");
@@ -163,56 +320,67 @@ function goToHole() {
     });
   });
 
-  // create round object
   const newRound = {
     date: new Date().toISOString(),
-    players: players,
+    players,
     scores: {}
   };
 
-  // load archive
   let archives = JSON.parse(localStorage.getItem("golfArchives")) || [];
-
-  // add new round
   archives.push(newRound);
-
-  // save archive
   localStorage.setItem("golfArchives", JSON.stringify(archives));
 
-  // active session
   localStorage.setItem("playerData", JSON.stringify(players));
   localStorage.setItem("activeRound", "true");
 
-  window.location.href = "hole.html";
+  const container = document.getElementById("playerContainer");
+  const cards = document.querySelectorAll(".player-card");
+  const nextBtn = document.getElementById("nextBtn");
+
+  container.classList.add("transitioning");
+  nextBtn.classList.add("fade");
+
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add("stack");
+    }, i * 120);
+  });
+
+  setTimeout(() => {
+    window.location.href = "hole.html";
+  }, 1200);
 }
 
-/* ===== ARCHIVE ===== */
+/* ARCHIVE */
 function goArchive() {
   window.location.href = "archive.html";
 }
 
-/* ===== TOAST ===== */
+/* ================= FIX: PROPER SCROLL VISIBILITY ================= */
+const archiveBtn = document.querySelector(".archive-bar");
+const setupSection = document.getElementById("setupSection");
+
+function updateArchiveVisibility() {
+  const rect = setupSection.getBoundingClientRect();
+
+  // visible ONLY when first screen is in view
+  if (rect.bottom > 100 && rect.top < window.innerHeight - 100) {
+    archiveBtn.classList.remove("hidden");
+  } else {
+    archiveBtn.classList.add("hidden");
+  }
+}
+
+window.addEventListener("scroll", updateArchiveVisibility);
+window.addEventListener("resize", updateArchiveVisibility);
+window.addEventListener("load", updateArchiveVisibility);
+
+/* TOAST */
 window.addEventListener("DOMContentLoaded", () => {
   const t = document.getElementById("toast");
   setTimeout(() => t.classList.add("show"), 300);
   setTimeout(() => t.classList.remove("show"), 2500);
 });
-
-/* ===== ARCHIVE VISIBILITY ===== */
-const archive = document.querySelector(".archive-bar");
-const setupSection = document.getElementById("setupSection");
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      archive.classList.remove("hidden");
-    } else {
-      archive.classList.add("hidden");
-    }
-  });
-}, { threshold: 0.6 });
-
-observer.observe(setupSection);
 
 </script>
 
