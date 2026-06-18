@@ -32,6 +32,20 @@ html, body {
   flex-direction: column;
 }
 
+/* ================= LABELS (MOVED ABOVE BOXES) ================= */
+.top-labels {
+  display: flex;
+  gap: 40px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #888;
+  margin-bottom: 18px;
+}
+
+.top-labels span.active {
+  color: #111;
+}
+
 /* ================= CARDS ================= */
 .card, .archive-card {
   width: 320px;
@@ -241,6 +255,12 @@ button {
 <!-- SETUP -->
 <section class="section" id="setupSection">
 
+  <!-- LABELS NOW ABOVE BOXES (NOT FIXED) -->
+  <div class="top-labels">
+    <span id="labelSetup" class="active">NEW SCOREBOARD</span>
+    <span id="labelArchive">ARCHIVE</span>
+  </div>
+
   <div class="carousel state-setup" id="carousel">
 
     <div class="card">
@@ -288,7 +308,7 @@ button {
 let playerData = [];
 let state = "setup";
 
-/* ================= SWIPE ================= */
+/* SWIPE */
 const carousel = document.getElementById("carousel");
 
 let startX = 0;
@@ -299,13 +319,12 @@ carousel.addEventListener("touchstart", (e) => {
 
 carousel.addEventListener("touchend", (e) => {
   let diff = e.changedTouches[0].clientX - startX;
-
   if (Math.abs(diff) > 50) {
     setState(diff < 0 ? "archive" : "setup");
   }
 });
 
-/* ================= STATE ================= */
+/* STATE */
 function setState(newState) {
   state = newState;
 
@@ -314,14 +333,17 @@ function setState(newState) {
 
   document.getElementById("dotSetup").classList.toggle("active", state === "setup");
   document.getElementById("dotArchive").classList.toggle("active", state === "archive");
+
+  document.getElementById("labelSetup").classList.toggle("active", state === "setup");
+  document.getElementById("labelArchive").classList.toggle("active", state === "archive");
 }
 
-/* ================= ARCHIVE ================= */
+/* ARCHIVE */
 function goArchive() {
   window.location.href = "archive.html";
 }
 
-/* ================= PLAYERS ================= */
+/* PLAYERS */
 function showPlayers() {
 
   const count = +document.getElementById("players").value;
@@ -361,7 +383,7 @@ function showPlayers() {
     .scrollIntoView({ behavior: "smooth" });
 }
 
-/* ================= NEXT (UPDATED: CREATE ARCHIVE GROUP) ================= */
+/* NEXT */
 function goToHole() {
 
   const inputs = document.querySelectorAll(".player-card input");
@@ -370,25 +392,12 @@ function goToHole() {
 
   inputs.forEach((input, i) => {
     const name = input.value.trim();
-
     players.push({
       name: name !== "" ? name : `Player ${i + 1}`,
       image: playerData[i].image
     });
   });
 
-  /* NEW: CREATE ARCHIVE GROUP */
-  const newRound = {
-    date: new Date().toISOString(),
-    players,
-    scores: {}
-  };
-
-  let archives = JSON.parse(localStorage.getItem("golfArchives")) || [];
-  archives.push(newRound);
-  localStorage.setItem("golfArchives", JSON.stringify(archives));
-
-  /* existing behavior preserved */
   const container = document.getElementById("playerContainer");
   const cards = document.querySelectorAll(".player-card");
   const nextBtn = document.getElementById("nextBtn");
@@ -409,7 +418,7 @@ function goToHole() {
   }, 1200);
 }
 
-/* ================= TOAST ================= */
+/* TOAST */
 window.addEventListener("DOMContentLoaded", () => {
   const t = document.getElementById("toast");
   setTimeout(() => t.classList.add("show"), 300);
