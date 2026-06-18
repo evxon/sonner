@@ -7,22 +7,155 @@
 <title>SCOREBOARD</title>
 
 <link rel="stylesheet" href="hole.css">
+
+<style>
+/* ===== TOP BAR ===== */
+.top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  z-index: 10;
+}
+
+.wrapper {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hole {
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  padding-top: 100px;
+  padding-bottom: 120px;
+}
+
+/* ===== SAVE BAR ===== */
+.save-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  z-index: 20;
+}
+
+.save-btn {
+  width: 90%;
+  max-width: 500px;
+  height: 50px;
+  border-radius: 999px;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+}
+
+/* ===== PLAYER ROW ===== */
+.player-row {
+  display: flex;
+  align-items: center;
+  height: 78px;
+  margin: 12px auto;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border-radius: 999px;
+  padding: 0 20px;
+}
+
+.player-avatar img {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-right: 16px;
+}
+
+.player-name {
+  flex: 1;
+}
+
+.score-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.score-controls button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #f2f2f2;
+  cursor: pointer;
+}
+</style>
+
 </head>
 
 <body>
 
+<!-- TOP -->
 <div class="top">
   <div class="wrapper">
 
-    <div class="btn hidden" id="back" onclick="prev()">&lt;</div>
+    <div class="btn hidden" id="back">&lt;</div>
+
     <div class="hole" id="holeText">Hole 1</div>
-    <div class="btn" onclick="next()">&gt;</div>
+
+    <div class="btn hidden"></div>
+
+    <div class="btn" id="next">&gt;</div>
 
   </div>
 </div>
 
+<!-- CONTENT -->
 <div class="content">
   <div id="playersContainer"></div>
+</div>
+
+<!-- SAVE BAR -->
+<div class="save-bar">
+  <button class="save-btn" id="saveBtn">SAVE SCORE</button>
 </div>
 
 <script>
@@ -35,28 +168,37 @@ const playerData = JSON.parse(localStorage.getItem("playerData")) || [];
 const container = document.getElementById("playersContainer");
 const holeText = document.getElementById("holeText");
 const back = document.getElementById("back");
+const nextBtn = document.getElementById("next");
+const saveBtn = document.getElementById("saveBtn");
 
-let scores = JSON.parse(localStorage.getItem("golfScores")) || {};
+// ⭐ EDIT MODE FLAGS
+const editMode = localStorage.getItem("editMode") === "true";
+const activeIndex = localStorage.getItem("activeArchiveIndex");
 
-for (let h = 1; h <= 18; h++) {
-  if (!scores[h]) scores[h] = [];
+let savedScores = JSON.parse(localStorage.getItem("golfScores")) || {};
+let draftScores = {};
+
+// INIT
+for (let h = 1; h <= max; h++) {
+  if (!savedScores[h]) savedScores[h] = [];
+  if (!draftScores[h]) draftScores[h] = [];
+
   for (let p = 0; p < playerData.length; p++) {
-    if (scores[h][p] === undefined) scores[h][p] = 0;
+    savedScores[h][p] = Number(savedScores[h][p] || 0);
+    draftScores[h][p] = savedScores[h][p];
   }
 }
 
-function saveScores() {
-  localStorage.setItem("golfScores", JSON.stringify(scores));
-}
-
+// SCORE CHANGE
 function changeScore(i, val) {
-  scores[hole][i] += val;
-  document.getElementById(`score-${i}`).textContent = scores[hole][i];
-  saveScores();
+  draftScores[hole][i] = (Number(draftScores[hole][i]) || 0) + val;
+
+  const el = document.getElementById(`score-${i}`);
+  if (el) el.textContent = draftScores[hole][i];
 }
 
+// RENDER
 function renderPlayers() {
-
   container.innerHTML = "";
 
   playerData.forEach((p, i) => {
@@ -72,9 +214,9 @@ function renderPlayers() {
       <div class="player-name">${p.name}</div>
 
       <div class="score-controls">
-        <button onclick="changeScore(${i}, -1)">−</button>
-        <span id="score-${i}">${scores[hole][i]}</span>
-        <button onclick="changeScore(${i}, 1)">+</button>
+        <button data-i="${i}" data-v="-1">−</button>
+        <span id="score-${i}">${draftScores[hole][i]}</span>
+        <button data-i="${i}" data-v="1">+</button>
       </div>
     `;
 
@@ -82,25 +224,73 @@ function renderPlayers() {
   });
 }
 
+// CLICK HANDLER
+container.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+
+  changeScore(Number(btn.dataset.i), Number(btn.dataset.v));
+});
+
+// =========================
+// SAVE + ARCHIVE LOGIC
+// =========================
+function saveHole() {
+
+  // save current hole
+  for (let i = 0; i < playerData.length; i++) {
+    savedScores[hole][i] = draftScores[hole][i];
+  }
+
+  localStorage.setItem("golfScores", JSON.stringify(savedScores));
+
+  let archives = JSON.parse(localStorage.getItem("golfArchives")) || [];
+
+  const round = {
+    date: new Date().toISOString(),
+    players: playerData,
+    scores: savedScores
+  };
+
+  // ⭐ EDIT MODE → UPDATE EXISTING
+  if (editMode && activeIndex !== null) {
+    archives[activeIndex] = round;
+    localStorage.removeItem("editMode");
+    localStorage.removeItem("activeArchiveIndex");
+  } 
+  // ⭐ NEW ROUND
+  else {
+    archives.push(round);
+  }
+
+  localStorage.setItem("golfArchives", JSON.stringify(archives));
+
+  saveBtn.textContent = "SAVED ✔";
+  setTimeout(() => saveBtn.textContent = "SAVE SCORE", 900);
+}
+
+// NAVIGATION
 function update() {
   holeText.textContent = `HOLE ${hole}`;
   back.classList.toggle("hidden", hole === 1);
   renderPlayers();
 }
 
-function next() {
-  if (hole < max) {
-    hole++;
-    update();
-  }
-}
-
-function prev() {
+back.addEventListener("click", () => {
   if (hole > 1) {
     hole--;
     update();
   }
-}
+});
+
+nextBtn.addEventListener("click", () => {
+  if (hole < max) {
+    hole++;
+    update();
+  }
+});
+
+saveBtn.addEventListener("click", saveHole);
 
 update();
 
