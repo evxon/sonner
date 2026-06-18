@@ -68,33 +68,38 @@ function showPlayers() {
     "image/player5.png"
   ];
 
-  const availableImages = [...images];
+  const usedImages = [];
   const playerData = [];
 
   for (let i = 1; i <= count; i++) {
 
-    if (availableImages.length === 0) {
-      availableImages.push(...images);
+    let available = images.filter(img => !usedImages.includes(img));
+
+    if (available.length === 0) {
+      available = images;
     }
 
-    const randomIndex = Math.floor(Math.random() * availableImages.length);
-    const image = availableImages.splice(randomIndex, 1)[0];
+    const image = available[Math.floor(Math.random() * available.length)];
+    usedImages.push(image);
 
-    const name = `Player ${i}`;
+    playerData.push({
+      name: "",
+      image: image
+    });
 
-    playerData.push({ name, image });
+    const div = document.createElement("div");
+    div.className = "player-card";
 
-    const player = document.createElement("div");
-    player.className = "player-card";
-
-    player.innerHTML = `
+    div.innerHTML = `
       <div class="player-circle">
         <img src="${image}" alt="Player">
       </div>
-      <input type="text" value="${name}" placeholder="${name}">
+
+      <!-- ✅ CLEAN: placeholder only -->
+      <input type="text" placeholder="Player ${i}">
     `;
 
-    container.appendChild(player);
+    container.appendChild(div);
   }
 
   localStorage.setItem("playerData", JSON.stringify(playerData));
@@ -111,7 +116,7 @@ function goToHole() {
 
   inputs.forEach((input, i) => {
     if (data[i]) {
-      data[i].name = input.value || input.placeholder;
+      data[i].name = input.value.trim() || `Player ${i + 1}`;
     }
   });
 
