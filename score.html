@@ -12,6 +12,7 @@
 
 <body>
 
+<div id="blur"></div>
 <div id="toast">Successfully logged in</div>
 
 <section class="section">
@@ -93,49 +94,40 @@ function showPlayers() {
     container.appendChild(div);
   }
 
-  document.getElementById("playersSection").scrollIntoView({
-    behavior: "smooth"
-  });
+  document.getElementById("playersSection")
+    .scrollIntoView({ behavior: "smooth" });
 }
 
 
 /* =========================
-   🍎 APPLE STYLE STACK ANIMATION
+   APPLE ANIMATION (FROM OLD VERSION)
 ========================= */
 
 function goToHole() {
 
-  // hide button instantly
   const btn = document.getElementById("nextBtn");
   btn.style.opacity = "0";
   btn.style.pointerEvents = "none";
 
+  document.getElementById("blur").classList.add("active");
+
   const cards = [...document.querySelectorAll(".player-card")];
   const inputs = document.querySelectorAll(".player-card input");
 
-  // save names
   inputs.forEach((input, i) => {
     playerData[i].name = input.value.trim() || `Player ${i + 1}`;
   });
 
   localStorage.setItem("playerData", JSON.stringify(playerData));
 
-  // get final positions
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
   const positions = cards.map(c => {
     const r = c.getBoundingClientRect();
-    return {
-      el: c,
-      x: r.left,
-      y: r.top,
-      w: r.width,
-      h: r.height
-    };
+    return { el: c, x: r.left, y: r.top, w: r.width, h: r.height };
   });
 
-  const cx = window.innerWidth / 2;
-  const cy = window.innerHeight / 2;
-
-  // freeze layout first
   cards.forEach((c, i) => {
     const p = positions[i];
 
@@ -143,30 +135,28 @@ function goToHole() {
     c.style.left = p.x + "px";
     c.style.top = p.y + "px";
     c.style.margin = "0";
+    c.style.transformOrigin = "center";
     c.style.zIndex = 1000 + i;
-    c.style.transition = "none";
   });
 
-  // force layout lock
   void document.body.offsetHeight;
 
-  // smooth Apple-like animation
   cards.forEach((c, i) => {
 
     const p = positions[i];
 
-    const dx = cx - (p.x + p.w / 2);
-    const dy = cy - (p.y + p.h / 2);
+    const dx = centerX - (p.x + p.w / 2);
+    const dy = centerY - (p.y + p.h / 2);
 
-    c.style.transition =
-      "transform 2.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease";
+    const rotate = (Math.random() - 0.5) * 6;
 
     setTimeout(() => {
 
-      c.style.transform = `
-        translate(${dx}px, ${dy}px)
-        scale(0.88)
-      `;
+      c.style.transition =
+        "transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.2s ease";
+
+      c.style.transform =
+        `translate(${dx}px, ${dy}px) scale(0.85) rotate(${rotate}deg)`;
 
       c.style.opacity = "0";
 
@@ -176,17 +166,16 @@ function goToHole() {
       if (img) img.style.opacity = "0";
       if (input) input.style.opacity = "0";
 
-    }, i * 80);
+    }, i * 140);
   });
 
-  // delay navigation (slow Apple feel)
   setTimeout(() => {
     window.location.href = "hole.html";
-  }, 2800);
+  }, 1200);
 }
 
 
-/* toast */
+/* TOAST */
 window.addEventListener("DOMContentLoaded", () => {
   const t = document.getElementById("toast");
   setTimeout(() => t.classList.add("show"), 300);
