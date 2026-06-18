@@ -6,32 +6,19 @@
 
 <title>SCOREBOARD</title>
 
-<link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hole.css">
 </head>
 
 <body>
 
 <div class="top">
-
   <div class="wrapper">
 
-    <div class="btn hidden" id="back" onclick="prev()">
-      &lt;
-    </div>
-
-    <div class="hole" id="holeText">
-      Hole 1
-    </div>
-
-    <div class="btn" onclick="next()">
-      &gt;
-    </div>
+    <div class="btn hidden" id="back" onclick="prev()">&lt;</div>
+    <div class="hole" id="holeText">Hole 1</div>
+    <div class="btn" onclick="next()">&gt;</div>
 
   </div>
-
 </div>
 
 <div class="content">
@@ -43,105 +30,51 @@
 let hole = 1;
 const max = 18;
 
+const playerData = JSON.parse(localStorage.getItem("playerData")) || [];
+
+const container = document.getElementById("playersContainer");
 const holeText = document.getElementById("holeText");
 const back = document.getElementById("back");
 
-const names =
-JSON.parse(localStorage.getItem("playerNames")) || [];
+let scores = JSON.parse(localStorage.getItem("golfScores")) || {};
 
-const images =
-JSON.parse(localStorage.getItem("playerImages")) || [];
-
-const container =
-document.getElementById("playersContainer");
-
-/* LOAD SCORES */
-let scores =
-JSON.parse(localStorage.getItem("golfScores")) || {};
-
-/* CREATE 18 HOLES STARTING AT 0 */
 for (let h = 1; h <= 18; h++) {
-
-  if (!scores[h]) {
-    scores[h] = [];
-  }
-
-  for (let p = 0; p < names.length; p++) {
-
-    if (scores[h][p] === undefined) {
-      scores[h][p] = 0;
-    }
-
+  if (!scores[h]) scores[h] = [];
+  for (let p = 0; p < playerData.length; p++) {
+    if (scores[h][p] === undefined) scores[h][p] = 0;
   }
 }
 
-saveScores();
-
-/* SAVE */
 function saveScores() {
-
-  localStorage.setItem(
-    "golfScores",
-    JSON.stringify(scores)
-  );
-
+  localStorage.setItem("golfScores", JSON.stringify(scores));
 }
 
-/* CHANGE SCORE */
-function changeScore(playerIndex, amount) {
-
-  scores[hole][playerIndex] += amount;
-
-  document.getElementById(
-    `score-${playerIndex}`
-  ).textContent =
-    scores[hole][playerIndex];
-
+function changeScore(i, val) {
+  scores[hole][i] += val;
+  document.getElementById(`score-${i}`).textContent = scores[hole][i];
   saveScores();
 }
 
-/* RENDER PLAYERS */
 function renderPlayers() {
 
   container.innerHTML = "";
 
-  names.forEach((name, index) => {
+  playerData.forEach((p, i) => {
 
-    const score =
-      scores[hole][index];
-
-    const row =
-      document.createElement("div");
-
+    const row = document.createElement("div");
     row.className = "player-row";
 
     row.innerHTML = `
-      <img src="${images[index] || 'image/eye.png'}">
-
-      <div class="player-name">
-        ${name}
+      <div class="player-avatar">
+        <img src="${p.image}">
       </div>
 
+      <div class="player-name">${p.name}</div>
+
       <div class="score-controls">
-
-        <button
-          class="score-btn"
-          onclick="changeScore(${index}, -1)">
-          −
-        </button>
-
-        <span
-          class="score-value"
-          id="score-${index}">
-          ${score}
-        </span>
-
-        <button
-          class="score-btn"
-          onclick="changeScore(${index}, 1)">
-          +
-        </button>
-
+        <button onclick="changeScore(${i}, -1)">−</button>
+        <span id="score-${i}">${scores[hole][i]}</span>
+        <button onclick="changeScore(${i}, 1)">+</button>
       </div>
     `;
 
@@ -149,33 +82,20 @@ function renderPlayers() {
   });
 }
 
-/* UPDATE */
 function update() {
-
-  holeText.textContent =
-    `HOLE ${hole}`;
-
-  if (hole === 1) {
-    back.classList.add("hidden");
-  } else {
-    back.classList.remove("hidden");
-  }
-
+  holeText.textContent = `HOLE ${hole}`;
+  back.classList.toggle("hidden", hole === 1);
   renderPlayers();
 }
 
-/* NEXT HOLE */
 function next() {
-
   if (hole < max) {
     hole++;
     update();
   }
 }
 
-/* PREVIOUS HOLE */
 function prev() {
-
   if (hole > 1) {
     hole--;
     update();
@@ -185,5 +105,6 @@ function prev() {
 update();
 
 </script>
+
 </body>
 </html>
