@@ -11,53 +11,26 @@ body {
   scroll-behavior: smooth;
 }
 
-/* FULL SCREEN */
 .section {
   min-height: 100vh;
-
   display: flex;
-  flex-direction: column;
-
   justify-content: center;
   align-items: center;
-
   padding: 20px;
+  flex-direction: column;
 }
 
-/* CARD */
 .card {
   width: 320px;
   height: 320px;
-
   border-radius: 28px;
   background: #fff;
-
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-
   padding: 28px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   text-align: center;
-}
-
-h1,
-p {
-  font-size: 14px;
-  font-weight: 400;
-  color: #111;
-}
-
-p {
-  margin-top: 6px;
-}
-
-/* SELECT */
-.select-box {
-  margin-top: 24px;
-  text-align: left;
 }
 
 label {
@@ -69,74 +42,42 @@ select {
   width: 100%;
   margin-top: 8px;
   padding: 10px;
-
   border: none;
   border-bottom: 1px solid #ddd;
-
   background: transparent;
-  outline: none;
-
-  font-size: 14px;
 }
 
-/* BUTTON */
 button {
   margin-top: 24px;
-
   width: 100%;
   padding: 12px;
-
   border: none;
   border-radius: 10px;
-
   background: #111;
   color: white;
-
   font-size: 11px;
   letter-spacing: 2px;
-  text-transform: uppercase;
-
   cursor: pointer;
 }
 
-/* PLAYERS CONTAINER (DESKTOP DEFAULT) */
 #playerContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-
   gap: 40px;
-
-  max-width: 1000px;
 }
 
-/* PLAYER CARD */
 .player-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  opacity: 0;
-  transform: translateY(30px);
-
-  animation: fadeUp 0.8s ease forwards;
 }
 
-/* ROUNDED SQUARE */
 .player-circle {
   width: 120px;
   height: 120px;
-
-  background: white;
-
   border-radius: 24px;
-
   overflow: hidden;
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-
-  animation: growBox 0.6s ease forwards;
-  transform-origin: left center;
 }
 
 .player-circle img {
@@ -147,93 +88,26 @@ button {
 
 .player-card input {
   width: 120px;
-
   margin-top: 12px;
-
   border: none;
   border-bottom: 1px solid #ddd;
-
-  background: transparent;
-
   text-align: center;
-
-  font-size: 14px;
-
   outline: none;
 }
 
-/* NEXT */
-#nextSection {
-  margin-top: 60px;
-
-  opacity: 0;
-  animation: fadeUp 0.8s ease forwards;
-  animation-delay: 0.4s;
-}
-
-#nextBtn {
-  width: 220px;
-}
-
-/* ANIMATIONS */
-@keyframes growBox {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* TOAST */
 #toast {
   position: fixed;
   top: 20px;
   left: 50%;
-  transform: translateX(-50%) translateY(-30px);
-
-  background: rgba(20, 20, 20, 0.92);
+  transform: translateX(-50%);
+  background: rgba(20,20,20,0.92);
   color: white;
-
   padding: 14px 22px;
   border-radius: 999px;
-
-  font-size: 13px;
-  font-weight: 400;
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-
   opacity: 0;
-  pointer-events: none;
-
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 9999;
+  transition: 0.4s;
 }
 
 #toast.show {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* =========================
-   MOBILE FIX: 2x2 GRID FOR 4 PLAYERS
-========================= */
-@media (max-width: 600px) {
-
-  #playerContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-
-    justify-items: center;
-    align-items: center;
-  }
-
 }
