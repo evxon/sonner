@@ -4,22 +4,21 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   font-family: 'Inter', sans-serif;
   background: #fff;
-  scroll-behavior: smooth;
 }
 
+/* layout */
 .section {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
   flex-direction: column;
 }
 
+/* card */
 .card {
   width: 320px;
   height: 320px;
@@ -30,9 +29,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
 }
 
+/* form */
 label {
   font-size: 12px;
   color: #888;
@@ -40,7 +39,7 @@ label {
 
 select {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 10px;
   padding: 10px;
   border: none;
   border-bottom: 1px solid #ddd;
@@ -58,9 +57,10 @@ button {
   font-size: 11px;
   letter-spacing: 2px;
   cursor: pointer;
+  transition: opacity 0.4s ease;
 }
 
-/* DEFAULT LAYOUT */
+/* player layout */
 #playerContainer {
   display: flex;
   flex-wrap: wrap;
@@ -68,21 +68,21 @@ button {
   gap: 40px;
 }
 
-/* ✅ 4 PLAYERS FIX: PERFECT 2x2 GRID */
 #playerContainer.grid-4 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
-  justify-items: center;
-  align-items: center;
 }
 
+/* player card */
 .player-card {
   display: flex;
   flex-direction: column;
   align-items: center;
+  will-change: transform, opacity;
 }
 
+/* square image */
 .player-circle {
   width: 120px;
   height: 120px;
@@ -94,6 +94,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 1.2s ease;
 }
 
 .player-card input {
@@ -103,8 +104,15 @@ button {
   border-bottom: 1px solid #ddd;
   text-align: center;
   outline: none;
+  transition: opacity 1.2s ease;
 }
 
+/* NEXT button smooth hide */
+#nextBtn {
+  transition: opacity 0.5s ease;
+}
+
+/* toast */
 #toast {
   position: fixed;
   top: 20px;
