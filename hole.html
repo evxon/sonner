@@ -31,13 +31,12 @@
   position: relative;
 }
 
-/* HOLE TEXT */
 .hole {
   font-weight: 500;
   letter-spacing: 1px;
 }
 
-/* ===== BACK BUTTON ===== */
+/* BACK TO ARCHIVE */
 .back-archive {
   position: absolute;
   left: 16px;
@@ -51,11 +50,26 @@
   user-select: none;
 }
 
-.back-archive:active {
-  transform: scale(0.97);
+/* NEW: MAIN PAGE BUTTON */
+.main-page {
+  position: absolute;
+  left: 16px;
+  top: 48px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.04);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s ease;
 }
 
-/* ===== NEXT BUTTON ===== */
+.main-page:active {
+  transform: scale(0.96);
+}
+
+/* NEXT BUTTON */
 .next-hole {
   position: absolute;
   right: 16px;
@@ -67,20 +81,15 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 16px;
 }
 
-.next-hole:active {
-  transform: scale(0.95);
-}
-
-/* ===== CONTENT ===== */
+/* CONTENT */
 .content {
   padding-top: 100px;
   padding-bottom: 120px;
 }
 
-/* ===== SAVE BAR ===== */
+/* SAVE BAR */
 .save-bar {
   position: fixed;
   bottom: 0;
@@ -105,14 +114,9 @@
   background: black;
   color: white;
   font-size: 16px;
-  cursor: pointer;
 }
 
-.save-btn:active {
-  transform: scale(0.98);
-}
-
-/* ===== PLAYER ROW ===== */
+/* PLAYER */
 .player-row {
   display: flex;
   align-items: center;
@@ -149,6 +153,26 @@
   border-radius: 50%;
   border: none;
   background: #f2f2f2;
+}
+
+/* END SCREEN */
+#endScreen {
+  position: fixed;
+  inset: 0;
+  background: white;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  z-index: 999;
+  font-family: Inter, sans-serif;
+}
+
+#endScreen button {
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: none;
   cursor: pointer;
 }
 
@@ -162,9 +186,11 @@
 <div class="top">
   <div class="wrapper">
 
-    <div class="back-archive" id="backBtn">
-      GO BACK TO ARCHIVE
-    </div>
+    <!-- MAIN PAGE BUTTON -->
+    <div class="main-page" onclick="goMain()">MAIN</div>
+
+    <!-- BACK TO ARCHIVE (only in edit mode) -->
+    <div class="back-archive" id="backBtn">GO BACK TO ARCHIVE</div>
 
     <div class="hole" id="holeText">HOLE 1</div>
 
@@ -183,6 +209,23 @@
   <button class="save-btn" id="saveBtn">SAVE SCORE</button>
 </div>
 
+<!-- END SCREEN -->
+<div id="endScreen">
+  <h2>Round Complete</h2>
+
+  <button onclick="window.location.href='score.html'" style="background:black; color:white;">
+    Go to Scoreboard
+  </button>
+
+  <button onclick="window.location.href='archive.html'" style="background:#eee;">
+    Archive
+  </button>
+
+  <button onclick="window.location.href='test.html'" style="background:#f5f5f5;">
+    Cool off
+  </button>
+</div>
+
 <script>
 
 let hole = 1;
@@ -195,36 +238,25 @@ const saveBtn = document.getElementById("saveBtn");
 const backBtn = document.getElementById("backBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-/* =========================
-   MODE SYSTEM (IMPORTANT FIX)
-========================= */
 const fromArchive = localStorage.getItem("editMode") === "true";
 
-/* ONLY show back button if coming from archive */
 if (fromArchive) {
   backBtn.style.display = "inline-flex";
 }
 
-/* back to archive */
+/* ===== MAIN PAGE NAV ===== */
+function goMain() {
+  window.location.href = "score.html";
+}
+
+/* BACK TO ARCHIVE */
 backBtn.addEventListener("click", () => {
   localStorage.removeItem("editMode");
   localStorage.removeItem("activeArchiveIndex");
   window.location.href = "archive.html";
 });
 
-/* =========================
-   NEXT HOLE
-========================= */
-nextBtn.addEventListener("click", () => {
-  if (hole < max) {
-    hole++;
-    update();
-  }
-});
-
-/* =========================
-   SCORE STORAGE
-========================= */
+/* SCORES */
 let savedScores = JSON.parse(localStorage.getItem("golfScores")) || {};
 let draftScores = {};
 
@@ -238,24 +270,15 @@ for (let h = 1; h <= max; h++) {
   }
 }
 
-/* =========================
-   SCORE CHANGE
-========================= */
 function changeScore(i, val) {
   draftScores[hole][i] = (Number(draftScores[hole][i]) || 0) + val;
-
-  const el = document.getElementById(`score-${i}`);
-  if (el) el.textContent = draftScores[hole][i];
+  document.getElementById(`score-${i}`).textContent = draftScores[hole][i];
 }
 
-/* =========================
-   RENDER
-========================= */
 function renderPlayers() {
   container.innerHTML = "";
 
   playerData.forEach((p, i) => {
-
     const row = document.createElement("div");
     row.className = "player-row";
 
@@ -277,19 +300,14 @@ function renderPlayers() {
   });
 }
 
-/* click handler */
 container.addEventListener("click", (e) => {
   const btn = e.target.closest("button");
   if (!btn) return;
-
   changeScore(Number(btn.dataset.i), Number(btn.dataset.v));
 });
 
-/* =========================
-   SAVE
-========================= */
+/* SAVE */
 function saveHole() {
-
   for (let i = 0; i < playerData.length; i++) {
     savedScores[hole][i] = draftScores[hole][i];
   }
@@ -300,9 +318,22 @@ function saveHole() {
   setTimeout(() => saveBtn.textContent = "SAVE SCORE", 800);
 }
 
-/* =========================
-   UPDATE
-========================= */
+/* NEXT HOLE */
+nextBtn.addEventListener("click", () => {
+
+  if (hole === max) {
+    document.querySelector(".top").style.display = "none";
+    document.querySelector(".content").style.display = "none";
+    document.querySelector(".save-bar").style.display = "none";
+
+    document.getElementById("endScreen").style.display = "flex";
+    return;
+  }
+
+  hole++;
+  update();
+});
+
 function update() {
   holeText.textContent = `HOLE ${hole}`;
   renderPlayers();
