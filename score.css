@@ -9,7 +9,7 @@ html, body {
   background: #fff;
 }
 
-/* blur layer (kept for animation) */
+/* blur layer */
 #blur {
   position: fixed;
   inset: 0;
@@ -34,7 +34,7 @@ html, body {
   flex-direction: column;
 }
 
-/* card (clean UI version) */
+/* card */
 .card {
   width: 320px;
   height: 320px;
@@ -47,9 +47,9 @@ html, body {
   justify-content: center;
 }
 
-/* typography */
+/* label */
 label {
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   margin-bottom: 8px;
 }
@@ -63,6 +63,8 @@ select {
   border-bottom: 1px solid #ddd;
   background: transparent;
   outline: none;
+
+  font-size: 16px; /* FIX ZOOM */
 }
 
 /* button */
@@ -74,7 +76,7 @@ button {
   border-radius: 10px;
   background: #111;
   color: white;
-  font-size: 11px;
+  font-size: 16px; /* FIX ZOOM */
   letter-spacing: 2px;
   cursor: pointer;
   transition: opacity 0.4s ease;
@@ -102,7 +104,7 @@ button {
   will-change: transform, opacity;
 }
 
-/* image block */
+/* image */
 .player-circle {
   width: 120px;
   height: 120px;
@@ -117,7 +119,7 @@ button {
   transition: opacity 1.2s ease;
 }
 
-/* input */
+/* input (IMPORTANT FIX) */
 .player-card input {
   width: 120px;
   margin-top: 12px;
@@ -125,10 +127,13 @@ button {
   border-bottom: 1px solid #ddd;
   text-align: center;
   outline: none;
+
+  font-size: 16px; /* FIX iOS ZOOM */
+  line-height: 1.4;
   transition: opacity 1.2s ease;
 }
 
-/* NEXT button */
+/* NEXT */
 #nextWrap {
   margin-top: 40px;
 }
@@ -151,18 +156,15 @@ button {
   transition: 0.4s;
   z-index: 9999;
 
-  /* important fix */
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #toast.show {
   opacity: 1;
 }
 
-/* =========================
-   DESKTOP OVERRIDE
-========================= */
+/* desktop */
 @media (min-width: 768px) {
   #playerContainer,
   #playerContainer.grid-4 {
@@ -174,18 +176,13 @@ button {
   }
 }
 
-/* =========================
-   MOBILE FIX (NEW)
-========================= */
+/* mobile */
 @media (max-width: 480px) {
-
   #toast {
-    font-size: 11px;
+    font-size: 12px;
     padding: 10px 16px;
-    white-space: nowrap;
     max-width: 90vw;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
 }
