@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hole</title>
+<title>SCOREBOARD</title>
+
+<link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hole.css">
@@ -37,6 +39,7 @@
 </div>
 
 <script>
+
 let hole = 1;
 const max = 18;
 
@@ -44,48 +47,60 @@ const holeText = document.getElementById("holeText");
 const back = document.getElementById("back");
 
 const names =
-  JSON.parse(localStorage.getItem("playerNames")) || [];
+JSON.parse(localStorage.getItem("playerNames")) || [];
 
 const images =
-  JSON.parse(localStorage.getItem("playerImages")) || [];
+JSON.parse(localStorage.getItem("playerImages")) || [];
 
 const container =
-  document.getElementById("playersContainer");
+document.getElementById("playersContainer");
 
+/* LOAD SCORES */
 let scores =
-  JSON.parse(localStorage.getItem("golfScores")) || {};
+JSON.parse(localStorage.getItem("golfScores")) || {};
 
+/* CREATE 18 HOLES STARTING AT 0 */
+for (let h = 1; h <= 18; h++) {
+
+  if (!scores[h]) {
+    scores[h] = [];
+  }
+
+  for (let p = 0; p < names.length; p++) {
+
+    if (scores[h][p] === undefined) {
+      scores[h][p] = 0;
+    }
+
+  }
+}
+
+saveScores();
+
+/* SAVE */
 function saveScores() {
+
   localStorage.setItem(
     "golfScores",
     JSON.stringify(scores)
   );
+
 }
 
+/* CHANGE SCORE */
 function changeScore(playerIndex, amount) {
 
-  if (!scores[hole]) {
-    scores[hole] = [];
-  }
-
-  let current =
-    parseInt(scores[hole][playerIndex] || 0);
-
-  current += amount;
-
-  if (current < 0) {
-    current = 0;
-  }
-
-  scores[hole][playerIndex] = current;
-
-  saveScores();
+  scores[hole][playerIndex] += amount;
 
   document.getElementById(
     `score-${playerIndex}`
-  ).textContent = current;
+  ).textContent =
+    scores[hole][playerIndex];
+
+  saveScores();
 }
 
+/* RENDER PLAYERS */
 function renderPlayers() {
 
   container.innerHTML = "";
@@ -93,9 +108,10 @@ function renderPlayers() {
   names.forEach((name, index) => {
 
     const score =
-      scores[hole]?.[index] || 0;
+      scores[hole][index];
 
-    const row = document.createElement("div");
+    const row =
+      document.createElement("div");
 
     row.className = "player-row";
 
@@ -133,10 +149,11 @@ function renderPlayers() {
   });
 }
 
+/* UPDATE */
 function update() {
 
   holeText.textContent =
-    "Hole " + hole;
+    `HOLE ${hole}`;
 
   if (hole === 1) {
     back.classList.add("hidden");
@@ -147,6 +164,7 @@ function update() {
   renderPlayers();
 }
 
+/* NEXT HOLE */
 function next() {
 
   if (hole < max) {
@@ -155,6 +173,7 @@ function next() {
   }
 }
 
+/* PREVIOUS HOLE */
 function prev() {
 
   if (hole > 1) {
@@ -164,7 +183,7 @@ function prev() {
 }
 
 update();
-</script>
 
+</script>
 </body>
 </html>
