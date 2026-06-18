@@ -21,19 +21,15 @@
     <h1></h1>
     <p></p>
 
-    <div class="select-box">
+    <label>Players</label>
 
-      <label>Players</label>
-
-      <select id="players">
-        <option value="1">1 Player</option>
-        <option value="2">2 Players</option>
-        <option value="3">3 Players</option>
-        <option value="4">4 Players</option>
-        <option value="5">5 Players</option>
-      </select>
-
-    </div>
+    <select id="players">
+      <option value="1">1 Player</option>
+      <option value="2">2 Players</option>
+      <option value="3">3 Players</option>
+      <option value="4">4 Players</option>
+      <option value="5">5 Players</option>
+    </select>
 
     <button onclick="showPlayers()">OK</button>
 
@@ -45,7 +41,7 @@
 
   <div id="playerContainer"></div>
 
-  <div id="nextSection">
+  <div id="nextWrap">
     <button id="nextBtn" onclick="goToHole()">NEXT</button>
   </div>
 
@@ -53,15 +49,15 @@
 
 <script>
 
+let playerData = [];
+
 function showPlayers() {
 
-  const count = parseInt(document.getElementById("players").value);
+  const count = +document.getElementById("players").value;
   const container = document.getElementById("playerContainer");
 
   container.innerHTML = "";
-
-  // reset layout mode
-  container.classList.remove("grid-4");
+  container.classList.toggle("grid-4", count === 4);
 
   const images = [
     "image/player1.png",
@@ -71,74 +67,130 @@ function showPlayers() {
     "image/player5.png"
   ];
 
-  const usedImages = [];
-  const playerData = [];
+  const used = [];
+  playerData = [];
 
-  for (let i = 1; i <= count; i++) {
+  for (let i = 0; i < count; i++) {
 
-    let available = images.filter(img => !usedImages.includes(img));
+    let available = images.filter(img => !used.includes(img));
+    if (!available.length) available = images;
 
-    if (available.length === 0) {
-      available = images;
-    }
+    const img = available[Math.floor(Math.random() * available.length)];
+    used.push(img);
 
-    const image = available[Math.floor(Math.random() * available.length)];
-    usedImages.push(image);
-
-    playerData.push({
-      name: "",
-      image: image
-    });
+    playerData.push({ name: "", image: img });
 
     const div = document.createElement("div");
     div.className = "player-card";
 
     div.innerHTML = `
       <div class="player-circle">
-        <img src="${image}" alt="Player">
+        <img src="${img}">
       </div>
-
-      <input type="text" placeholder="Player ${i}">
+      <input type="text" placeholder="Player ${i + 1}">
     `;
 
     container.appendChild(div);
   }
-
-  // ✅ APPLY GRID ONLY FOR 4 PLAYERS
-  if (count === 4) {
-    container.classList.add("grid-4");
-  }
-
-  localStorage.setItem("playerData", JSON.stringify(playerData));
 
   document.getElementById("playersSection").scrollIntoView({
     behavior: "smooth"
   });
 }
 
+
+/* =========================
+   🍎 APPLE STYLE STACK ANIMATION
+========================= */
+
 function goToHole() {
 
-  const inputs = document.querySelectorAll(".player-card input");
-  const data = JSON.parse(localStorage.getItem("playerData")) || [];
+  // hide button instantly
+  const btn = document.getElementById("nextBtn");
+  btn.style.opacity = "0";
+  btn.style.pointerEvents = "none";
 
+  const cards = [...document.querySelectorAll(".player-card")];
+  const inputs = document.querySelectorAll(".player-card input");
+
+  // save names
   inputs.forEach((input, i) => {
-    if (data[i]) {
-      data[i].name = input.value.trim() || `Player ${i + 1}`;
-    }
+    playerData[i].name = input.value.trim() || `Player ${i + 1}`;
   });
 
-  localStorage.setItem("playerData", JSON.stringify(data));
+  localStorage.setItem("playerData", JSON.stringify(playerData));
 
-  window.location.href = "hole.html";
+  // get final positions
+  const positions = cards.map(c => {
+    const r = c.getBoundingClientRect();
+    return {
+      el: c,
+      x: r.left,
+      y: r.top,
+      w: r.width,
+      h: r.height
+    };
+  });
+
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+
+  // freeze layout first
+  cards.forEach((c, i) => {
+    const p = positions[i];
+
+    c.style.position = "fixed";
+    c.style.left = p.x + "px";
+    c.style.top = p.y + "px";
+    c.style.margin = "0";
+    c.style.zIndex = 1000 + i;
+    c.style.transition = "none";
+  });
+
+  // force layout lock
+  void document.body.offsetHeight;
+
+  // smooth Apple-like animation
+  cards.forEach((c, i) => {
+
+    const p = positions[i];
+
+    const dx = cx - (p.x + p.w / 2);
+    const dy = cy - (p.y + p.h / 2);
+
+    c.style.transition =
+      "transform 2.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease";
+
+    setTimeout(() => {
+
+      c.style.transform = `
+        translate(${dx}px, ${dy}px)
+        scale(0.88)
+      `;
+
+      c.style.opacity = "0";
+
+      const img = c.querySelector("img");
+      const input = c.querySelector("input");
+
+      if (img) img.style.opacity = "0";
+      if (input) input.style.opacity = "0";
+
+    }, i * 80);
+  });
+
+  // delay navigation (slow Apple feel)
+  setTimeout(() => {
+    window.location.href = "hole.html";
+  }, 2800);
 }
 
+
+/* toast */
 window.addEventListener("DOMContentLoaded", () => {
-
-  const toast = document.getElementById("toast");
-
-  setTimeout(() => toast.classList.add("show"), 200);
-  setTimeout(() => toast.classList.remove("show"), 3000);
-
+  const t = document.getElementById("toast");
+  setTimeout(() => t.classList.add("show"), 300);
+  setTimeout(() => t.classList.remove("show"), 2500);
 });
 
 </script>
