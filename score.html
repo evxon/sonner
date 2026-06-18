@@ -8,6 +8,44 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="score.css">
+
+<style>
+
+/* ===== ARCHIVE (APPLE FLOATING BUTTON FIXED POSITION) ===== */
+.archive-bar {
+  position: fixed;
+  bottom: 28px;
+  right: 20px;
+
+  width: 140px;
+  height: 44px;
+
+  background: rgba(0,0,0,0.88);
+  color: white;
+
+  border-radius: 999px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 12px;
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  z-index: 6000;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.archive-bar:active {
+  transform: scale(0.96);
+}
+
+</style>
+
 </head>
 
 <body>
@@ -15,12 +53,12 @@
 <div id="blur"></div>
 <div id="toast">Successfully logged in</div>
 
+<!-- ARCHIVE BUTTON (FIXED POSITION BOTTOM RIGHT) -->
+<div class="archive-bar" onclick="goArchive()">ARCHIVE</div>
+
 <section class="section">
 
   <div class="card">
-
-    <h1></h1>
-    <p></p>
 
     <label>Players</label>
 
@@ -100,73 +138,38 @@ function showPlayers() {
 
 function goToHole() {
 
-  const btn = document.getElementById("nextBtn");
-  btn.style.opacity = "0";
-  btn.style.pointerEvents = "none";
-
-  document.getElementById("blur").classList.add("active");
-
-  const cards = [...document.querySelectorAll(".player-card")];
   const inputs = document.querySelectorAll(".player-card input");
 
+  let validPlayers = 0;
+
   inputs.forEach((input, i) => {
-    playerData[i].name = input.value.trim() || `Player ${i + 1}`;
+    const name = input.value.trim();
+
+    if (name !== "") {
+      validPlayers++;
+      playerData[i].name = name;
+    } else {
+      playerData[i].name = `Player ${i + 1}`;
+    }
   });
 
+  // 🚨 ONLY ALLOW SESSION START IF AT LEAST 1 REAL NAME IS ENTERED
+  const hasRealInput = Array.from(inputs).some(i => i.value.trim() !== "");
+
+  if (!hasRealInput) {
+    alert("Please enter at least one player name before continuing");
+    return;
+  }
+
+  // mark this as a valid session (NOT archive yet)
   localStorage.setItem("playerData", JSON.stringify(playerData));
+  localStorage.setItem("activeRound", "true");
 
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
+  window.location.href = "hole.html";
+}
 
-  const positions = cards.map(c => {
-    const r = c.getBoundingClientRect();
-    return { el: c, x: r.left, y: r.top, w: r.width, h: r.height };
-  });
-
-  cards.forEach((c, i) => {
-    const p = positions[i];
-
-    c.style.position = "fixed";
-    c.style.left = p.x + "px";
-    c.style.top = p.y + "px";
-    c.style.margin = "0";
-    c.style.transformOrigin = "center";
-    c.style.zIndex = 1000 + i;
-  });
-
-  void document.body.offsetHeight;
-
-  cards.forEach((c, i) => {
-
-    const p = positions[i];
-
-    const dx = centerX - (p.x + p.w / 2);
-    const dy = centerY - (p.y + p.h / 2);
-
-    const rotate = (Math.random() - 0.5) * 6;
-
-    setTimeout(() => {
-
-      c.style.transition =
-        "transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 2.2s ease";
-
-      c.style.transform =
-        `translate(${dx}px, ${dy}px) scale(0.85) rotate(${rotate}deg)`;
-
-      c.style.opacity = "0";
-
-      const img = c.querySelector("img");
-      const input = c.querySelector("input");
-
-      if (img) img.style.opacity = "0";
-      if (input) input.style.opacity = "0";
-
-    }, i * 140);
-  });
-
-  setTimeout(() => {
-    window.location.href = "hole.html";
-  }, 1200);
+function goArchive() {
+  window.location.href = "archive.html";
 }
 
 window.addEventListener("DOMContentLoaded", () => {
