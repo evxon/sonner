@@ -16,85 +16,33 @@ html, body {
   background: #000;
 }
 
-/* ENTRY SCREEN */
-#entry {
+/* BLURRED BACKGROUND LAYER */
+#bg {
   position: absolute;
   inset: 0;
-  z-index: 10;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* THIS is the ONLY animated layer (background image) */
-#entryBg {
-  position: absolute;
-  inset: 0;
-
-  background-image: url("image/picking.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  animation: breathe 12s ease-in-out infinite;
+  transform: scale(1.08); /* prevents blur edge cut-off */
+  filter: blur(18px) brightness(0.8);
 }
 
-/* ONLY background moves */
-@keyframes breathe {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-  100% { transform: scale(1); }
+/* DARK OVERLAY for Apple-like depth */
+#bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
 }
 
-/* TEXT is completely separate → NO movement */
-#entryText {
-  position: relative;
-  color: white;
-  font-size: 20px;
-  font-weight: 300;
-  letter-spacing: 6px;
-  z-index: 2;
-  pointer-events: none;
-  animation: none;
-  transform: none;
-}
-
-#entry.fade-out {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s ease, transform 1.2s ease;
-  transform: scale(1.08);
-}
-
-/* FIELD */
+/* FIELD (balls layer) */
 #field {
   position: absolute;
   inset: 0;
   width: 100vw;
   height: 100vh;
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  background-color: #111;
-
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-#field.visible {
-  opacity: 1;
-}
-
-#field::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.02);
-  pointer-events: none;
+  z-index: 2;
 }
 
 /* BALLS */
@@ -108,19 +56,25 @@ html, body {
 
   opacity: 0;
 
-  transition: opacity 1s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1), filter 1s ease;
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 900ms ease;
 
   z-index: 2;
   cursor: pointer;
+
+  transform: scale(0.85) translateY(10px);
 }
 
 .ball.show {
   opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .ball.fade {
   opacity: 0;
-  transform: scale(0.85);
+  transform: scale(0.8) translateY(10px);
   filter: blur(6px);
 }
 </style>
@@ -128,31 +82,29 @@ html, body {
 
 <body>
 
-<!-- ENTRY -->
-<div id="entry">
-  <div id="entryBg"></div>
-  <div id="entryText">LOST BALL</div>
-</div>
+<!-- BLURRED BACKGROUND -->
+<div id="bg"></div>
 
-<!-- FIELD -->
+<!-- BALL FIELD -->
 <div id="field"></div>
 
 <script>
-const entry = document.getElementById("entry");
 const field = document.getElementById("field");
+const bg = document.getElementById("bg");
 
 const ballCount = 12;
 
 const backgrounds = [
   "image/image1.png",
   "image/image2.png",
-  "image/image3.png"
+  "image/player2.png"
 ];
 
 function randomBackground() {
   return backgrounds[Math.floor(Math.random() * backgrounds.length)];
 }
 
+/* smoother Apple-like scatter */
 function randomScatter(i) {
   const cols = 3;
   const rows = 4;
@@ -160,74 +112,77 @@ function randomScatter(i) {
   const col = i % cols;
   const row = Math.floor(i / cols);
 
-  let x = (col / (cols - 1)) * 80 + 10;
-  let y = (row / (rows - 1)) * 80 + 10;
+  let x = (col / (cols - 1)) * 75 + 12;
+  let y = (row / (rows - 1)) * 75 + 12;
 
-  x += (Math.random() - 0.5) * 20;
-  y += (Math.random() - 0.5) * 20;
+  x += (Math.random() - 0.5) * 25;
+  y += (Math.random() - 0.5) * 25;
 
-  x = Math.max(0, Math.min(100, x));
-  y = Math.max(0, Math.min(100, y));
+  return {
+    x: Math.max(0, Math.min(100, x)),
+    y: Math.max(0, Math.min(100, y))
+  };
+}
 
-  return { x, y };
+function setBackground() {
+  const img = randomBackground();
+  bg.style.backgroundImage = `url('${img}')`;
+  return img;
 }
 
 function createBalls() {
   for (let i = 0; i < ballCount; i++) {
 
-    const ball = document.createElement("div");
-    ball.classList.add("ball");
+    const delay = i * 120;
 
-    const pos = randomScatter(i);
+    setTimeout(() => {
+      const ball = document.createElement("div");
+      ball.classList.add("ball");
 
-    ball.style.left = pos.x + "vw";
-    ball.style.top = pos.y + "vh";
+      const pos = randomScatter(i);
 
-    const size = 190 + Math.random() * 10;
-    ball.style.width = size + "px";
-    ball.style.height = size + "px";
+      ball.style.left = pos.x + "vw";
+      ball.style.top = pos.y + "vh";
 
-    field.appendChild(ball);
+      const size = 185 + Math.random() * 12;
+      ball.style.width = size + "px";
+      ball.style.height = size + "px";
 
-    requestAnimationFrame(() => {
-      ball.classList.add("show");
-    });
+      field.appendChild(ball);
 
-    ball.addEventListener("click", () => {
-      ball.style.pointerEvents = "none";
-      ball.classList.add("fade");
+      requestAnimationFrame(() => {
+        ball.classList.add("show");
+      });
 
-      setTimeout(() => {
-        ball.remove();
+      ball.addEventListener("click", () => {
+        ball.style.pointerEvents = "none";
+        ball.classList.add("fade");
 
-        if (field.querySelectorAll(".ball").length === 0) {
-          setTimeout(reset, 1200);
-        }
-      }, 1000);
-    });
+        setTimeout(() => {
+          ball.remove();
+
+          if (field.querySelectorAll(".ball").length === 0) {
+            setTimeout(reset, 900);
+          }
+        }, 900);
+      });
+
+    }, delay);
   }
-}
-
-function start() {
-  field.style.backgroundImage = `url('${randomBackground()}')`;
-
-  field.classList.add("visible");
-  entry.classList.add("fade-out");
-
-  setTimeout(createBalls, 500);
-
-  setTimeout(() => {
-    entry.style.display = "none";
-  }, 1200);
 }
 
 function reset() {
   field.innerHTML = "";
-  field.style.backgroundImage = `url('${randomBackground()}')`;
+  setBackground();
   createBalls();
 }
 
-entry.addEventListener("click", start);
+function start() {
+  setBackground();
+  createBalls();
+}
+
+window.addEventListener("load", start);
 </script>
 
 </body>
