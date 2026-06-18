@@ -60,6 +60,9 @@ function showPlayers() {
 
   container.innerHTML = "";
 
+  // reset layout mode
+  container.classList.remove("grid-4");
+
   const images = [
     "image/player1.png",
     "image/player2.png",
@@ -95,11 +98,15 @@ function showPlayers() {
         <img src="${image}" alt="Player">
       </div>
 
-      <!-- ✅ CLEAN: placeholder only -->
       <input type="text" placeholder="Player ${i}">
     `;
 
     container.appendChild(div);
+  }
+
+  // ✅ APPLY GRID ONLY FOR 4 PLAYERS
+  if (count === 4) {
+    container.classList.add("grid-4");
   }
 
   localStorage.setItem("playerData", JSON.stringify(playerData));
