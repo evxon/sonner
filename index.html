@@ -97,12 +97,13 @@
                     A ritual beyond score, where you collect your lost moments and reset your mind between shots.
                 </p>
 
-                <a href="test.html"
-                   class="lost-ball-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    Enter
-                </a>
+        <a href="test.html"
+        class="lost-ball-link"
+        id="enterLink">
+         Enter
+        </a>
+
+
             </div>
 
         </div>
@@ -110,6 +111,24 @@
     </div>
 
 </section>
+
+<script>
+const enterLink = document.getElementById("enterLink");
+
+enterLink.addEventListener("click", function (e) {
+  e.preventDefault(); // stop instant navigation
+
+  const audio = new Audio("humordome-teleport-whoosh-453276.mp3");
+  audio.volume = 0.8;
+
+  audio.play();
+
+  // small delay so sound actually starts before page unload
+  setTimeout(() => {
+    window.location.href = "test.html";
+  }, 450); // adjust 300–700ms if needed
+});
+</script>
 
 </body>
 </html>
