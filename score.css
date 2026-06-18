@@ -155,3 +155,20 @@ button {
 #toast.show {
   opacity: 1;
 }
+
+/* =========================
+   DESKTOP OVERRIDE (NEW)
+   ========================= */
+@media (min-width: 768px) {
+
+  /* force horizontal layout on desktop */
+  #playerContainer,
+  #playerContainer.grid-4 {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
