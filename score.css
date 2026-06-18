@@ -65,7 +65,7 @@ select {
   outline: none;
 }
 
-/* button (clean black bar style) */
+/* button */
 button {
   margin-top: 24px;
   width: 100%;
@@ -117,7 +117,7 @@ button {
   transition: opacity 1.2s ease;
 }
 
-/* input (minimal underline style) */
+/* input */
 .player-card input {
   width: 120px;
   margin-top: 12px;
@@ -150,6 +150,10 @@ button {
   opacity: 0;
   transition: 0.4s;
   z-index: 9999;
+
+  /* important fix */
+  white-space: nowrap;
+  font-size: 12px;
 }
 
 #toast.show {
@@ -157,11 +161,9 @@ button {
 }
 
 /* =========================
-   DESKTOP OVERRIDE (NEW)
-   ========================= */
+   DESKTOP OVERRIDE
+========================= */
 @media (min-width: 768px) {
-
-  /* force horizontal layout on desktop */
   #playerContainer,
   #playerContainer.grid-4 {
     display: flex !important;
@@ -169,6 +171,21 @@ button {
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+  }
+}
+
+/* =========================
+   MOBILE FIX (NEW)
+========================= */
+@media (max-width: 480px) {
+
+  #toast {
+    font-size: 11px;
+    padding: 10px 16px;
+    white-space: nowrap;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 }
