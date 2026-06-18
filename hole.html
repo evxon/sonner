@@ -137,14 +137,14 @@
 <div class="top">
   <div class="wrapper">
 
+    <!-- ONLY SHOW BACK IF EDIT MODE -->
     <div class="btn hidden" id="back">&lt;</div>
 
-    <div class="hole" id="holeText">Hole 1</div>
+    <div class="hole" id="holeText">HOLE 1</div>
 
     <div class="btn hidden"></div>
 
     <div class="btn" id="next">&gt;</div>
-
   </div>
 </div>
 
@@ -153,7 +153,7 @@
   <div id="playersContainer"></div>
 </div>
 
-<!-- SAVE BAR -->
+<!-- SAVE -->
 <div class="save-bar">
   <button class="save-btn" id="saveBtn">SAVE SCORE</button>
 </div>
@@ -164,21 +164,35 @@ let hole = 1;
 const max = 18;
 
 const playerData = JSON.parse(localStorage.getItem("playerData")) || [];
-
 const container = document.getElementById("playersContainer");
 const holeText = document.getElementById("holeText");
-const back = document.getElementById("back");
+const backBtn = document.getElementById("back");
 const nextBtn = document.getElementById("next");
 const saveBtn = document.getElementById("saveBtn");
 
-// ⭐ EDIT MODE FLAGS
+/* =========================
+   EDIT MODE DETECTION
+========================= */
 const editMode = localStorage.getItem("editMode") === "true";
-const activeIndex = localStorage.getItem("activeArchiveIndex");
 
+/* show back button ONLY in edit mode */
+if (editMode) {
+  backBtn.classList.remove("hidden");
+}
+
+backBtn.addEventListener("click", () => {
+  if (editMode) {
+    localStorage.removeItem("editMode");
+    window.location.href = "archive.html";
+  }
+});
+
+/* =========================
+   SCORE STORAGE
+========================= */
 let savedScores = JSON.parse(localStorage.getItem("golfScores")) || {};
 let draftScores = {};
 
-// INIT
 for (let h = 1; h <= max; h++) {
   if (!savedScores[h]) savedScores[h] = [];
   if (!draftScores[h]) draftScores[h] = [];
@@ -189,7 +203,9 @@ for (let h = 1; h <= max; h++) {
   }
 }
 
-// SCORE CHANGE
+/* =========================
+   SCORE CHANGE
+========================= */
 function changeScore(i, val) {
   draftScores[hole][i] = (Number(draftScores[hole][i]) || 0) + val;
 
@@ -197,7 +213,9 @@ function changeScore(i, val) {
   if (el) el.textContent = draftScores[hole][i];
 }
 
-// RENDER
+/* =========================
+   RENDER
+========================= */
 function renderPlayers() {
   container.innerHTML = "";
 
@@ -211,7 +229,7 @@ function renderPlayers() {
         <img src="${p.image}">
       </div>
 
-      <div class="player-name">${p.name}</div>
+      <div class="player-name">${p.name || "Player " + (i + 1)}</div>
 
       <div class="score-controls">
         <button data-i="${i}" data-v="-1">−</button>
@@ -224,7 +242,7 @@ function renderPlayers() {
   });
 }
 
-// CLICK HANDLER
+/* click handler */
 container.addEventListener("click", (e) => {
   const btn = e.target.closest("button");
   if (!btn) return;
@@ -232,56 +250,28 @@ container.addEventListener("click", (e) => {
   changeScore(Number(btn.dataset.i), Number(btn.dataset.v));
 });
 
-// =========================
-// SAVE + ARCHIVE LOGIC
-// =========================
+/* =========================
+   SAVE (NO VALIDATION, NO BLOCKING)
+========================= */
 function saveHole() {
 
-  // save current hole
   for (let i = 0; i < playerData.length; i++) {
     savedScores[hole][i] = draftScores[hole][i];
   }
 
   localStorage.setItem("golfScores", JSON.stringify(savedScores));
 
-  let archives = JSON.parse(localStorage.getItem("golfArchives")) || [];
-
-  const round = {
-    date: new Date().toISOString(),
-    players: playerData,
-    scores: savedScores
-  };
-
-  // ⭐ EDIT MODE → UPDATE EXISTING
-  if (editMode && activeIndex !== null) {
-    archives[activeIndex] = round;
-    localStorage.removeItem("editMode");
-    localStorage.removeItem("activeArchiveIndex");
-  } 
-  // ⭐ NEW ROUND
-  else {
-    archives.push(round);
-  }
-
-  localStorage.setItem("golfArchives", JSON.stringify(archives));
-
   saveBtn.textContent = "SAVED ✔";
-  setTimeout(() => saveBtn.textContent = "SAVE SCORE", 900);
+  setTimeout(() => saveBtn.textContent = "SAVE SCORE", 800);
 }
 
-// NAVIGATION
+/* =========================
+   NAVIGATION
+========================= */
 function update() {
   holeText.textContent = `HOLE ${hole}`;
-  back.classList.toggle("hidden", hole === 1);
   renderPlayers();
 }
-
-back.addEventListener("click", () => {
-  if (hole > 1) {
-    hole--;
-    update();
-  }
-});
 
 nextBtn.addEventListener("click", () => {
   if (hole < max) {
