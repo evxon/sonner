@@ -6,6 +6,19 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 /* =========================
+   PAGE TRANSITION FUNCTION
+========================= */
+
+function goToPage(url) {
+  const transition = document.getElementById("pageTransition");
+  transition.classList.add("active");
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 500);
+}
+
+/* =========================
    LOGIN
 ========================= */
 
@@ -15,10 +28,8 @@ window.login = async function () {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    window.location.href = "score.html";
+    goToPage("score.html");
   } catch (e) {
-    console.log(e.code, e.message);
-
     handleAuthError(e);
   }
 };
@@ -33,10 +44,8 @@ window.createAccount = async function () {
 
   try {
     await createUserWithEmailAndPassword(auth, email, password);
-    window.location.href = "score.html";
+    goToPage("score.html");
   } catch (e) {
-    console.log(e.code, e.message);
-
     handleAuthError(e);
   }
 };
@@ -51,14 +60,13 @@ window.logout = async function () {
 };
 
 /* =========================
-   CLEAN ERROR MESSAGES
+   ERROR HANDLING
 ========================= */
 
 function handleAuthError(e) {
   let message = "Something went wrong";
 
   switch (e.code) {
-
     case "auth/invalid-credential":
     case "auth/wrong-password":
     case "auth/user-not-found":
