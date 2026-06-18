@@ -12,6 +12,9 @@
 
 <body>
 
+<!-- APPLE STYLE TOAST -->
+<div id="toast">Successfully logged in</div>
+
 <section class="section">
 
   <div class="card">
@@ -51,11 +54,15 @@
 </section>
 
 <script>
+/* =========================
+   SHOW PLAYERS
+========================= */
+
 function showPlayers() {
 
   const count = parseInt(document.getElementById("players").value);
-
   const container = document.getElementById("playerContainer");
+
   container.innerHTML = "";
 
   const images = [
@@ -66,50 +73,60 @@ function showPlayers() {
 
   for (let i = 1; i <= count; i++) {
 
-    const image =
-      images[Math.floor(Math.random() * images.length)];
+    const image = images[Math.floor(Math.random() * images.length)];
 
     const player = document.createElement("div");
-
     player.className = "player-card";
 
     player.innerHTML = `
       <div class="player-circle">
         <img src="${image}" alt="Player">
       </div>
-
       <input type="text" placeholder="Player ${i}">
     `;
 
     container.appendChild(player);
   }
 
-  document.getElementById("playersSection")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
+  document.getElementById("playersSection").scrollIntoView({
+    behavior: "smooth"
+  });
 }
+
+/* =========================
+   NEXT BUTTON
+========================= */
 
 function goToHole() {
 
   const names = [];
 
-  document.querySelectorAll(".player-card input")
-    .forEach(input => {
+  document.querySelectorAll(".player-card input").forEach(input => {
+    names.push(input.value || input.placeholder);
+  });
 
-      names.push(
-        input.value || input.placeholder
-      );
-
-    });
-
-  localStorage.setItem(
-    "playerNames",
-    JSON.stringify(names)
-  );
+  localStorage.setItem("playerNames", JSON.stringify(names));
 
   window.location.href = "hole.html";
 }
+
+/* =========================
+   APPLE STYLE TOAST
+========================= */
+
+window.addEventListener("DOMContentLoaded", () => {
+
+  const toast = document.getElementById("toast");
+
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 200);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+
+});
 </script>
 
 </body>
