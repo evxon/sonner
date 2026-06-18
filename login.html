@@ -12,31 +12,31 @@
 
 <body>
 
-<!-- PAGE TRANSITION LAYER -->
 <div id="pageTransition"></div>
 
-<div id="authScreen">
+<div class="container">
 
-  <div class="auth-card">
+  <div class="title">
+    <h1>SØNNER</h1>
+    <p>Sign in to continue</p>
+  </div>
 
-    <div class="auth-image">
-      <img src="image/eye.png" alt="eye">
-    </div>
+  <div class="form">
 
-    <div class="auth-form">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
 
-      <h1>Welcome</h1>
-      <p class="subtitle">Sign in to continue</p>
+    <button class="btn primary" onclick="login()">Log In</button>
 
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
+    <div class="divider">or</div>
 
-      <div class="auth-buttons">
-        <button onclick="login()">Log In</button>
-        <button onclick="createAccount()">Create</button>
-      </div>
+    <button class="btn google" onclick="googleLogin()">
+      Continue with Google
+    </button>
 
-    </div>
+    <button class="btn secondary" onclick="createAccount()">
+      Create Account
+    </button>
 
   </div>
 
