@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="hole.css">
 
 <style>
+
 /* ===== TOP BAR ===== */
 .top {
   position: fixed;
@@ -24,11 +25,40 @@
 
 .wrapper {
   display: flex;
-  gap: 14px;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
 }
 
-.btn {
+/* HOLE TEXT */
+.hole {
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-archive {
+  position: absolute;
+  left: 16px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.06);
+  cursor: pointer;
+  display: none;
+  user-select: none;
+}
+
+.back-archive:active {
+  transform: scale(0.97);
+}
+
+/* ===== NEXT BUTTON ===== */
+.next-hole {
+  position: absolute;
+  right: 16px;
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -40,14 +70,8 @@
   font-size: 16px;
 }
 
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.hole {
-  font-weight: 500;
-  letter-spacing: 1px;
+.next-hole:active {
+  transform: scale(0.95);
 }
 
 /* ===== CONTENT ===== */
@@ -127,6 +151,7 @@
   background: #f2f2f2;
   cursor: pointer;
 }
+
 </style>
 
 </head>
@@ -137,14 +162,14 @@
 <div class="top">
   <div class="wrapper">
 
-    <!-- ONLY SHOW BACK IF EDIT MODE -->
-    <div class="btn hidden" id="back">&lt;</div>
+    <div class="back-archive" id="backBtn">
+      GO BACK TO ARCHIVE
+    </div>
 
     <div class="hole" id="holeText">HOLE 1</div>
 
-    <div class="btn hidden"></div>
+    <div class="next-hole" id="nextBtn">&gt;</div>
 
-    <div class="btn" id="next">&gt;</div>
   </div>
 </div>
 
@@ -166,24 +191,34 @@ const max = 18;
 const playerData = JSON.parse(localStorage.getItem("playerData")) || [];
 const container = document.getElementById("playersContainer");
 const holeText = document.getElementById("holeText");
-const backBtn = document.getElementById("back");
-const nextBtn = document.getElementById("next");
 const saveBtn = document.getElementById("saveBtn");
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
 
 /* =========================
-   EDIT MODE DETECTION
+   MODE SYSTEM (IMPORTANT FIX)
 ========================= */
-const editMode = localStorage.getItem("editMode") === "true";
+const fromArchive = localStorage.getItem("editMode") === "true";
 
-/* show back button ONLY in edit mode */
-if (editMode) {
-  backBtn.classList.remove("hidden");
+/* ONLY show back button if coming from archive */
+if (fromArchive) {
+  backBtn.style.display = "inline-flex";
 }
 
+/* back to archive */
 backBtn.addEventListener("click", () => {
-  if (editMode) {
-    localStorage.removeItem("editMode");
-    window.location.href = "archive.html";
+  localStorage.removeItem("editMode");
+  localStorage.removeItem("activeArchiveIndex");
+  window.location.href = "archive.html";
+});
+
+/* =========================
+   NEXT HOLE
+========================= */
+nextBtn.addEventListener("click", () => {
+  if (hole < max) {
+    hole++;
+    update();
   }
 });
 
@@ -251,7 +286,7 @@ container.addEventListener("click", (e) => {
 });
 
 /* =========================
-   SAVE (NO VALIDATION, NO BLOCKING)
+   SAVE
 ========================= */
 function saveHole() {
 
@@ -266,19 +301,12 @@ function saveHole() {
 }
 
 /* =========================
-   NAVIGATION
+   UPDATE
 ========================= */
 function update() {
   holeText.textContent = `HOLE ${hole}`;
   renderPlayers();
 }
-
-nextBtn.addEventListener("click", () => {
-  if (hole < max) {
-    hole++;
-    update();
-  }
-});
 
 saveBtn.addEventListener("click", saveHole);
 
