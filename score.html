@@ -32,7 +32,7 @@ html, body {
   flex-direction: column;
 }
 
-/* ================= LABELS (MOVED ABOVE BOXES) ================= */
+/* ================= LABELS ================= */
 .top-labels {
   display: flex;
   gap: 40px;
@@ -62,9 +62,7 @@ html, body {
   left: 0;
 }
 
-.card {
-  background: #fff;
-}
+.card { background: #fff; }
 
 .archive-card {
   background: rgba(0,0,0,0.88);
@@ -156,7 +154,7 @@ button {
   cursor: pointer;
 }
 
-/* ================= PLAYERS ================= */
+/* ================= PLAYERS (DESKTOP = unchanged row) ================= */
 #playerContainer {
   display: flex;
   flex-direction: row;
@@ -202,9 +200,7 @@ button {
 }
 
 /* NEXT */
-#nextWrap {
-  margin-top: 40px;
-}
+#nextWrap { margin-top: 40px; }
 
 #nextBtn.fade {
   opacity: 0;
@@ -234,14 +230,51 @@ button {
   font-size: 14px;
 }
 
-#toast.show {
-  opacity: 1;
-}
+#toast.show { opacity: 1; }
 
-/* ================= MOBILE ================= */
+/* ================= MOBILE GRID RULES ================= */
 @media (max-width: 480px) {
-  .carousel {
-    transform: scale(0.95);
+
+  #playerContainer {
+    display: grid;
+    gap: 18px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  /* 1 PLAYER */
+  #playerContainer.count-1 {
+    grid-template-columns: 1fr;
+  }
+
+  /* 2 PLAYERS */
+  #playerContainer.count-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 3 PLAYERS → 2 top, 1 bottom centered */
+  #playerContainer.count-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #playerContainer.count-3 .player-card:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  /* 4 PLAYERS → 2x2 */
+  #playerContainer.count-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 5 PLAYERS → 2 top, 2 middle, 1 bottom centered */
+  #playerContainer.count-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #playerContainer.count-5 .player-card:nth-child(5) {
+    grid-column: 1 / -1;
+    justify-self: center;
   }
 }
 
@@ -255,7 +288,6 @@ button {
 <!-- SETUP -->
 <section class="section" id="setupSection">
 
-  <!-- LABELS NOW ABOVE BOXES (NOT FIXED) -->
   <div class="top-labels">
     <span id="labelSetup" class="active">NEW SCOREBOARD</span>
     <span id="labelArchive">ARCHIVE</span>
@@ -308,9 +340,9 @@ button {
 let playerData = [];
 let state = "setup";
 
-/* SWIPE */
 const carousel = document.getElementById("carousel");
 
+/* SWIPE */
 let startX = 0;
 
 carousel.addEventListener("touchstart", (e) => {
@@ -350,6 +382,10 @@ function showPlayers() {
   const container = document.getElementById("playerContainer");
 
   container.innerHTML = "";
+
+  /* ADD GRID CLASS FOR MOBILE */
+  container.classList.remove("count-1","count-2","count-3","count-4","count-5");
+  container.classList.add("count-" + count);
 
   const images = [
     "image/player1.png",
