@@ -53,7 +53,7 @@
 <div id="blur"></div>
 <div id="toast">Successfully logged in</div>
 
-<!-- ARCHIVE BUTTON (FIXED POSITION BOTTOM RIGHT) -->
+<!-- ARCHIVE BUTTON -->
 <div class="archive-bar" onclick="goArchive()">ARCHIVE</div>
 
 <section class="section">
@@ -140,28 +140,13 @@ function goToHole() {
 
   const inputs = document.querySelectorAll(".player-card input");
 
-  let validPlayers = 0;
-
   inputs.forEach((input, i) => {
     const name = input.value.trim();
 
-    if (name !== "") {
-      validPlayers++;
-      playerData[i].name = name;
-    } else {
-      playerData[i].name = `Player ${i + 1}`;
-    }
+    // default fallback name if empty
+    playerData[i].name = name !== "" ? name : `Player ${i + 1}`;
   });
 
-  // 🚨 ONLY ALLOW SESSION START IF AT LEAST 1 REAL NAME IS ENTERED
-  const hasRealInput = Array.from(inputs).some(i => i.value.trim() !== "");
-
-  if (!hasRealInput) {
-    alert("Please enter at least one player name before continuing");
-    return;
-  }
-
-  // mark this as a valid session (NOT archive yet)
   localStorage.setItem("playerData", JSON.stringify(playerData));
   localStorage.setItem("activeRound", "true");
 
