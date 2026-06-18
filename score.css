@@ -60,11 +60,21 @@ button {
   cursor: pointer;
 }
 
+/* DEFAULT LAYOUT */
 #playerContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 40px;
+}
+
+/* ✅ 4 PLAYERS FIX: PERFECT 2x2 GRID */
+#playerContainer.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  justify-items: center;
+  align-items: center;
 }
 
 .player-card {
