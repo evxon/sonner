@@ -2,11 +2,14 @@ import { auth } from "./firebase-config.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 /* =========================
-   PAGE TRANSITION FUNCTION
+   PAGE TRANSITION
 ========================= */
 
 function goToPage(url) {
@@ -19,7 +22,7 @@ function goToPage(url) {
 }
 
 /* =========================
-   LOGIN
+   EMAIL LOGIN
 ========================= */
 
 window.login = async function () {
@@ -51,6 +54,25 @@ window.createAccount = async function () {
 };
 
 /* =========================
+   GOOGLE LOGIN (FIXED)
+========================= */
+
+window.googleLogin = async function () {
+  const provider = new GoogleAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+
+    console.log("Google user:", result.user.email);
+
+    goToPage("score.html");
+  } catch (e) {
+    console.log(e.code, e.message);
+    alert("Google login failed: " + e.message);
+  }
+};
+
+/* =========================
    LOGOUT
 ========================= */
 
@@ -58,6 +80,19 @@ window.logout = async function () {
   await signOut(auth);
   window.location.href = "login.html";
 };
+
+/* =========================
+   AUTO LOGIN (IMPORTANT FIX)
+========================= */
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // already logged in → skip login page
+    if (window.location.pathname.includes("login")) {
+      window.location.href = "score.html";
+    }
+  }
+});
 
 /* =========================
    ERROR HANDLING
