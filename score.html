@@ -7,213 +7,26 @@
 <title>SCOREBOARD</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
-<style>
-
-/* ================= GLOBAL ================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  font-family: 'Inter', sans-serif;
-  background: #fff;
-  overflow-x: hidden;
-  height: 100%;
-}
-
-/* ================= ARCHIVE ================= */
-.top-archive {
-  position: fixed;
-  top: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.top-archive.hidden {
-  opacity: 0;
-  transform: translateY(-20px);
-  pointer-events: none;
-}
-
-.archive-card-top {
-  width: 320px;
-  height: 80px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.88);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 2px;
-  font-size: 12px;
-  cursor: pointer;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-}
-
-/* ================= CENTER ================= */
-.center-wrap {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* ================= CARD ================= */
-.card {
-  width: 320px;
-  height: 320px;
-  border-radius: 28px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #fff;
-}
-
-/* ================= FORM ================= */
-label {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 8px;
-}
-
-select {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  background: transparent;
-  outline: none;
-  font-size: 16px;
-}
-
-button {
-  margin-top: 24px;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #111;
-  color: white;
-  font-size: 16px;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
-
-/* ================= PLAYERS ================= */
-#playersSection {
-  padding-top: 25vh;
-  padding-bottom: 25vh;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#playerContainer {
-  display: flex;
-  gap: 40px;
-  justify-content: center;
-  align-items: center;
-}
-
-/* ================= PLAYER CARD ================= */
-.player-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
-              opacity 0.6s ease;
-}
-
-.player-circle {
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
-  overflow: hidden;
-}
-
-.player-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.player-card input {
-  width: 120px;
-  margin-top: 12px;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  text-align: center;
-  outline: none;
-  font-size: 16px;
-}
-
-/* STACK ANIMATION */
-.player-card.stack {
-  transform: translateY(-60px) scale(0.7);
-  opacity: 0;
-}
-
-/* ================= NEXT ================= */
-#nextWrap {
-  margin-top: 40px;
-}
-
-button.fade {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: 0.4s ease;
-}
-
-/* ================= TOAST ================= */
-#toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20,20,20,0.92);
-  color: white;
-  padding: 14px 22px;
-  border-radius: 999px;
-  opacity: 0;
-  transition: 0.4s;
-  z-index: 9999;
-  font-size: 14px;
-}
-
-#toast.show { opacity: 1; }
-
-</style>
-</head>
+<link rel="stylesheet" href="score.css"></head>
 
 <body>
 
 <div id="toast">Successfully logged in</div>
 
-<!-- ARCHIVE -->
-<div class="top-archive" id="archive">
-  <div class="archive-card-top" onclick="goArchive()">
-    ARCHIVE
-  </div>
-</div>
-
 <!-- SETUP -->
 <div class="center-wrap" id="setupScreen">
 
-  <div class="card">
+  <div class="setup-content">
+
+    <div class="top-archive" id="archive">
+<div class="archive-card-top" onclick="goArchive()">
+  Archive
+</div>
+
+    </div>
+
+    <div class="card">
+
     <label>Players</label>
 
     <select id="players">
@@ -227,6 +40,7 @@ button.fade {
     <button onclick="showPlayers()">OK</button>
   </div>
 
+</div>
 </div>
 
 <!-- PLAYERS -->
@@ -261,13 +75,24 @@ function updateArchiveVisibility() {
 /* ================= SHOW PLAYERS ================= */
 function showPlayers() {
 
-  mode = "players";
-  updateArchiveVisibility();
-
   const count = +document.getElementById("players").value;
   const container = document.getElementById("playerContainer");
 
   container.innerHTML = "";
+
+  container.className = "";
+
+if (count === 3) {
+  container.classList.add("layout-3");
+}
+
+if (count === 4) {
+  container.classList.add("layout-4");
+}
+
+if (count === 5) {
+  container.classList.add("layout-5");
+}
 
   const images = [
     "image/player1.png",
@@ -351,9 +176,17 @@ function goToHole() {
 
 /* TOAST */
 window.addEventListener("DOMContentLoaded", () => {
+
   const t = document.getElementById("toast");
-  setTimeout(() => t.classList.add("show"), 300);
-  setTimeout(() => t.classList.remove("show"), 2500);
+
+  if (!sessionStorage.getItem("loginToastShown")) {
+
+    setTimeout(() => t.classList.add("show"), 300);
+    setTimeout(() => t.classList.remove("show"), 2500);
+
+    sessionStorage.setItem("loginToastShown", "true");
+  }
+
   updateArchiveVisibility();
 });
 
