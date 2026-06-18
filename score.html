@@ -19,9 +19,8 @@
 
   <div class="card">
 
-    <h1> </h1>
-
-    <p> </p>
+    <h1></h1>
+    <p></p>
 
     <div class="select-box">
 
@@ -55,7 +54,7 @@
 
 <script>
 /* =========================
-   SHOW PLAYERS
+   SHOW PLAYERS (NO REPEAT IMAGES)
 ========================= */
 
 function showPlayers() {
@@ -65,15 +64,28 @@ function showPlayers() {
 
   container.innerHTML = "";
 
+  // ✅ UPDATED IMAGE LIST (5 images)
   const images = [
-    "image/image1.png",
+    "image/backupgolfball.png",
     "image/eye.png",
-    "image/image3.png"
+    "image/player1.png",
+    "image/image1.png",
+    "image/image2.png"
   ];
+
+  // copy array so we can safely remove used images
+  const availableImages = [...images];
 
   for (let i = 1; i <= count; i++) {
 
-    const image = images[Math.floor(Math.random() * images.length)];
+    // safety fallback if players > images
+    if (availableImages.length === 0) {
+      availableImages.push(...images);
+    }
+
+    // pick random WITHOUT repeating
+    const randomIndex = Math.floor(Math.random() * availableImages.length);
+    const image = availableImages.splice(randomIndex, 1)[0];
 
     const player = document.createElement("div");
     player.className = "player-card";
@@ -111,7 +123,7 @@ function goToHole() {
 }
 
 /* =========================
-   APPLE STYLE TOAST
+   TOAST
 ========================= */
 
 window.addEventListener("DOMContentLoaded", () => {
