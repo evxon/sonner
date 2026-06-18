@@ -21,33 +21,54 @@ html, body {
   font-family: 'Inter', sans-serif;
   background: #fff;
   overflow-x: hidden;
+  height: 100%;
 }
 
-/* ================= SECTION ================= */
-.section {
-  min-height: 100vh;
+/* ================= ARCHIVE ================= */
+.top-archive {
+  position: fixed;
+  top: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.top-archive.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+.archive-card-top {
+  width: 320px;
+  height: 80px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.88);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 2px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* ================= CENTER ================= */
+.center-wrap {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 }
 
-/* ================= LABELS ================= */
-.top-labels {
-  display: flex;
-  gap: 40px;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: #888;
-  margin-bottom: 18px;
-}
-
-.top-labels span.active {
-  color: #111;
-}
-
-/* ================= CARDS ================= */
-.card, .archive-card {
+/* ================= CARD ================= */
+.card {
   width: 320px;
   height: 320px;
   border-radius: 28px;
@@ -56,71 +77,7 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: transform 0.6s ease, opacity 0.6s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.card { background: #fff; }
-
-.archive-card {
-  background: rgba(0,0,0,0.88);
-  color: white;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 2px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-/* ================= CAROUSEL ================= */
-.carousel {
-  position: relative;
-  width: 320px;
-  height: 340px;
-}
-
-/* overlap states */
-.state-setup .card {
-  transform: translateX(0) scale(1);
-  z-index: 2;
-}
-
-.state-setup .archive-card {
-  transform: translateX(40px) scale(0.92);
-  opacity: 0.6;
-}
-
-.state-archive .card {
-  transform: translateX(-40px) scale(0.92);
-  opacity: 0.6;
-}
-
-.state-archive .archive-card {
-  transform: translateX(0) scale(1);
-  z-index: 2;
-}
-
-/* ================= DOTS ================= */
-.dots {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.dot {
-  height: 6px;
-  width: 6px;
-  border-radius: 999px;
-  background: #bbb;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.dot.active {
-  width: 18px;
-  background: #111;
+  background: #fff;
 }
 
 /* ================= FORM ================= */
@@ -154,26 +111,31 @@ button {
   cursor: pointer;
 }
 
-/* ================= PLAYERS (DESKTOP = unchanged row) ================= */
-#playerContainer {
+/* ================= PLAYERS ================= */
+#playersSection {
+  padding-top: 25vh;
+  padding-bottom: 25vh;
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 40px;
+  justify-content: center;
 }
 
+#playerContainer {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================= PLAYER CARD ================= */
 .player-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
               opacity 0.6s ease;
-}
-
-.player-card.stack {
-  transform: translateY(-40px) scale(0.82);
-  opacity: 0;
 }
 
 .player-circle {
@@ -199,19 +161,21 @@ button {
   font-size: 16px;
 }
 
-/* NEXT */
-#nextWrap { margin-top: 40px; }
+/* STACK ANIMATION */
+.player-card.stack {
+  transform: translateY(-60px) scale(0.7);
+  opacity: 0;
+}
 
-#nextBtn.fade {
+/* ================= NEXT ================= */
+#nextWrap {
+  margin-top: 40px;
+}
+
+button.fade {
   opacity: 0;
   transform: scale(0.95);
   transition: 0.4s ease;
-}
-
-/* blur */
-#playerContainer.transitioning {
-  filter: blur(10px);
-  transition: filter 0.6s ease;
 }
 
 /* ================= TOAST ================= */
@@ -232,52 +196,6 @@ button {
 
 #toast.show { opacity: 1; }
 
-/* ================= MOBILE GRID RULES ================= */
-@media (max-width: 480px) {
-
-  #playerContainer {
-    display: grid;
-    gap: 18px;
-    justify-items: center;
-    align-items: center;
-  }
-
-  /* 1 PLAYER */
-  #playerContainer.count-1 {
-    grid-template-columns: 1fr;
-  }
-
-  /* 2 PLAYERS */
-  #playerContainer.count-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* 3 PLAYERS → 2 top, 1 bottom centered */
-  #playerContainer.count-3 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #playerContainer.count-3 .player-card:nth-child(3) {
-    grid-column: 1 / -1;
-    justify-self: center;
-  }
-
-  /* 4 PLAYERS → 2x2 */
-  #playerContainer.count-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* 5 PLAYERS → 2 top, 2 middle, 1 bottom centered */
-  #playerContainer.count-5 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #playerContainer.count-5 .player-card:nth-child(5) {
-    grid-column: 1 / -1;
-    justify-self: center;
-  }
-}
-
 </style>
 </head>
 
@@ -285,107 +203,71 @@ button {
 
 <div id="toast">Successfully logged in</div>
 
+<!-- ARCHIVE -->
+<div class="top-archive" id="archive">
+  <div class="archive-card-top" onclick="goArchive()">
+    ARCHIVE
+  </div>
+</div>
+
 <!-- SETUP -->
-<section class="section" id="setupSection">
+<div class="center-wrap" id="setupScreen">
 
-  <div class="top-labels">
-    <span id="labelSetup" class="active">NEW SCOREBOARD</span>
-    <span id="labelArchive">ARCHIVE</span>
+  <div class="card">
+    <label>Players</label>
+
+    <select id="players">
+      <option value="1">1 Player</option>
+      <option value="2">2 Players</option>
+      <option value="3">3 Players</option>
+      <option value="4">4 Players</option>
+      <option value="5">5 Players</option>
+    </select>
+
+    <button onclick="showPlayers()">OK</button>
   </div>
 
-  <div class="carousel state-setup" id="carousel">
-
-    <div class="card">
-
-      <label>Players</label>
-
-      <select id="players">
-        <option value="1">1 Player</option>
-        <option value="2">2 Players</option>
-        <option value="3">3 Players</option>
-        <option value="4">4 Players</option>
-        <option value="5">5 Players</option>
-      </select>
-
-      <button onclick="showPlayers()">OK</button>
-
-    </div>
-
-    <div class="archive-card" onclick="goArchive()">
-      ARCHIVE
-    </div>
-
-  </div>
-
-  <div class="dots">
-    <div class="dot active" id="dotSetup" onclick="setState('setup')"></div>
-    <div class="dot" id="dotArchive" onclick="setState('archive')"></div>
-  </div>
-
-</section>
+</div>
 
 <!-- PLAYERS -->
-<section class="section" id="playersSection">
-
+<section id="playersSection">
   <div id="playerContainer"></div>
 
   <div id="nextWrap">
     <button id="nextBtn" onclick="goToHole()">NEXT</button>
   </div>
-
 </section>
 
 <script>
 
 let playerData = [];
-let state = "setup";
+let mode = "setup"; // 👈 IMPORTANT STATE
 
-const carousel = document.getElementById("carousel");
-
-/* SWIPE */
-let startX = 0;
-
-carousel.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-});
-
-carousel.addEventListener("touchend", (e) => {
-  let diff = e.changedTouches[0].clientX - startX;
-  if (Math.abs(diff) > 50) {
-    setState(diff < 0 ? "archive" : "setup");
-  }
-});
-
-/* STATE */
-function setState(newState) {
-  state = newState;
-
-  carousel.classList.remove("state-setup", "state-archive");
-  carousel.classList.add("state-" + state);
-
-  document.getElementById("dotSetup").classList.toggle("active", state === "setup");
-  document.getElementById("dotArchive").classList.toggle("active", state === "archive");
-
-  document.getElementById("labelSetup").classList.toggle("active", state === "setup");
-  document.getElementById("labelArchive").classList.toggle("active", state === "archive");
-}
-
-/* ARCHIVE */
 function goArchive() {
   window.location.href = "archive.html";
 }
 
-/* PLAYERS */
+/* ================= ARCHIVE VISIBILITY CONTROL ================= */
+function updateArchiveVisibility() {
+  const archive = document.getElementById("archive");
+
+  if (mode === "setup") {
+    archive.classList.remove("hidden");
+  } else {
+    archive.classList.add("hidden");
+  }
+}
+
+/* ================= SHOW PLAYERS ================= */
 function showPlayers() {
+
+  mode = "players";
+  updateArchiveVisibility();
 
   const count = +document.getElementById("players").value;
   const container = document.getElementById("playerContainer");
 
   container.innerHTML = "";
-
-  /* ADD GRID CLASS FOR MOBILE */
-  container.classList.remove("count-1","count-2","count-3","count-4","count-5");
-  container.classList.add("count-" + count);
 
   const images = [
     "image/player1.png",
@@ -398,7 +280,6 @@ function showPlayers() {
   playerData = [];
 
   for (let i = 0; i < count; i++) {
-
     const img = images[i % images.length];
     playerData.push({ image: img });
 
@@ -419,27 +300,28 @@ function showPlayers() {
     .scrollIntoView({ behavior: "smooth" });
 }
 
-/* NEXT */
+/* ================= BACK TO SETUP WHEN SCROLLING UP ================= */
+window.addEventListener("scroll", () => {
+
+  const playersSection = document.getElementById("playersSection");
+  const rect = playersSection.getBoundingClientRect();
+
+  if (rect.top > window.innerHeight * 0.8) {
+    mode = "setup";
+  } else {
+    mode = "players";
+  }
+
+  updateArchiveVisibility();
+});
+
+/* ================= NEXT STACK ================= */
 function goToHole() {
 
-  const inputs = document.querySelectorAll(".player-card input");
-
-  const players = [];
-
-  inputs.forEach((input, i) => {
-    const name = input.value.trim();
-    players.push({
-      name: name !== "" ? name : `Player ${i + 1}`,
-      image: playerData[i].image
-    });
-  });
-
-  const container = document.getElementById("playerContainer");
   const cards = document.querySelectorAll(".player-card");
-  const nextBtn = document.getElementById("nextBtn");
+  const button = document.getElementById("nextBtn");
 
-  container.classList.add("transitioning");
-  nextBtn.classList.add("fade");
+  button.classList.add("fade");
 
   cards.forEach((card, i) => {
     setTimeout(() => {
@@ -448,8 +330,21 @@ function goToHole() {
   });
 
   setTimeout(() => {
+    const inputs = document.querySelectorAll(".player-card input");
+
+    const players = [];
+
+    inputs.forEach((input, i) => {
+      const name = input.value.trim();
+      players.push({
+        name: name !== "" ? name : `Player ${i + 1}`,
+        image: playerData[i].image
+      });
+    });
+
     localStorage.setItem("playerData", JSON.stringify(players));
     localStorage.setItem("activeRound", "true");
+
     window.location.href = "hole.html";
   }, 1200);
 }
@@ -459,6 +354,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const t = document.getElementById("toast");
   setTimeout(() => t.classList.add("show"), 300);
   setTimeout(() => t.classList.remove("show"), 2500);
+  updateArchiveVisibility();
 });
 
 </script>
