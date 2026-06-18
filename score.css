@@ -99,7 +99,7 @@ button {
   cursor: pointer;
 }
 
-/* PLAYERS */
+/* PLAYERS CONTAINER (DESKTOP DEFAULT) */
 #playerContainer {
   display: flex;
   flex-wrap: wrap;
@@ -122,14 +122,14 @@ button {
   animation: fadeUp 0.8s ease forwards;
 }
 
-/* RECTANGLE */
+/* ROUNDED SQUARE */
 .player-circle {
-  width: 160px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
 
   background: white;
 
-  border-radius: 999px;
+  border-radius: 24px;
 
   overflow: hidden;
 
@@ -192,10 +192,7 @@ button {
   }
 }
 
-/* =========================
-   APPLE STYLE TOAST
-========================= */
-
+/* TOAST */
 #toast {
   position: fixed;
   top: 20px;
@@ -223,4 +220,20 @@ button {
 #toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* =========================
+   MOBILE FIX: 2x2 GRID FOR 4 PLAYERS
+========================= */
+@media (max-width: 600px) {
+
+  #playerContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+
+    justify-items: center;
+    align-items: center;
+  }
+
 }
