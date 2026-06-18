@@ -1,60 +1,87 @@
+/* ================= GLOBAL ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   font-family: 'Inter', sans-serif;
   background: #fff;
+  overflow-x: hidden;
+  height: 100%;
 }
 
-/* blur layer */
-#blur {
-  position: fixed;
-  inset: 0;
-  backdrop-filter: blur(0px);
-  background: rgba(255,255,255,0);
-  transition: all 1.2s ease;
+/* ================= ARCHIVE ================= */
+.top-archive {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.top-archive.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
   pointer-events: none;
-  z-index: 500;
 }
 
-#blur.active {
-  backdrop-filter: blur(18px);
-  background: rgba(255,255,255,0.4);
-}
+.archive-card-top {
+  width: 320px;
+  height: 140px;
+  border-radius: 20px;
 
-/* layout */
-.section {
-  min-height: 100vh;
+  background-image: url("image/eye.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 2px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+
+  overflow: hidden;
+}
+/* ================= CENTER ================= */
+.center-wrap {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 }
 
-/* card */
+/* ================= CARD ================= */
 .card {
   width: 320px;
   height: 320px;
   border-radius: 28px;
-  background: #fff;
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
   padding: 28px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: #fff;
 }
 
-/* label */
+/* ================= FORM ================= */
 label {
   font-size: 14px;
   color: #888;
   margin-bottom: 8px;
 }
 
-/* dropdown */
 select {
   width: 100%;
   margin-top: 10px;
@@ -63,11 +90,9 @@ select {
   border-bottom: 1px solid #ddd;
   background: transparent;
   outline: none;
-
-  font-size: 16px; /* FIX ZOOM */
+  font-size: 16px;
 }
 
-/* button */
 button {
   margin-top: 24px;
   width: 100%;
@@ -76,18 +101,28 @@ button {
   border-radius: 10px;
   background: #111;
   color: white;
-  font-size: 16px; /* FIX ZOOM */
+  font-size: 16px;
   letter-spacing: 2px;
   cursor: pointer;
-  transition: opacity 0.4s ease;
 }
 
-/* player layout */
+/* ================= PLAYERS ================= */
+#playersSection {
+  padding-top: 25vh;
+  padding-bottom: 25vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #playerContainer {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   gap: 40px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 #playerContainer.grid-4 {
@@ -96,15 +131,17 @@ button {
   gap: 40px;
 }
 
-/* player card */
+/* ================= PLAYER CARD ================= */
 .player-card {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition:
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.6s ease;
   will-change: transform, opacity;
 }
 
-/* image */
 .player-circle {
   width: 120px;
   height: 120px;
@@ -116,10 +153,8 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 1.2s ease;
 }
 
-/* input (IMPORTANT FIX) */
 .player-card input {
   width: 120px;
   margin-top: 12px;
@@ -127,13 +162,17 @@ button {
   border-bottom: 1px solid #ddd;
   text-align: center;
   outline: none;
-
-  font-size: 16px; /* FIX iOS ZOOM */
+  font-size: 16px;
   line-height: 1.4;
-  transition: opacity 1.2s ease;
 }
 
-/* NEXT */
+/* STACK ANIMATION */
+.player-card.stack {
+  transform: translateY(-60px) scale(0.7);
+  opacity: 0;
+}
+
+/* ================= NEXT ================= */
 #nextWrap {
   margin-top: 40px;
 }
@@ -142,7 +181,13 @@ button {
   transition: opacity 0.5s ease;
 }
 
-/* toast */
+button.fade {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: 0.4s ease;
+}
+
+/* ================= TOAST ================= */
 #toast {
   position: fixed;
   top: 20px;
@@ -155,16 +200,15 @@ button {
   opacity: 0;
   transition: 0.4s;
   z-index: 9999;
-
-  white-space: nowrap;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 #toast.show {
   opacity: 1;
 }
 
-/* desktop */
+/* ================= DESKTOP ================= */
 @media (min-width: 768px) {
   #playerContainer,
   #playerContainer.grid-4 {
@@ -176,13 +220,46 @@ button {
   }
 }
 
-/* mobile */
+/* ================= MOBILE ================= */
 @media (max-width: 480px) {
+
   #toast {
     font-size: 12px;
     padding: 10px 16px;
     max-width: 90vw;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  #playerContainer {
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    gap: 40px;
+  }
+
+  /* 3 PLAYERS */
+  #playerContainer.layout-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #playerContainer.layout-3 .player-card:nth-child(3) {
+    grid-column: 1 / span 2;
+    justify-self: center;
+  }
+
+  /* 4 PLAYERS */
+  #playerContainer.layout-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 5 PLAYERS */
+  #playerContainer.layout-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #playerContainer.layout-5 .player-card:nth-child(5) {
+    grid-column: 1 / span 2;
+    justify-self: center;
   }
 }
