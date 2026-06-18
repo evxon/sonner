@@ -4,7 +4,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
@@ -14,7 +15,7 @@ import {
 
 function goToPage(url) {
   const transition = document.getElementById("pageTransition");
-  transition.classList.add("active");
+  if (transition) transition.classList.add("active");
 
   setTimeout(() => {
     window.location.href = url;
@@ -54,23 +55,28 @@ window.createAccount = async function () {
 };
 
 /* =========================
-   GOOGLE LOGIN (FIXED)
+   GOOGLE LOGIN (FIXED - REDIRECT)
 ========================= */
 
 window.googleLogin = async function () {
   const provider = new GoogleAuthProvider();
-
-  try {
-    const result = await signInWithPopup(auth, provider);
-
-    console.log("Google user:", result.user.email);
-
-    goToPage("score.html");
-  } catch (e) {
-    console.log(e.code, e.message);
-    alert("Google login failed: " + e.message);
-  }
+  await signInWithRedirect(auth, provider);
 };
+
+/* =========================
+   HANDLE GOOGLE REDIRECT RESULT
+========================= */
+
+getRedirectResult(auth)
+  .then((result) => {
+    if (result && result.user) {
+      console.log("Google login success:", result.user.email);
+      goToPage("score.html");
+    }
+  })
+  .catch((error) => {
+    console.log("Google redirect error:", error.code, error.message);
+  });
 
 /* =========================
    LOGOUT
@@ -82,12 +88,11 @@ window.logout = async function () {
 };
 
 /* =========================
-   AUTO LOGIN (IMPORTANT FIX)
+   AUTO LOGIN PROTECTION
 ========================= */
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // already logged in → skip login page
     if (window.location.pathname.includes("login")) {
       window.location.href = "score.html";
     }
@@ -123,6 +128,13 @@ function handleAuthError(e) {
     case "auth/too-many-requests":
       message = "Too many attempts. Try again later";
       break;
+
+    case "auth/popup-blocked":
+      message = "Popup blocked by browser";
+      break;
+
+    default:
+      message = e.message;
   }
 
   alert(message);
