@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>SCOREBOARD</title>
 
@@ -98,11 +98,6 @@ function showPlayers() {
     .scrollIntoView({ behavior: "smooth" });
 }
 
-
-/* =========================
-   APPLE ANIMATION (FROM OLD VERSION)
-========================= */
-
 function goToHole() {
 
   const btn = document.getElementById("nextBtn");
@@ -174,8 +169,6 @@ function goToHole() {
   }, 1200);
 }
 
-
-/* TOAST */
 window.addEventListener("DOMContentLoaded", () => {
   const t = document.getElementById("toast");
   setTimeout(() => t.classList.add("show"), 300);
