@@ -1,0 +1,303 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+body{
+background:#fff;
+color:#111;
+overflow-x:hidden;
+}
+
+/* ================= SCREENS ================= */
+
+.screen{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+min-height:100vh;
+padding:30px 20px;
+
+opacity:0;
+transform:translateX(20px);
+pointer-events:none;
+
+transition:all 0.35s ease;
+}
+
+.screen.active{
+opacity:1;
+transform:translateX(0);
+pointer-events:auto;
+}
+
+/* ================= LAYOUT ================= */
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+h1{
+font-size:2.5rem;
+margin-bottom:25px;
+}
+
+.eyebrow{
+font-size:.75rem;
+letter-spacing:.2em;
+color:#888;
+margin-bottom:15px;
+}
+
+/* ================= PLAYER SELECT ================= */
+
+.player-select{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.player-select button{
+width:70px;
+height:45px;
+border:none;
+border-radius:14px;
+background:white;
+transition:all 0.2s ease;
+font-size:14px;
+font-weight:500;
+}
+
+.player-select button.active{
+background:#111;
+color:white;
+}
+
+/* ================= INPUT ================= */
+
+.name-input{
+display:block;
+margin-bottom:10px;
+padding:12px;
+border:none;
+border-radius:12px;
+width:100%;
+}
+
+/* ================= PLAYER CARD ================= */
+
+.player-card{
+position:relative;
+border-radius:18px;
+margin-bottom:15px;
+overflow:hidden;
+}
+
+.player-bg{
+position:absolute;
+inset:0;
+background-size:cover;
+background-position:center;
+transform:scale(1.1);
+}
+
+.player-overlay{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,0.35);
+}
+
+.player-name,
+.score-grid{
+position:relative;
+z-index:2;
+}
+
+.player-name{
+font-weight:600;
+padding:12px 12px 6px 12px;
+color:#fff;
+}
+
+/* ================= SCORE GRID ================= */
+
+.score-grid{
+display:grid;
+grid-template-columns:repeat(3, 1fr);
+grid-template-rows:repeat(3, 1fr);
+gap:0;
+}
+
+/* ================= CELLS ================= */
+
+.score-cell{
+height:70px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+position:relative;
+
+background:transparent;
+border-right:1px solid rgba(255,255,255,0.25);
+border-bottom:1px solid rgba(255,255,255,0.25);
+}
+
+.score-cell:nth-child(3n){
+border-right:none;
+}
+
+.score-cell:nth-last-child(-n+3){
+border-bottom:none;
+}
+
+.hole-label{
+position:absolute;
+top:6px;
+left:8px;
+font-size:10px;
+color:rgba(255,255,255,0.7);
+}
+
+.score-cell input{
+width:100%;
+border:none;
+text-align:center;
+background:transparent;
+outline:none;
+color:white;
+
+font-size:32px;
+font-weight:600;
+line-height:1;
+}
+
+/* ================= BUTTON ================= */
+
+button.primary{
+margin-top:20px;
+padding:14px 20px;
+border:none;
+border-radius:999px;
+background:#111;
+color:white;
+width:100%;
+}
+
+button:active{
+transform:scale(0.98);
+}
+
+/* ================= RESULTS ================= */
+
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+margin-bottom:15px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+}
+
+.total{
+border-top:1px solid #eee;
+margin-top:8px;
+padding-top:8px;
+font-weight:600;
+}
+
+/* ================= SETUP (UPDATED) ================= */
+#setup .container{
+max-width:380px;
+margin:auto;
+display:flex;
+flex-direction:column;
+justify-content:center;
+
+/* this is the key fix */
+min-height:100vh;
+padding-top:60px;
+padding-bottom:60px;
+
+text-align:center;
+align-items:stretch;
+}
+
+/* keep eyebrow OUT of centering flow */
+#setup .eyebrow{
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+font-size:11px;
+letter-spacing:0.18em;
+color:#b0b0b0;
+text-transform:uppercase;
+margin-bottom:0;
+}
+
+#setup h1{
+font-size:28px;
+font-weight:500;
+letter-spacing:-0.02em;
+margin-bottom:28px;
+}
+
+#setup .player-select{
+display:flex;
+gap:8px;
+justify-content:center;
+margin-bottom:22px;
+padding:10px;
+border:1px solid #eee;
+border-radius:14px;
+background:#fff;
+}
+
+#setup .player-select button{
+width:44px;
+height:34px;
+border:none;
+background:transparent;
+font-size:14px;
+font-weight:500;
+color:#111;
+opacity:0.4;
+cursor:pointer;
+transition:all 0.15s ease;
+}
+
+#setup .player-select button.active{
+opacity:1;
+}
+
+#setup .name-input{
+width:100%;
+padding:12px 14px;
+border:1px solid #eee;
+border-radius:12px;
+background:#fff;
+font-size:15px;
+margin-bottom:10px;
+outline:none;
+}
+
+#setup .primary{
+margin-top:26px;
+width:100%;
+padding:14px;
+border-radius:14px;
+border:1px solid #eee;
+background:#fff;
+color:#111;
+font-size:15px;
+font-weight:500;
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SØNNER Score Prototype</title>
+
+<link rel="stylesheet" href="prototype.css">
+</head>
+
+<body>
+
+<!-- SETUP -->
+<section class="screen active" id="setup">
+<div class="container">
+
+<div class="eyebrow">SØNNER EXPERIENCE</div>
+<h1>Who’s Playing Today</h1>
+
+<div class="player-select">
+<button onclick="setPlayers(1)">1</button>
+<button onclick="setPlayers(2)">2</button>
+<button onclick="setPlayers(3)">3</button>
+<button onclick="setPlayers(4)">4</button>
+<button onclick="setPlayers(5)">5</button>
+</div>
+
+<div id="names"></div>
+
+<button class="primary" onclick="startRound()">Start Round</button>
+
+</div>
+</section>
+
+<!-- FRONT -->
+<section class="screen" id="front">
+<div class="container">
+
+<div class="eyebrow">FRONT 9</div>
+<h1>Score</h1>
+
+<div id="frontCards"></div>
+
+<button class="primary" onclick="goBack()">Next → Back 9</button>
+
+</div>
+</section>
+
+<!-- BACK -->
+<section class="screen" id="back">
+<div class="container">
+
+<div class="eyebrow">BACK 9</div>
+<h1>Score</h1>
+
+<div id="backCards"></div>
+
+<button class="primary" onclick="finish()">Finish Round</button>
+
+</div>
+</section>
+
+<!-- RESULTS -->
+<section class="screen" id="result">
+<div class="container">
+
+<div class="eyebrow">ROUND COMPLETE</div>
+<h1>Results</h1>
+
+<div id="results"></div>
+
+</div>
+</section>
+
+
+<script>
+let players = [];
+
+/* IMAGE POOL */
+const playerImages = [
+  "image/player2.png",
+  "image/white.png",
+  "image/white.png",
+];
+
+/* 🔥 SHUFFLE FUNCTION (Fisher-Yates) */
+function shuffle(array){
+  let arr = [...array];
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function setPlayers(n){
+let btns = document.querySelectorAll('.player-select button');
+btns.forEach(b=>b.classList.remove('active'));
+btns[n-1].classList.add('active');
+
+let html="";
+for(let i=0;i<n;i++){
+html+=`<input class="name-input" placeholder="Player ${i+1}">`;
+}
+
+document.getElementById("names").innerHTML=html;
+}
+
+function startRound(){
+players=[];
+
+let inputs = document.querySelectorAll(".name-input");
+
+/* 🔥 SHUFFLE IMAGES ONCE PER ROUND */
+let shuffledImages = shuffle(playerImages);
+
+inputs.forEach((n, i)=>{
+players.push({
+name: n.value || "Player",
+scores: Array(18).fill(""),
+image: shuffledImages[i % shuffledImages.length]
+});
+});
+
+buildFront();
+show("front");
+}
+
+function buildCards(container,start,end){
+let html="";
+
+players.forEach((p,pi)=>{
+html+=`
+<div class="player-card">
+
+  <div class="player-bg" style="background-image:url('${p.image}')"></div>
+  <div class="player-overlay"></div>
+
+  <div class="player-name">${p.name}</div>
+
+  <div class="score-grid">
+`;
+
+for(let h=start;h<end;h++){
+html+=`
+<div class="score-cell">
+  <div class="hole-label">${h+1}</div>
+  <input type="number"
+    value="${p.scores[h]}"
+    onchange="save(${pi},${h},this.value)">
+</div>`;
+}
+
+html+=`
+  </div>
+</div>`;
+});
+
+document.getElementById(container).innerHTML=html;
+}
+
+function buildFront(){
+buildCards("frontCards",0,9);
+}
+
+function goBack(){
+buildCards("backCards",9,18);
+show("back");
+}
+
+function save(p,h,v){
+players[p].scores[h]=v;
+}
+
+function finish(){
+let html="";
+
+players.forEach(p=>{
+let front=0;
+let back=0;
+
+for(let i=0;i<9;i++) front+=Number(p.scores[i])||0;
+for(let i=9;i<18;i++) back+=Number(p.scores[i])||0;
+
+html+=`
+<div class="card">
+<div style="font-weight:600;margin-bottom:10px">${p.name}</div>
+
+<div class="row"><span>FRONT 9</span><span>${front}</span></div>
+<div class="row"><span>BACK 9</span><span>${back}</span></div>
+<div class="row total"><span>TOTAL</span><span>${front+back}</span></div>
+</div>`;
+});
+
+document.getElementById("results").innerHTML=html;
+show("result");
+}
+
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>{
+s.classList.remove("active");
+});
+document.getElementById(id).classList.add("active");
+}
+</script>
+
+</body>
+</html>
