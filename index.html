@@ -3,218 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SØNNER Score Prototype</title>
 
-<link rel="stylesheet" href="prototype.css">
+<title>SØNNER GOLF | Golf Beyond Performance</title>
+<meta name="description" content="SØNNER GOLF — a modern golf brand focused on design, presence, and experience beyond performance.">
+
+<link rel="canonical" href="https://sonnergolf.com/">
+
+<!-- TAB ICON (DO NOT CHANGE - already working) -->
+<link rel="icon" type="image/png" href="image/SØNNER LOGO.JPG">
+
+<!-- GOOGLE SEARCH / GOOGLE RESULT FAVICON -->
+<link rel="icon" type="image/png" sizes="48x48" href="image/sonner_favicon_48.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- SETUP -->
-<section class="screen active" id="setup">
-<div class="container">
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-overlay"></div>
 
-<div class="eyebrow">SØNNER EXPERIENCE</div>
-<h1>Who’s Playing Today</h1>
+    <div class="hero-content">
+        <div class="logo">SØNNER</div>
+        <div class="tagline">Golf Beyond Performance</div>
 
-<div class="player-select">
-<button onclick="setPlayers(1)">1</button>
-<button onclick="setPlayers(2)">2</button>
-<button onclick="setPlayers(3)">3</button>
-<button onclick="setPlayers(4)">4</button>
-<button onclick="setPlayers(5)">5</button>
-</div>
-
-<div id="names"></div>
-
-<button class="primary" onclick="startRound()">Start Round</button>
-
-</div>
+        <!-- SCROLL LINK -->
+        <a href="#experience" class="button">Explore</a>
+    </div>
 </section>
 
-<!-- FRONT -->
-<section class="screen" id="front">
-<div class="container">
+<!-- PHILOSOPHY -->
+<section>
+    <h2 class="section-title">Philosophy</h2>
 
-<div class="eyebrow">FRONT 9</div>
-<h1>Score</h1>
+    <div class="philosophy">
+        <div>
+            <h3>Observation</h3>
+            <p>Golf begins before the swing. Notice what often goes unseen.</p>
+        </div>
 
-<div id="frontCards"></div>
+        <div>
+            <h3>Presence</h3>
+            <p>The most meaningful moments happen between shots.</p>
+        </div>
 
-<button class="primary" onclick="goBack()">Next → Back 9</button>
-
-</div>
+        <div>
+            <h3>Freedom</h3>
+            <p>Freedom is found in how you play the game.</p>
+        </div>
+    </div>
 </section>
 
-<!-- BACK -->
-<section class="screen" id="back">
-<div class="container">
+<!-- EXPERIENCE -->
+<section id="experience" class="experience-section">
 
-<div class="eyebrow">BACK 9</div>
-<h1>Score</h1>
+    <h2 class="experience-title">EXPERIENCE</h2>
 
-<div id="backCards"></div>
+    <div class="experience-grid">
 
-<button class="primary" onclick="finish()">Finish Round</button>
+        <!-- CARD 1 -->
+        <div class="experience-card card-eye">
 
-</div>
+            <div class="card-overlay"></div>
+
+            <div class="card-content">
+                <h2 class="scoreboard-title">SCOREBOARD</h2>
+
+                <p class="lost-ball-text">
+                    Track your score.
+                </p>
+
+                <a href="prototype.html"
+                   class="lost-ball-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Start a Round
+                </a>
+            </div>
+
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="experience-card card-picking">
+
+            <div class="card-overlay"></div>
+
+            <div class="card-content">
+                <h2 class="scoreboard-title">LOST BALL</h2>
+
+                <p class="lost-ball-text">
+                    A ritual beyond score, where you collect your lost moments and reset your mind between shots.
+                </p>
+
+        <a href="test.html"
+        class="lost-ball-link"
+        id="enterLink">
+         Enter
+        </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
-
-<!-- RESULTS -->
-<section class="screen" id="result">
-<div class="container">
-
-<div class="eyebrow">ROUND COMPLETE</div>
-<h1>Results</h1>
-
-<div id="results"></div>
-
-<!-- 🔥 DOWNLOAD BUTTON (NEW) -->
-<button class="primary" onclick="downloadScore()">Download Image</button>
-
-</div>
-</section>
-
-<!-- html2canvas -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
-let players = [];
+const enterLink = document.getElementById("enterLink");
 
-const playerImages = [
-  "image/player2.png",
-  "image/white.png",
-  "image/white.png",
-];
+enterLink.addEventListener("click", function (e) {
+  e.preventDefault(); // stop instant navigation
 
-function shuffle(array){
-  let arr = [...array];
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+  const audio = new Audio("humordome-teleport-whoosh-453276.mp3");
+  audio.volume = 0.8;
 
-function setPlayers(n){
-let btns = document.querySelectorAll('.player-select button');
-btns.forEach(b=>b.classList.remove('active'));
-btns[n-1].classList.add('active');
+  audio.play();
 
-let html="";
-for(let i=0;i<n;i++){
-html+=`<input class="name-input" placeholder="Player ${i+1}">`;
-}
-
-document.getElementById("names").innerHTML=html;
-}
-
-function startRound(){
-players=[];
-let inputs = document.querySelectorAll(".name-input");
-let shuffledImages = shuffle(playerImages);
-
-inputs.forEach((n, i)=>{
-players.push({
-name: n.value || "Player",
-scores: Array(18).fill(""),
-image: shuffledImages[i % shuffledImages.length]
+  // small delay so sound actually starts before page unload
+  setTimeout(() => {
+    window.location.href = "test.html";
+  }, 450); // adjust 300–700ms if needed
 });
-});
-
-buildFront();
-show("front");
-}
-
-function buildCards(container,start,end){
-let html="";
-
-players.forEach((p,pi)=>{
-html+=`
-<div class="player-card">
-  <div class="player-bg" style="background-image:url('${p.image}')"></div>
-  <div class="player-overlay"></div>
-
-  <div class="player-name">${p.name}</div>
-
-  <div class="score-grid">
-`;
-
-for(let h=start;h<end;h++){
-html+=`
-<div class="score-cell">
-  <div class="hole-label">${h+1}</div>
-  <input type="number"
-    value="${p.scores[h]}"
-    onchange="save(${pi},${h},this.value)">
-</div>`;
-}
-
-html+=`</div></div>`;
-});
-
-document.getElementById(container).innerHTML=html;
-}
-
-function buildFront(){
-buildCards("frontCards",0,9);
-}
-
-function goBack(){
-buildCards("backCards",9,18);
-show("back");
-}
-
-function save(p,h,v){
-players[p].scores[h]=v;
-}
-
-function finish(){
-let html="";
-
-players.forEach(p=>{
-let front=0;
-let back=0;
-
-for(let i=0;i<9;i++) front+=Number(p.scores[i])||0;
-for(let i=9;i<18;i++) back+=Number(p.scores[i])||0;
-
-html+=`
-<div class="card">
-<div style="font-weight:600;margin-bottom:10px">${p.name}</div>
-
-<div class="row"><span>FRONT 9</span><span>${front}</span></div>
-<div class="row"><span>BACK 9</span><span>${back}</span></div>
-<div class="row total"><span>TOTAL</span><span>${front+back}</span></div>
-</div>`;
-});
-
-document.getElementById("results").innerHTML=html;
-show("result");
-}
-
-/* 🔥 CLICK TO DOWNLOAD */
-function downloadScore(){
-const target = document.getElementById("result");
-
-html2canvas(target, {
-  scale: 2,
-  useCORS: true,
-  backgroundColor: "#ffffff"
-}).then(canvas => {
-  const link = document.createElement("a");
-  link.download = "score.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-});
-}
-
-function show(id){
-document.querySelectorAll(".screen").forEach(s=>{
-s.classList.remove("active");
-});
-document.getElementById(id).classList.add("active");
-}
 </script>
 
 </body>
