@@ -85,7 +85,7 @@ section{
     gap:60px;
 }
 
-/* EXPERIENCE SECTION (FULL SCREEN FEEL) */
+/* EXPERIENCE SECTION */
 .experience-section{
     min-height:100vh;
     display:flex;
@@ -101,7 +101,7 @@ section{
     letter-spacing:0.1em;
 }
 
-/* GRID — THIS IS THE KEY FIX */
+/* GRID */
 .experience-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -118,25 +118,17 @@ section{
     border:1px solid rgba(0,0,0,0.12);
 }
 
-/* BACKGROUND */
-.card-eye::before,
+/* LOST BALL IMAGE CARD */
 .card-picking::before{
     content:"";
     position:absolute;
     inset:0;
+    background-image:url("image/lostball.png");
     background-size:cover;
     background-position:center;
     filter:blur(2px);
     transform:scale(1.2);
     z-index:0;
-}
-
-.card-eye::before{
-    background-image:url("image/eye.png");
-}
-
-.card-picking::before{
-    background-image:url("image/lostball.png");
 }
 
 /* OVERLAY */
@@ -189,6 +181,30 @@ section{
     color:black;
 }
 
+/* ✅ SCOREBOARD CLEAN WHITE BOX (UPDATED) */
+.card-eye::before{
+    display:none;
+}
+
+.card-eye{
+    background:white;
+    border:1px solid black;
+}
+
+.card-eye .card-content{
+    color:black;
+}
+
+.card-eye .lost-ball-link{
+    border:1px solid black;
+    color:black;
+}
+
+.card-eye .lost-ball-link:hover{
+    background:black;
+    color:white;
+}
+
 /* MOBILE */
 @media(max-width:900px){
     .logo{ font-size:3rem; }
@@ -200,4 +216,34 @@ section{
     .experience-grid{
         grid-template-columns:1fr;
     }
+}
+
+/* SHOP GRID */
+.shop-grid{
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+}
+
+/* SHOP ITEM */
+.shop-item{
+    flex:1;
+    min-width:280px;
+    text-align:center;
+}
+
+.shop-item img{
+    width:100%;
+    height:360px;
+    object-fit:cover;
+    border-radius:12px;
+    border:1px solid rgba(0,0,0,0.1);
+}
+
+.shop-item h3{
+    margin-top:16px;
+    font-size:1rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
 }
