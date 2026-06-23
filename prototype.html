@@ -7,6 +7,72 @@
 
 <link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
 <link rel="stylesheet" href="prototype.css">
+
+<style>
+
+/* ================= SUMMARY BUTTON ================= */
+
+button.secondary{
+margin-top:10px;
+padding:14px 20px;
+border-radius:999px;
+width:100%;
+background:#fff;
+border:1px solid #ddd;
+color:#111;
+font-weight:500;
+}
+
+button.secondary:active{
+transform:scale(0.98);
+}
+
+/* ================= REAL SCORECARD VIEW ================= */
+
+.scorecard{
+position:relative;
+z-index:2;
+padding:12px;
+color:white;
+}
+
+.hole-row{
+margin-bottom:14px;
+}
+
+.hole-labels{
+font-size:10px;
+opacity:0.7;
+letter-spacing:0.15em;
+margin-bottom:6px;
+display:flex;
+justify-content:space-between;
+}
+
+.hole-values{
+display:flex;
+justify-content:space-between;
+font-size:14px;
+font-weight:600;
+}
+
+.hole-values span{
+width:20px;
+text-align:center;
+}
+
+.final-row{
+margin-top:12px;
+padding-top:10px;
+border-top:1px solid rgba(255,255,255,0.2);
+display:flex;
+justify-content:space-between;
+font-size:13px;
+font-weight:500;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -56,7 +122,6 @@
 
 <div id="backCards"></div>
 
-<!-- ✅ NEW BUTTON ADDED -->
 <button class="secondary" onclick="goFront()">← Back to Front 9</button>
 
 <button class="primary" onclick="finish()">Finish Round</button>
@@ -71,7 +136,10 @@
 <div class="eyebrow">ROUND COMPLETE</div>
 <h1>Results</h1>
 
+<button class="secondary" onclick="toggleView()">Switch View</button>
+
 <div id="results"></div>
+<div id="tableView" style="display:none;"></div>
 
 <button class="primary" onclick="downloadScore()">Save Image</button>
 
@@ -81,44 +149,45 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
+
 let players = [];
 const STORAGE_KEY = "sonner_score_state";
 
 const playerImages = [
-  "image/player2.png",
-  "image/player2.png",
-  "image/player2.png",
+"image/player2.png",
+"image/player2.png",
+"image/player2.png"
 ];
 
 /* ================= STATE ================= */
 
 function saveState(currentScreen){
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
-    screen: currentScreen,
-    players: players
-  }));
+sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+screen: currentScreen,
+players: players
+}));
 }
 
 function loadState(){
-  const saved = sessionStorage.getItem(STORAGE_KEY);
-  if(!saved) return;
+const saved = sessionStorage.getItem(STORAGE_KEY);
+if(!saved) return;
 
-  const state = JSON.parse(saved);
-  players = state.players || [];
+const state = JSON.parse(saved);
+players = state.players || [];
 
-  if(state.screen === "front"){
-    buildFront();
-    show("front");
-  }
+if(state.screen === "front"){
+buildFront();
+show("front");
+}
 
-  if(state.screen === "back"){
-    buildCards("backCards", 9, 18);
-    show("back");
-  }
+if(state.screen === "back"){
+buildCards("backCards", 9, 18);
+show("back");
+}
 
-  if(state.screen === "result"){
-    finish();
-  }
+if(state.screen === "result"){
+finish();
+}
 }
 
 /* ================= CORE ================= */
@@ -137,12 +206,12 @@ document.getElementById("names").innerHTML=html;
 }
 
 function shuffle(array){
-  let arr = [...array];
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+let arr = [...array];
+for(let i = arr.length - 1; i > 0; i--){
+const j = Math.floor(Math.random() * (i + 1));
+[arr[i], arr[j]] = [arr[j], arr[i]];
+}
+return arr;
 }
 
 function startRound(){
@@ -163,6 +232,8 @@ show("front");
 saveState("front");
 }
 
+/* ================= SCORE INPUT ================= */
+
 function buildCards(container,start,end){
 let html="";
 
@@ -181,8 +252,7 @@ for(let h=start;h<end;h++){
 html+=`
 <div class="score-cell">
   <div class="hole-label">${h+1}</div>
-  <input
-    type="text"
+  <input type="text"
     inputmode="numeric"
     pattern="[0-9+\\-]*"
     value="${p.scores[h]}"
@@ -206,7 +276,6 @@ show("back");
 saveState("back");
 }
 
-/* ✅ NEW FUNCTION */
 function goFront(){
 buildFront();
 show("front");
@@ -218,10 +287,12 @@ players[p].scores[h]=v;
 saveState(document.querySelector(".screen.active").id);
 }
 
-/* ================= SCORE ================= */
+/* ================= FINISH ================= */
 
 function finish(){
-let html="";
+
+let cardsHTML = "";
+let scorecardHTML = "";
 
 const PAR_PER_HOLE = 4;
 const PAR_TOTAL = PAR_PER_HOLE * 18;
@@ -238,19 +309,83 @@ let diff = total - PAR_TOTAL;
 
 let diffText = diff > 0 ? `+${diff}` : diff < 0 ? `${diff}` : "E";
 
-html+=`
+/* CARD VIEW */
+cardsHTML += `
 <div class="card">
 <div style="font-weight:600;margin-bottom:10px">${p.name}</div>
-
 <div class="row"><span>FRONT 9</span><span>${front}</span></div>
 <div class="row"><span>BACK 9</span><span>${back}</span></div>
 <div class="row total"><span>TOTAL</span><span>${total} (${diffText})</span></div>
 </div>`;
+
+/* ================= REAL GOLF SCORECARD ================= */
+
+let frontScores = "";
+let backScores = "";
+
+for(let i=0;i<9;i++){
+frontScores += `<span>${p.scores[i] || "-"}</span>`;
+}
+
+for(let i=9;i<18;i++){
+backScores += `<span>${p.scores[i] || "-"}</span>`;
+}
+
+scorecardHTML += `
+<div class="player-card">
+
+  <div class="player-bg" style="background-image:url('${p.image}')"></div>
+  <div class="player-overlay"></div>
+
+  <div class="player-name">${p.name}</div>
+
+  <div class="scorecard">
+
+    <div class="hole-row">
+      <div class="hole-labels">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+      </div>
+      <div class="hole-values">${frontScores}</div>
+    </div>
+
+    <div class="hole-row">
+      <div class="hole-labels">
+        <span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
+      </div>
+      <div class="hole-values">${backScores}</div>
+    </div>
+
+    <div class="final-row">
+      <span>FRONT: ${front}</span>
+      <span>BACK: ${back}</span>
+      <span>TOTAL: ${total} (${diffText})</span>
+    </div>
+
+  </div>
+
+</div>`;
 });
 
-document.getElementById("results").innerHTML=html;
+document.getElementById("results").innerHTML = cardsHTML;
+document.getElementById("tableView").innerHTML = scorecardHTML;
+
 show("result");
 saveState("result");
+}
+
+/* ================= TOGGLE ================= */
+
+function toggleView(){
+const cards = document.getElementById("results");
+const table = document.getElementById("tableView");
+
+if(table.style.display === "none"){
+table.style.display = "block";
+cards.style.display = "none";
+} else {
+table.style.display = "none";
+cards.style.display = "block";
+}
 }
 
 /* ================= SAVE IMAGE ================= */
@@ -259,36 +394,35 @@ function downloadScore(){
 const target = document.getElementById("result");
 
 html2canvas(target, {
-  scale: 2,
-  useCORS: true,
-  backgroundColor: "#ffffff"
+scale: 2,
+useCORS: true,
+backgroundColor: "#ffffff"
 }).then(canvas => {
 
-  canvas.toBlob(async (blob) => {
+canvas.toBlob(async (blob) => {
 
-    const file = new File([blob], "score.png", { type: "image/png" });
-    const url = URL.createObjectURL(blob);
+const file = new File([blob], "score.png", { type: "image/png" });
+const url = URL.createObjectURL(blob);
 
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({
-          files: [file],
-          title: "SØNNER Score"
-        });
-      } catch (e) {}
-    } 
-    else {
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "score.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+if (navigator.canShare && navigator.canShare({ files: [file] })) {
+try {
+await navigator.share({
+files: [file],
+title: "SØNNER Score"
+});
+} catch (e) {}
+} else {
+const a = document.createElement("a");
+a.href = url;
+a.download = "score.png";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
 
-    URL.revokeObjectURL(url);
+URL.revokeObjectURL(url);
 
-  }, "image/png");
+}, "image/png");
 
 });
 }
@@ -300,13 +434,13 @@ document.querySelectorAll(".screen").forEach(s=>{
 s.classList.remove("active");
 });
 document.getElementById(id).classList.add("active");
-
 saveState(id);
 }
 
 /* ================= INIT ================= */
 
 window.addEventListener("load", loadState);
+
 </script>
 
 </body>
