@@ -126,7 +126,7 @@ section{
     background-image:url("image/lostball.png");
     background-size:cover;
     background-position:center;
-    filter:blur(2px);
+    filter:blur(0px);
     transform:scale(1.2);
     z-index:0;
 }
