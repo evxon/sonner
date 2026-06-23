@@ -206,15 +206,28 @@ players[p].scores[h]=v;
 saveState(document.querySelector(".screen.active").id);
 }
 
+/* ================= FINAL SCORE (REAL GOLF) ================= */
+
 function finish(){
 let html="";
+
+const PAR_PER_HOLE = 4;
+const PAR_TOTAL = PAR_PER_HOLE * 18;
 
 players.forEach(p=>{
 let front=0;
 let back=0;
 
-for(let i=0;i<9;i++) front+=Number(p.scores[i])||0;
-for(let i=9;i<18;i++) back+=Number(p.scores[i])||0;
+for(let i=0;i<9;i++) front += Number(p.scores[i]) || 0;
+for(let i=9;i<18;i++) back += Number(p.scores[i]) || 0;
+
+let total = front + back;
+let diff = total - PAR_TOTAL;
+
+let diffText = "";
+if(diff > 0) diffText = `+${diff}`;
+else if(diff < 0) diffText = `${diff}`;
+else diffText = "E";
 
 html+=`
 <div class="card">
@@ -222,7 +235,7 @@ html+=`
 
 <div class="row"><span>FRONT 9</span><span>${front}</span></div>
 <div class="row"><span>BACK 9</span><span>${back}</span></div>
-<div class="row total"><span>TOTAL</span><span>${front+back}</span></div>
+<div class="row total"><span>TOTAL</span><span>${total} (${diffText})</span></div>
 </div>`;
 });
 
