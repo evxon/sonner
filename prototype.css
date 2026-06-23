@@ -301,3 +301,46 @@ color:#111;
 font-size:15px;
 font-weight:500;
 }
+
+button.secondary{
+margin-top:10px;
+padding:14px 20px;
+border-radius:999px;
+width:100%;
+background:#fff;
+border:1px solid #ddd;
+color:#111;
+font-weight:500;
+}
+
+button.secondary:active{
+transform:scale(0.98);
+}
+
+/* ================= FIX iOS INPUT ZOOM + SCREEN JUMP ================= */
+
+/* 1. Prevent iPhone auto zoom on input focus */
+input {
+  font-size: 16px;
+}
+
+/* 2. Stop screen "jumping" when keyboard opens */
+body {
+  overscroll-behavior: none;
+}
+
+/* 3. Make screen behave like a stable app view */
+.screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 4. extra stability for mobile rendering */
+html, body {
+  height: 100%;
+}
