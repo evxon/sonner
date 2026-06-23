@@ -69,7 +69,6 @@
 
 <div id="results"></div>
 
-<!-- 🔥 DOWNLOAD BUTTON (NEW) -->
 <button class="primary" onclick="downloadScore()">Download Image</button>
 
 </div>
@@ -79,14 +78,18 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
+/* ================= STATE ================= */
 let players = [];
+let currentScreen = "setup";
 
+/* ================= IMAGES ================= */
 const playerImages = [
   "image/player2.png",
   "image/white.png",
   "image/white.png",
 ];
 
+/* ================= UTIL ================= */
 function shuffle(array){
   let arr = [...array];
   for(let i = arr.length - 1; i > 0; i--){
@@ -96,6 +99,41 @@ function shuffle(array){
   return arr;
 }
 
+/* ================= SAVE / LOAD ================= */
+function saveState(){
+  localStorage.setItem("sonner_players", JSON.stringify(players));
+  localStorage.setItem("sonner_screen", currentScreen);
+}
+
+window.addEventListener("load", () => {
+  const savedPlayers = localStorage.getItem("sonner_players");
+  const savedScreen = localStorage.getItem("sonner_screen");
+
+  if (savedPlayers) players = JSON.parse(savedPlayers);
+  if (savedScreen) currentScreen = savedScreen;
+
+  if (players.length > 0) {
+    if (currentScreen === "front") buildFront();
+    if (currentScreen === "back") goBack();
+    if (currentScreen === "result") finish();
+    show(currentScreen);
+  } else {
+    show("setup");
+  }
+});
+
+/* ================= UI ================= */
+function show(id){
+  currentScreen = id;
+  saveState();
+
+  document.querySelectorAll(".screen").forEach(s=>{
+    s.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+/* ================= PLAYERS ================= */
 function setPlayers(n){
 let btns = document.querySelectorAll('.player-select button');
 btns.forEach(b=>b.classList.remove('active'));
@@ -109,6 +147,7 @@ html+=`<input class="name-input" placeholder="Player ${i+1}">`;
 document.getElementById("names").innerHTML=html;
 }
 
+/* ================= START ================= */
 function startRound(){
 players=[];
 let inputs = document.querySelectorAll(".name-input");
@@ -122,10 +161,12 @@ image: shuffledImages[i % shuffledImages.length]
 });
 });
 
+saveState();
 buildFront();
 show("front");
 }
 
+/* ================= CARDS ================= */
 function buildCards(container,start,end){
 let html="";
 
@@ -165,10 +206,13 @@ buildCards("backCards",9,18);
 show("back");
 }
 
+/* ================= SAVE SCORE ================= */
 function save(p,h,v){
 players[p].scores[h]=v;
+saveState();
 }
 
+/* ================= FINISH ================= */
 function finish(){
 let html="";
 
@@ -190,10 +234,14 @@ html+=`
 });
 
 document.getElementById("results").innerHTML=html;
+
+currentScreen = "result";
+saveState();
+
 show("result");
 }
 
-/* 🔥 CLICK TO DOWNLOAD */
+/* ================= DOWNLOAD ================= */
 function downloadScore(){
 const target = document.getElementById("result");
 
@@ -207,13 +255,6 @@ html2canvas(target, {
   link.href = canvas.toDataURL("image/png");
   link.click();
 });
-}
-
-function show(id){
-document.querySelectorAll(".screen").forEach(s=>{
-s.classList.remove("active");
-});
-document.getElementById(id).classList.add("active");
 }
 </script>
 
