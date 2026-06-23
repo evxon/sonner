@@ -56,6 +56,9 @@
 
 <div id="backCards"></div>
 
+<!-- ✅ NEW BUTTON ADDED -->
+<button class="secondary" onclick="goFront()">← Back to Front 9</button>
+
 <button class="primary" onclick="finish()">Finish Round</button>
 
 </div>
@@ -86,15 +89,6 @@ const playerImages = [
   "image/player2.png",
   "image/player2.png",
 ];
-
-function shuffle(array){
-  let arr = [...array];
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
 
 /* ================= STATE ================= */
 
@@ -140,6 +134,15 @@ html+=`<input class="name-input" placeholder="Player ${i+1}">`;
 }
 
 document.getElementById("names").innerHTML=html;
+}
+
+function shuffle(array){
+  let arr = [...array];
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 function startRound(){
@@ -203,6 +206,13 @@ show("back");
 saveState("back");
 }
 
+/* ✅ NEW FUNCTION */
+function goFront(){
+buildFront();
+show("front");
+saveState("front");
+}
+
 function save(p,h,v){
 players[p].scores[h]=v;
 saveState(document.querySelector(".screen.active").id);
@@ -243,7 +253,7 @@ show("result");
 saveState("result");
 }
 
-/* ================= ✅ SAVE TO PHOTOS (iOS SHARE SHEET) ================= */
+/* ================= SAVE IMAGE ================= */
 
 function downloadScore(){
 const target = document.getElementById("result");
@@ -259,19 +269,15 @@ html2canvas(target, {
     const file = new File([blob], "score.png", { type: "image/png" });
     const url = URL.createObjectURL(blob);
 
-    // ✅ iPhone / modern mobile = Share Sheet (Save to Photos)
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
         await navigator.share({
           files: [file],
           title: "SØNNER Score"
         });
-      } catch (e) {
-        console.log("Share cancelled");
-      }
+      } catch (e) {}
     } 
     else {
-      // fallback download
       const a = document.createElement("a");
       a.href = url;
       a.download = "score.png";
