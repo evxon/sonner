@@ -69,21 +69,24 @@
 
 <div id="results"></div>
 
+<!-- 🔥 DOWNLOAD BUTTON (NEW) -->
+<button class="primary" onclick="downloadScore()">Download Image</button>
+
 </div>
 </section>
 
+<!-- html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
 let players = [];
 
-/* IMAGE POOL */
 const playerImages = [
   "image/player2.png",
   "image/white.png",
   "image/white.png",
 ];
 
-/* 🔥 SHUFFLE FUNCTION (Fisher-Yates) */
 function shuffle(array){
   let arr = [...array];
   for(let i = arr.length - 1; i > 0; i--){
@@ -108,10 +111,7 @@ document.getElementById("names").innerHTML=html;
 
 function startRound(){
 players=[];
-
 let inputs = document.querySelectorAll(".name-input");
-
-/* 🔥 SHUFFLE IMAGES ONCE PER ROUND */
 let shuffledImages = shuffle(playerImages);
 
 inputs.forEach((n, i)=>{
@@ -132,7 +132,6 @@ let html="";
 players.forEach((p,pi)=>{
 html+=`
 <div class="player-card">
-
   <div class="player-bg" style="background-image:url('${p.image}')"></div>
   <div class="player-overlay"></div>
 
@@ -151,9 +150,7 @@ html+=`
 </div>`;
 }
 
-html+=`
-  </div>
-</div>`;
+html+=`</div></div>`;
 });
 
 document.getElementById(container).innerHTML=html;
@@ -194,6 +191,22 @@ html+=`
 
 document.getElementById("results").innerHTML=html;
 show("result");
+}
+
+/* 🔥 CLICK TO DOWNLOAD */
+function downloadScore(){
+const target = document.getElementById("result");
+
+html2canvas(target, {
+  scale: 2,
+  useCORS: true,
+  backgroundColor: "#ffffff"
+}).then(canvas => {
+  const link = document.createElement("a");
+  link.download = "score.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+});
 }
 
 function show(id){
