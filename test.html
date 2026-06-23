@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOST BALLS</title>
 
+<!-- FAVICON -->
+<link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
+
 <style>
 html, body {
   margin: 0;
@@ -81,7 +84,8 @@ const bg = document.getElementById("bg");
 const ballCount = 24;
 
 const backgrounds = [
-  "image/player2.png"
+  "image/player2.png",
+  "image/lostball.png"
 ];
 
 function randomBackground() {
@@ -120,8 +124,7 @@ function generatePositions() {
     const x = padding + Math.random() * (w - padding * 2);
     const y = padding + Math.random() * (h - padding * 2);
 
-    /* 👇 softer rule: not too strict */
-    const minDist = 110 + Math.random() * 40; // varies per ball
+    const minDist = 110 + Math.random() * 40;
 
     if (isValid(x, y, positions, minDist)) {
       positions.push({ x, y });
