@@ -70,7 +70,7 @@
 
 <div id="results"></div>
 
-<button class="primary" onclick="downloadScore()">Download Image</button>
+<button class="primary" onclick="downloadScore()">Save Image</button>
 
 </div>
 </section>
@@ -79,7 +79,6 @@
 
 <script>
 let players = [];
-
 const STORAGE_KEY = "sonner_score_state";
 
 const playerImages = [
@@ -97,7 +96,7 @@ function shuffle(array){
   return arr;
 }
 
-/* ================= STATE SAVE / LOAD ================= */
+/* ================= STATE ================= */
 
 function saveState(currentScreen){
   sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -209,7 +208,7 @@ players[p].scores[h]=v;
 saveState(document.querySelector(".screen.active").id);
 }
 
-/* ================= FINAL SCORE ================= */
+/* ================= SCORE ================= */
 
 function finish(){
 let html="";
@@ -227,10 +226,7 @@ for(let i=9;i<18;i++) back += Number(p.scores[i]) || 0;
 let total = front + back;
 let diff = total - PAR_TOTAL;
 
-let diffText = "";
-if(diff > 0) diffText = `+${diff}`;
-else if(diff < 0) diffText = `${diff}`;
-else diffText = "E";
+let diffText = diff > 0 ? `+${diff}` : diff < 0 ? `${diff}` : "E";
 
 html+=`
 <div class="card">
@@ -247,7 +243,7 @@ show("result");
 saveState("result");
 }
 
-/* ================= FIXED DOWNLOAD (MOBILE SAFE) ================= */
+/* ================= ✅ SAVE TO PHOTOS (iOS SHARE SHEET) ================= */
 
 function downloadScore(){
 const target = document.getElementById("result");
@@ -258,22 +254,32 @@ html2canvas(target, {
   backgroundColor: "#ffffff"
 }).then(canvas => {
 
-  canvas.toBlob(function(blob){
+  canvas.toBlob(async (blob) => {
+
+    const file = new File([blob], "score.png", { type: "image/png" });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "score.png";
-
-    document.body.appendChild(a);
-
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      window.open(url, "_blank"); // iOS fallback
-    } else {
+    // ✅ iPhone / modern mobile = Share Sheet (Save to Photos)
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: "SØNNER Score"
+        });
+      } catch (e) {
+        console.log("Share cancelled");
+      }
+    } 
+    else {
+      // fallback download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "score.png";
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     }
 
-    document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
   }, "image/png");
