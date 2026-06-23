@@ -10,7 +10,7 @@ html{
 
 body{
     font-family:'Inter',sans-serif;
-    background:FAFAFA;
+    background:#FAFAFA;
     color:black;
 }
 
@@ -51,21 +51,6 @@ body{
     text-transform:uppercase;
 }
 
-.button{
-    display:inline-block;
-    margin-top:40px;
-    padding:14px 28px;
-    border:1px solid white;
-    color:white;
-    text-decoration:none;
-    transition:0.3s ease;
-}
-
-.button:hover{
-    background:white;
-    color:black;
-}
-
 /* SECTIONS */
 section{
     padding:120px 8%;
@@ -82,8 +67,24 @@ section{
 .philosophy{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:60px;
+    gap:80px;
 }
+
+.philosophy h3{
+    font-size:1rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:12px; /* reduced from 24px */
+}
+
+
+.philosophy p{
+    font-size:0.95rem;
+    line-height:1.4;   /* reduced from 2 */
+    opacity:0.85;
+    max-width:320px;
+}
+
 
 /* EXPERIENCE SECTION */
 .experience-section{
@@ -93,7 +94,6 @@ section{
     justify-content:center;
 }
 
-/* TITLE */
 .experience-title{
     font-size:2rem;
     margin-bottom:80px;
@@ -101,7 +101,6 @@ section{
     letter-spacing:0.1em;
 }
 
-/* GRID */
 .experience-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -109,26 +108,13 @@ section{
     align-items:center;
 }
 
-/* CARD */
+/* CARD BASE */
 .experience-card{
     position:relative;
     height:360px;
     border-radius:2px;
     overflow:hidden;
     border:1px solid rgba(0,0,0,0.12);
-}
-
-/* LOST BALL IMAGE CARD */
-.card-picking::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:url("image/lostball.png");
-    background-size:cover;
-    background-position:center;
-    filter:blur(0px);
-    transform:scale(1.2);
-    z-index:0;
 }
 
 /* OVERLAY */
@@ -139,7 +125,7 @@ section{
     z-index:1;
 }
 
-/* CONTENT */
+/* CONTENT (DEFAULT = WHITE THEME) */
 .card-content{
     position:relative;
     z-index:2;
@@ -153,6 +139,7 @@ section{
     color:white;
 }
 
+/* SHARED TEXT STYLES */
 .scoreboard-title{
     font-size:2rem;
     margin-bottom:20px;
@@ -167,6 +154,7 @@ section{
     max-width:420px;
 }
 
+/* SHARED BUTTON */
 .lost-ball-link{
     padding:14px 28px;
     border:1px solid white;
@@ -181,50 +169,69 @@ section{
     color:black;
 }
 
-/* ✅ SCOREBOARD CLEAN WHITE BOX (UPDATED) */
+/* ========================= */
+/* SCOREBOARD CARD */
+/* ========================= */
+
 .card-eye{
     position: relative;
     border: none;
-    background: white;
     overflow: hidden;
 }
 
-/* IMAGE (NO FILTERS AT ALL) */
 .card-eye::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("image/lostball.png");
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:url("image/lostball.png");
+    background-size:cover;
+    background-position:center;
+    z-index:0;
 }
 
-/* CONTENT */
+/* ensure scoreboard stays white */
 .card-eye .card-content{
-    position: relative;
-    z-index: 2;
-    color: white;
+    color:white;
 }
 
-/* FORCE WHITE TEXT (NO SHADOW, NO EFFECTS) */
-.card-eye h2,
-.card-eye p,
-.card-eye a{
-    color: white;
+/* ========================= */
+/* LOST BALL CARD */
+/* ========================= */
+
+.card-picking::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:url("image/lostball.png");
+    background-size:cover;
+    background-position:center;
+    transform:scale(1.2);
+    z-index:0;
 }
 
-/* BUTTON */
-.card-eye .lost-ball-link{
-    border: 1px solid white;
-    color: white;
-    transition: 0.3s ease;
+/* ========================= */
+/* GAZE COLLECTION (FIXED) */
+/* ========================= */
+
+.card-gaze .card-content{
+    color:black;
 }
 
-.card-eye .lost-ball-link:hover{
-    background: white;
-    color: black;
+.card-gaze .lost-ball-text{
+    color:black;
+    opacity:0.8;
 }
+
+.card-gaze .lost-ball-link{
+    border:1px solid black;
+    color:black;
+}
+
+.card-gaze .lost-ball-link:hover{
+    background:black;
+    color:white;
+}
+
 /* MOBILE */
 @media(max-width:900px){
     .logo{ font-size:3rem; }
@@ -246,7 +253,6 @@ section{
     flex-wrap:wrap;
 }
 
-/* SHOP ITEM */
 .shop-item{
     flex:1;
     min-width:280px;
@@ -268,6 +274,7 @@ section{
     text-transform:uppercase;
 }
 
+/* GAZE SECTION */
 .gaze-section{
     padding:120px 8%;
     display:flex;
