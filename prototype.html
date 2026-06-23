@@ -181,9 +181,10 @@ html+=`
   <div class="hole-label">${h+1}</div>
   <input
     type="text"
-    inputmode="numeric"
-    pattern="[0-9+\\-]*"
+    inputmode="text"
+    pattern="[0-9+\\-Ee]*"
     value="${p.scores[h]}"
+    oninput="this.value=this.value.replace(/[^0-9+\\-Ee]/g,'')"
     onchange="save(${pi},${h},this.value)">
 </div>`;
 }
@@ -209,7 +210,7 @@ players[p].scores[h]=v;
 saveState(document.querySelector(".screen.active").id);
 }
 
-/* ================= FINAL SCORE (REAL GOLF) ================= */
+/* ================= FINAL SCORE ================= */
 
 function finish(){
 let html="";
