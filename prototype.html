@@ -1,307 +1,249 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SØNNER Score Prototype</title>
-
-<link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
-<link rel="stylesheet" href="prototype.css">
-</head>
-
-<body>
-
-<!-- SETUP -->
-<section class="screen active" id="setup">
-<div class="container">
-
-<div class="eyebrow">SØNNER EXPERIENCE</div>
-<h1>Who’s Playing Today</h1>
-
-<div class="player-select">
-<button onclick="setPlayers(1)">1</button>
-<button onclick="setPlayers(2)">2</button>
-<button onclick="setPlayers(3)">3</button>
-<button onclick="setPlayers(4)">4</button>
-<button onclick="setPlayers(5)">5</button>
-</div>
-
-<div id="names"></div>
-
-<button class="primary" onclick="startRound()">Start Round</button>
-
-</div>
-</section>
-
-<!-- FRONT -->
-<section class="screen" id="front">
-<div class="container">
-
-<div class="eyebrow">FRONT 9</div>
-<h1>Score</h1>
-
-<div id="frontCards"></div>
-
-<button class="primary" onclick="goBack()">Next → Back 9</button>
-
-</div>
-</section>
-
-<!-- BACK -->
-<section class="screen" id="back">
-<div class="container">
-
-<div class="eyebrow">BACK 9</div>
-<h1>Score</h1>
-
-<div id="backCards"></div>
-
-<button class="primary" onclick="finish()">Finish Round</button>
-
-</div>
-</section>
-
-<!-- RESULTS -->
-<section class="screen" id="result">
-<div class="container">
-
-<div class="eyebrow">ROUND COMPLETE</div>
-<h1>Results</h1>
-
-<div id="results"></div>
-
-<button class="primary" onclick="downloadScore()">Save Image</button>
-
-</div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
-<script>
-let players = [];
-const STORAGE_KEY = "sonner_score_state";
-
-const playerImages = [
-  "image/player2.png",
-  "image/player2.png",
-  "image/player2.png",
-];
-
-function shuffle(array){
-  let arr = [...array];
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* ================= STATE ================= */
-
-function saveState(currentScreen){
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
-    screen: currentScreen,
-    players: players
-  }));
+html{
+    scroll-behavior:smooth;
 }
 
-function loadState(){
-  const saved = sessionStorage.getItem(STORAGE_KEY);
-  if(!saved) return;
-
-  const state = JSON.parse(saved);
-  players = state.players || [];
-
-  if(state.screen === "front"){
-    buildFront();
-    show("front");
-  }
-
-  if(state.screen === "back"){
-    buildCards("backCards", 9, 18);
-    show("back");
-  }
-
-  if(state.screen === "result"){
-    finish();
-  }
+body{
+    font-family:'Inter',sans-serif;
+    background:white;
+    color:black;
 }
 
-/* ================= CORE ================= */
-
-function setPlayers(n){
-let btns = document.querySelectorAll('.player-select button');
-btns.forEach(b=>b.classList.remove('active'));
-btns[n-1].classList.add('active');
-
-let html="";
-for(let i=0;i<n;i++){
-html+=`<input class="name-input" placeholder="Player ${i+1}">`;
+/* HERO */
+.hero{
+    position:relative;
+    height:100vh;
+    background-image:url("image/heroimage.png");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
 }
 
-document.getElementById("names").innerHTML=html;
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.25);
 }
 
-function startRound(){
-players=[];
-let inputs = document.querySelectorAll(".name-input");
-let shuffledImages = shuffle(playerImages);
-
-inputs.forEach((n, i)=>{
-players.push({
-name: n.value || "Player",
-scores: Array(18).fill(""),
-image: shuffledImages[i % shuffledImages.length]
-});
-});
-
-buildFront();
-show("front");
-saveState("front");
+.hero-content{
+    position:relative;
+    z-index:2;
+    color:white;
 }
 
-function buildCards(container,start,end){
-let html="";
-
-players.forEach((p,pi)=>{
-html+=`
-<div class="player-card">
-  <div class="player-bg" style="background-image:url('${p.image}')"></div>
-  <div class="player-overlay"></div>
-
-  <div class="player-name">${p.name}</div>
-
-  <div class="score-grid">
-`;
-
-for(let h=start;h<end;h++){
-html+=`
-<div class="score-cell">
-  <div class="hole-label">${h+1}</div>
-  <input
-    type="text"
-    inputmode="numeric"
-    pattern="[0-9+\\-]*"
-    value="${p.scores[h]}"
-    onchange="save(${pi},${h},this.value)">
-</div>`;
+.logo{
+    font-size:5rem;
+    letter-spacing:0.12em;
 }
 
-html+=`</div></div>`;
-});
-
-document.getElementById(container).innerHTML=html;
+.tagline{
+    margin-top:20px;
+    font-size:1rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
 }
 
-function buildFront(){
-buildCards("frontCards",0,9);
+.button{
+    display:inline-block;
+    margin-top:40px;
+    padding:14px 28px;
+    border:1px solid white;
+    color:white;
+    text-decoration:none;
+    transition:0.3s ease;
 }
 
-function goBack(){
-buildCards("backCards",9,18);
-show("back");
-saveState("back");
+.button:hover{
+    background:white;
+    color:black;
 }
 
-function save(p,h,v){
-players[p].scores[h]=v;
-saveState(document.querySelector(".screen.active").id);
+/* SECTIONS */
+section{
+    padding:120px 8%;
 }
 
-/* ================= SCORE ================= */
-
-function finish(){
-let html="";
-
-const PAR_PER_HOLE = 4;
-const PAR_TOTAL = PAR_PER_HOLE * 18;
-
-players.forEach(p=>{
-let front=0;
-let back=0;
-
-for(let i=0;i<9;i++) front += Number(p.scores[i]) || 0;
-for(let i=9;i<18;i++) back += Number(p.scores[i]) || 0;
-
-let total = front + back;
-let diff = total - PAR_TOTAL;
-
-let diffText = diff > 0 ? `+${diff}` : diff < 0 ? `${diff}` : "E";
-
-html+=`
-<div class="card">
-<div style="font-weight:600;margin-bottom:10px">${p.name}</div>
-
-<div class="row"><span>FRONT 9</span><span>${front}</span></div>
-<div class="row"><span>BACK 9</span><span>${back}</span></div>
-<div class="row total"><span>TOTAL</span><span>${total} (${diffText})</span></div>
-</div>`;
-});
-
-document.getElementById("results").innerHTML=html;
-show("result");
-saveState("result");
+/* PHILOSOPHY */
+.section-title{
+    font-size:2rem;
+    margin-bottom:60px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
 }
 
-/* ================= ✅ SAVE TO PHOTOS (iOS SHARE SHEET) ================= */
+.philosophy{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:60px;
+}
 
-function downloadScore(){
-const target = document.getElementById("result");
+/* EXPERIENCE SECTION */
+.experience-section{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 
-html2canvas(target, {
-  scale: 2,
-  useCORS: true,
-  backgroundColor: "#ffffff"
-}).then(canvas => {
+/* TITLE */
+.experience-title{
+    font-size:2rem;
+    margin-bottom:80px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+}
 
-  canvas.toBlob(async (blob) => {
+/* GRID */
+.experience-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:40px;
+    align-items:center;
+}
 
-    const file = new File([blob], "score.png", { type: "image/png" });
-    const url = URL.createObjectURL(blob);
+/* CARD */
+.experience-card{
+    position:relative;
+    height:360px;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(0,0,0,0.12);
+}
 
-    // ✅ iPhone / modern mobile = Share Sheet (Save to Photos)
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({
-          files: [file],
-          title: "SØNNER Score"
-        });
-      } catch (e) {
-        console.log("Share cancelled");
-      }
-    } 
-    else {
-      // fallback download
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "score.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+/* LOST BALL IMAGE CARD */
+.card-picking::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:url("image/lostball.png");
+    background-size:cover;
+    background-position:center;
+    filter:blur(2px);
+    transform:scale(1.2);
+    z-index:0;
+}
+
+/* OVERLAY */
+.card-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.25);
+    z-index:1;
+}
+
+/* CONTENT */
+.card-content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+.scoreboard-title{
+    font-size:2rem;
+    margin-bottom:20px;
+    letter-spacing:0.1em;
+}
+
+.lost-ball-text{
+    font-size:1rem;
+    opacity:0.85;
+    margin-bottom:30px;
+    line-height:1.6;
+    max-width:420px;
+}
+
+.lost-ball-link{
+    padding:14px 28px;
+    border:1px solid white;
+    text-decoration:none;
+    color:white;
+    text-transform:uppercase;
+    transition:0.3s ease;
+}
+
+.lost-ball-link:hover{
+    background:white;
+    color:black;
+}
+
+/* ✅ SCOREBOARD CLEAN WHITE BOX (UPDATED) */
+.card-eye::before{
+    display:none;
+}
+
+.card-eye{
+    background:white;
+    border:1px solid black;
+}
+
+.card-eye .card-content{
+    color:black;
+}
+
+.card-eye .lost-ball-link{
+    border:1px solid black;
+    color:black;
+}
+
+.card-eye .lost-ball-link:hover{
+    background:black;
+    color:white;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .logo{ font-size:3rem; }
+
+    .philosophy{
+        grid-template-columns:1fr;
     }
 
-    URL.revokeObjectURL(url);
-
-  }, "image/png");
-
-});
+    .experience-grid{
+        grid-template-columns:1fr;
+    }
 }
 
-/* ================= NAV ================= */
-
-function show(id){
-document.querySelectorAll(".screen").forEach(s=>{
-s.classList.remove("active");
-});
-document.getElementById(id).classList.add("active");
-
-saveState(id);
+/* SHOP GRID */
+.shop-grid{
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+    flex-wrap:wrap;
 }
 
-/* ================= INIT ================= */
+/* SHOP ITEM */
+.shop-item{
+    flex:1;
+    min-width:280px;
+    text-align:center;
+}
 
-window.addEventListener("load", loadState);
-</script>
+.shop-item img{
+    width:100%;
+    height:360px;
+    object-fit:cover;
+    border-radius:12px;
+    border:1px solid rgba(0,0,0,0.1);
+}
 
-</body>
-</html>
+.shop-item h3{
+    margin-top:16px;
+    font-size:1rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+}
