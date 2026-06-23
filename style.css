@@ -182,29 +182,49 @@ section{
 }
 
 /* ✅ SCOREBOARD CLEAN WHITE BOX (UPDATED) */
-.card-eye::before{
-    display:none;
-}
-
 .card-eye{
-    background:white;
-    border:1px solid black;
+    position: relative;
+    border: none;
+    background: white;
+    overflow: hidden;
 }
 
+/* IMAGE (NO FILTERS AT ALL) */
+.card-eye::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("image/leader.png");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+/* CONTENT */
 .card-eye .card-content{
-    color:black;
+    position: relative;
+    z-index: 2;
+    color: white;
 }
 
+/* FORCE WHITE TEXT (NO SHADOW, NO EFFECTS) */
+.card-eye h2,
+.card-eye p,
+.card-eye a{
+    color: white;
+}
+
+/* BUTTON */
 .card-eye .lost-ball-link{
-    border:1px solid black;
-    color:black;
+    border: 1px solid white;
+    color: white;
+    transition: 0.3s ease;
 }
 
 .card-eye .lost-ball-link:hover{
-    background:black;
-    color:white;
+    background: white;
+    color: black;
 }
-
 /* MOBILE */
 @media(max-width:900px){
     .logo{ font-size:3rem; }
