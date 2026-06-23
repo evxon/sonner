@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ FIX: prevents mobile double-tap zoom -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>SØNNER Score Prototype</title>
 
 <link rel="icon" type="image/jpeg" href="image/SØNNER LOGO.JPG">
@@ -71,6 +74,13 @@ font-size:13px;
 font-weight:500;
 }
 
+</style>
+
+<!-- ✅ EXTRA MOBILE FIX (important for iOS) -->
+<style>
+html, body {
+  touch-action: manipulation;
+}
 </style>
 
 </head>
@@ -318,8 +328,7 @@ cardsHTML += `
 <div class="row total"><span>TOTAL</span><span>${total} (${diffText})</span></div>
 </div>`;
 
-/* ================= REAL GOLF SCORECARD ================= */
-
+/* SCORECARD VIEW */
 let frontScores = "";
 let backScores = "";
 
