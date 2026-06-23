@@ -9,10 +9,7 @@
 
 <link rel="canonical" href="https://sonnergolf.com/">
 
-<!-- TAB ICON (DO NOT CHANGE - already working) -->
 <link rel="icon" type="image/png" href="image/SØNNER LOGO.JPG">
-
-<!-- GOOGLE SEARCH / GOOGLE RESULT FAVICON -->
 <link rel="icon" type="image/png" sizes="48x48" href="image/sonner_favicon_48.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -29,7 +26,6 @@
         <div class="logo">SØNNER</div>
         <div class="tagline">Golf Beyond Performance</div>
 
-        <!-- SCROLL LINK -->
         <a href="#experience" class="button">Explore</a>
     </div>
 </section>
@@ -63,17 +59,14 @@
 
     <div class="experience-grid">
 
-        <!-- CARD 1 -->
+        <!-- SCOREBOARD -->
         <div class="experience-card card-eye">
-
             <div class="card-overlay"></div>
 
             <div class="card-content">
-                <h2 class="scoreboard-title">SCOREBOARD</h2>
+                <h2 class="scoreboard-title">LEADERBOARD</h2>
 
-                <p class="lost-ball-text">
-                    Track your score.
-                </p>
+                <p class="lost-ball-text">Track your score.</p>
 
                 <a href="prototype.html"
                    class="lost-ball-link"
@@ -82,12 +75,10 @@
                     Start a Round
                 </a>
             </div>
-
         </div>
 
-        <!-- CARD 2 -->
+        <!-- LOST BALL -->
         <div class="experience-card card-picking">
-
             <div class="card-overlay"></div>
 
             <div class="card-content">
@@ -97,15 +88,12 @@
                     A ritual beyond score, where you collect your lost moments and reset your mind between shots.
                 </p>
 
-        <a href="test.html"
-        class="lost-ball-link"
-        id="enterLink">
-         Enter
-        </a>
-
-
+                <a href="test.html"
+                   class="lost-ball-link"
+                   id="enterLink">
+                    Enter
+                </a>
             </div>
-
         </div>
 
     </div>
@@ -116,17 +104,19 @@
 const enterLink = document.getElementById("enterLink");
 
 enterLink.addEventListener("click", function (e) {
-  e.preventDefault(); // stop instant navigation
+  e.preventDefault();
 
   const audio = new Audio("humordome-teleport-whoosh-453276.mp3");
   audio.volume = 0.8;
 
-  audio.play();
-
-  // small delay so sound actually starts before page unload
-  setTimeout(() => {
-    window.location.href = "test.html";
-  }, 450); // adjust 300–700ms if needed
+  // important: wait until audio actually starts playing
+  audio.play().then(() => {
+    // open immediately after sound starts
+    window.open("test.html", "_blank", "noopener,noreferrer");
+  }).catch(() => {
+    // fallback if browser blocks sound
+    window.open("test.html", "_blank", "noopener,noreferrer");
+  });
 });
 </script>
 
