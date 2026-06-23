@@ -209,7 +209,7 @@ players[p].scores[h]=v;
 saveState(document.querySelector(".screen.active").id);
 }
 
-/* ================= FINAL SCORE (REAL GOLF) ================= */
+/* ================= FINAL SCORE ================= */
 
 function finish(){
 let html="";
@@ -247,7 +247,7 @@ show("result");
 saveState("result");
 }
 
-/* ================= DOWNLOAD ================= */
+/* ================= FIXED DOWNLOAD (MOBILE SAFE) ================= */
 
 function downloadScore(){
 const target = document.getElementById("result");
@@ -257,10 +257,27 @@ html2canvas(target, {
   useCORS: true,
   backgroundColor: "#ffffff"
 }).then(canvas => {
-  const link = document.createElement("a");
-  link.download = "score.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+
+  canvas.toBlob(function(blob){
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "score.png";
+
+    document.body.appendChild(a);
+
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.open(url, "_blank"); // iOS fallback
+    } else {
+      a.click();
+    }
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  }, "image/png");
+
 });
 }
 
