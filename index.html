@@ -1,150 +1,202 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SØNNER GOLF | Golf Beyond Performance</title>
-<meta name="description" content="SØNNER GOLF — a modern golf brand focused on design, presence, and experience beyond performance.">
+  <title>SØNNER GOLF | Golf Beyond Performance</title>
+  <meta name="description" content="SØNNER GOLF. Golf objects and experiences beyond performance.">
 
-<link rel="canonical" href="https://sonnergolf.com/">
+  <link rel="canonical" href="https://sonnergolf.com/">
+  <link rel="icon" type="image/png" href="image/sonner_favicon_48.png">
 
-<link rel="icon" type="image/png" href="image/SØNNER LOGO.JPG">
-<link rel="icon" type="image/png" sizes="48x48" href="image/sonner_favicon_48.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-overlay"></div>
+  <header class="site-header">
+    <a href="index.html" class="wordmark">SØNNER</a>
 
-    <div class="hero-content">
-        <div class="logo">SØNNER</div>
-        <div class="tagline">Golf Beyond Performance</div>
-    </div>
-</section>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#collection">Collection</a>
+      <a href="#experience">Experience</a>
+      <a href="#about">About</a>
+    </nav>
 
+    <a href="gaze.html" class="header-shop-link">Shop</a>
+  </header>
 
-<!-- EXPERIENCE -->
-<section id="experience" class="experience-section">
+  <main>
 
-    <h2 class="experience-title">EXPERIENCE</h2>
+    <section class="hero" aria-label="SØNNER Golf">
+      <div class="hero-image"></div>
+      <div class="hero-shade"></div>
 
-    <div class="experience-grid">
+      <div class="hero-content">
+        <h1></h1>
 
-        <!-- SCOREBOARD -->
-        <div class="experience-card card-eye">
-            <div class="card-overlay"></div>
-
-            <div class="card-content">
-                <h2 class="scoreboard-title">LEADERBOARD</h2>
-
-                <p class="lost-ball-text">Track your score.</p>
-
-                <a href="prototype.html"
-                   class="lost-ball-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    Start a Round
-                </a>
-            </div>
-        </div>
-
-        <!-- LOST BALL -->
-        <div class="experience-card card-picking">
-            <div class="card-overlay"></div>
-
-            <div class="card-content">
-                <h2 class="scoreboard-title">LOST BALL</h2>
-
-                <p class="lost-ball-text">
-                    A ritual beyond score, where you collect your lost moments and reset your mind between shots.
-                </p>
-
-                <a href="test.html"
-                   class="lost-ball-link"
-                   id="enterLink">
-                    Enter
-                </a>
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- GAZE COLLECTION -->
-<div class="experience-card card-gaze">
-    <div class="card-overlay"></div>
-
-    <div class="card-content">
-        <h2 class="scoreboard-title">THE GAZE COLLECTION</h2>
-
-        <p class="lost-ball-text">
-            Shaped by attention in play —
-what is seen, missed, and left behind.
-        </p>
-
-        <a href="gaze.html"
-           class="lost-ball-link"
-           target="_blank"
-           rel="noopener noreferrer">
-            View Collection
+        <a href="#collection" class="button button-light">
+          Explore the collection
         </a>
-    </div>
-</div>
+      </div>
+    </section>
 
+    <section id="collection" class="collection-section">
 
-<!-- PHILOSOPHY -->
-<section>
-    <h2 class="section-title">Philosophy</h2>
+      <div class="collection-heading"></div>
 
-    <div class="philosophy">
-        <div>
-            <h3>Observation</h3>
-            <p>Golf begins before the swing.
-What you notice shapes what becomes real.</p>
-        </div>
+      <div class="product-list">
 
-        <div>
-            <h3>Presence</h3>
-            <p>Nothing is resolved between shots.
-Only attention continues.</p>
-        </div>
+        <article class="product-row">
+          <a href="gaze.html" class="product-image-link">
+            <img src="image/gaze-cover-color.jpg" alt="SØNNER The Gaze golf wood cover" class="product-image">
+          </a>
 
-        <div>
-            <h3>Release</h3>
-            <p>Every shot becomes final when it lands.
-What remains is acceptance, not correction.</p>
-        </div>
-    </div>
-</section>
+          <div class="product-info">
+            <p class="product-type">Driver / Wood Cover</p>
+            <h3>The Gaze Collection</h3>
+            <p class="product-description">
+              A soft structured cover made for the club you reach for before the round begins.
+            </p>
+            <p class="product-meta">Limited first edition</p>
 
-<script>
-const enterLink = document.getElementById("enterLink");
+            <a href="gaze.html" class="button button-dark button-square">
+              View Product
+            </a>
+          </div>
+        </article>
 
-enterLink.addEventListener("click", function (e) {
-  e.preventDefault();
+        <article class="product-row product-row-reverse">
+          <a href="gaze.html" class="product-image-link">
+            <img src="image/gaze-cover-color.jpg" alt="SØNNER The Gaze golf driver cover" class="product-image">
+          </a>
 
-  const audio = new Audio("humordome-teleport-whoosh-453276.mp3");
-  audio.volume = 0.8;
+          <div class="product-info">
+            <p class="product-type">THE GAZE COLLECTION</p>
+            <h3>Driver / Wood Cover</h3>
+            <p class="product-description">
+              A larger version of The Gaze, made for the club that begins the longest shots.
+            </p>
+            <p class="product-meta">Limited first edition</p>
 
-  // important: wait until audio actually starts playing
-  audio.play().then(() => {
-    // open immediately after sound starts
-    window.open("test.html", "_blank", "noopener,noreferrer");
-  }).catch(() => {
-    // fallback if browser blocks sound
-    window.open("test.html", "_blank", "noopener,noreferrer");
-  });
-});
-</script>
+            <a href="gaze.html" class="button button-dark button-square">
+              View Product
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="statement-section" aria-label="SØNNER Philosophy">
+      <p class="section-title">Philosophy</p>
+
+      <div class="philosophy">
+        <article>
+          <h3>Observation</h3>
+          <p>Golf begins before the swing. What you notice shapes what becomes real.</p>
+        </article>
+
+        <article>
+          <h3>Presence</h3>
+          <p>Nothing is resolved between shots. Only attention continues.</p>
+        </article>
+
+        <article>
+          <h3>Release</h3>
+          <p>Every shot becomes final when it lands. What remains is acceptance, not correction.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="experience-section">
+
+      <div class="experience-heading">
+        <h2 class="experience-title">SØNNER Experience</h2>
+
+        <p class="experience-intro">
+          Objects and rituals for the space between shots.
+        </p>
+      </div>
+
+      <div class="experience-list">
+
+        <article class="experience-item">
+          <a href="prototype.html" target="_blank" rel="noopener noreferrer"
+             class="experience-image leaderboard-card"></a>
+
+          <div class="experience-copy">
+            <h2>Leaderboard</h2>
+            <p>A quieter way to track the round.</p>
+
+            <a href="prototype.html" target="_blank" rel="noopener noreferrer"
+               class="button button-dark button-square">
+              Start a round
+            </a>
+          </div>
+        </article>
+
+        <article class="experience-item">
+          <a href="test.html"
+             class="experience-image lostball-card lostball-link"></a>
+
+          <div class="experience-copy">
+            <h2>Lost Ball</h2>
+            <p>A ritual for the shots you cannot take back.</p>
+
+            <a href="test.html" class="button button-dark button-square lostball-link">
+              Enter
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="about" class="about-section">
+      <div class="about-content">
+        <h2>
+          For the player<br>
+          who notices <em>more.</em>
+        </h2>
+
+        <p>
+          SØNNER is a golf brand built around presence, observation, and release.
+          We make objects that belong to the game, but are not limited by performance.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 SØNNER</p>
+  </footer>
+
+  <script>
+    const lostBallLinks = document.querySelectorAll(".lostball-link");
+
+    lostBallLinks.forEach((link) => {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const audio = new Audio("humordome-teleport-whoosh-453276.mp3");
+        audio.volume = 0.8;
+
+        audio.play().finally(() => {
+          window.open("test.html", "_blank", "noopener,noreferrer");
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
