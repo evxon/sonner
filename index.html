@@ -17,22 +17,35 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+@font-face {
+  font-family: "Snell Roundhand";
+  src: local("Snell Roundhand");
+}
+</style>
+
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <header class="site-header">
-    <a href="index.html" class="wordmark">SØNNER</a>
+<header class="site-header">
 
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="#collection">Collection</a>
-      <a href="#experience">Experience</a>
-      <a href="#about">About</a>
-    </nav>
+  <a href="index.html" class="wordmark">
+    SØNNER
+  </a>
 
-    <a href="gaze.html" class="header-shop-link">Shop</a>
-  </header>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="#collection">Shop</a>
+    <a href="#experience">Experience</a>
+    <a href="#about">About</a>
+  </nav>
+
+  <a href="cart.html" class="header-bag">
+    Bag (0)
+  </a>
+
+</header>
 
   <main>
 
@@ -40,13 +53,11 @@
       <div class="hero-image"></div>
       <div class="hero-shade"></div>
 
-      <div class="hero-content">
-        <h1></h1>
-
-        <a href="#collection" class="button button-light">
-          Explore the collection
-        </a>
-      </div>
+<div class="hero-content">
+  <h1>
+    Beyond Performance
+  </h1>
+</div>
     </section>
 
     <section id="collection" class="collection-section">
@@ -55,111 +66,113 @@
 
       <div class="product-list">
 
-        <article class="product-row">
-          <a href="gaze.html" class="product-image-link">
-            <img src="image/제목_없는_아트워크 22.png" alt="SØNNER The Gaze golf wood cover" class="product-image">
-          </a>
+<article class="product-row">
+  <a href="driver.html" class="product-image-link">
+    <img src="image/drivercover.png"
+         alt="SØNNER Driver Headcover"
+         class="product-image">
+  </a>
 
-          <div class="product-info">
-            <p class="product-type">Driver / Wood Cover</p>
-            <h3>The Gaze Collection</h3>
-            <p class="product-description">
-              A soft structured cover made for the club you reach for before the round begins.
-            </p>
-            <p class="product-meta">Limited first edition</p>
+  <div class="product-info">
+    <p class="product-type">The Gaze Collection</p>
+    <h3>Driver Headcover</h3>
 
-            <a href="gaze.html" class="button button-dark button-square">
-              View Product
-            </a>
-          </div>
-        </article>
+    <p class="product-description">
+      Crafted for the club that begins every round. A minimal silhouette with soft protection and embroidered detailing.
+    </p>
 
-        <article class="product-row product-row-reverse">
-          <a href="gaze.html" class="product-image-link">
-            <img src="image/gaze-cover-color.jpg" alt="SØNNER The Gaze golf driver cover" class="product-image">
-          </a>
+    <p class="product-meta">$109 USD</p>
 
-          <div class="product-info">
-            <p class="product-type">THE GAZE COLLECTION</p>
-            <h3>Driver / Wood Cover</h3>
-            <p class="product-description">
-              A larger version of The Gaze, made for the club that begins the longest shots.
-            </p>
-            <p class="product-meta">Limited first edition</p>
+    <a href="driver.html" class="button button-dark button-square">
+      View Product
+    </a>
+  </div>
+</article>
 
-            <a href="gaze.html" class="button button-dark button-square">
-              View Product
-            </a>
-          </div>
-        </article>
+<article class="product-row product-row-reverse">
+  <a href="wood.html" class="product-image-link">
+    <img src="image/제목_없는_아트워크 22.png"
+         alt="SØNNER Fairway Wood Headcover"
+         class="product-image">
+  </a>
+
+  <div class="product-info">
+    <p class="product-type">The Gaze Collection</p>
+    <h3>Fairway Wood Headcover</h3>
+
+    <p class="product-description">
+      Crafted for the club that carries possibility. A minimal silhouette with soft protection and embroidered detailing.
+    </p>
+
+    <p class="product-meta">$99 USD</p>
+
+    <a href="wood.html" class="button button-dark button-square">
+      View Product
+    </a>
+  </div>
+</article>
 
       </div>
     </section>
 
-    <section class="statement-section" aria-label="SØNNER Philosophy">
-      <p class="section-title">Philosophy</p>
+<!-- ---------- PHILOSOPHY ---------- -->
 
-      <div class="philosophy">
-        <article>
-          <h3>Observation</h3>
-          <p>Golf begins before the swing. What you notice shapes what becomes real.</p>
-        </article>
+<section class="statement-section">
 
-        <article>
-          <h3>Presence</h3>
-          <p>Nothing is resolved between shots. Only attention continues.</p>
-        </article>
+  <div class="gaze-intro">
 
-        <article>
-          <h3>Release</h3>
-          <p>Every shot becomes final when it lands. What remains is acceptance, not correction.</p>
-        </article>
-      </div>
-    </section>
+    <p class="gaze-label">
+      THE GAZE COLLECTION
+    </p>
 
-    <section id="experience" class="experience-section">
+    <h2>
+      Inspired by the way we experience golf.
+    </h2>
 
-      <div class="experience-heading">
-        <h2 class="experience-title">SØNNER Experience</h2>
+    <p class="gaze-description">
+      A collection built around observation,
+      focus, and the quiet moments between each shot.
+    </p>
 
-        <p class="experience-intro">
-          Objects and rituals for the space between shots.
+  </div>
+
+</section>
+
+   <section id="experience" class="experience-section">
+
+  <div class="product-list">
+
+    <article class="product-row">
+
+      <a href="test.html" class="product-image-link lostball-link">
+        <img src="image/lostball.png"
+             alt="Lost Ball Experience"
+             class="product-image">
+      </a>
+
+      <div class="product-info">
+        <p class="product-type">Experience</p>
+
+        <h3>Lost Ball</h3>
+
+        <p class="product-description">
+          A ritual for the shots you cannot take back.<br><br>
+          A lost ball is a moment every golfer experiences. It marks the end of one possibility and the beginning of another. A reminder that golf exists beyond the outcome.
         </p>
+
+        <a href="test.html"
+           class="button button-dark button-square lostball-link">
+          Enter
+        </a>
       </div>
 
-      <div class="experience-list">
+    </article>
 
-        <article class="experience-item">
-          <a href="prototype.html" target="_blank" rel="noopener noreferrer"
-             class="experience-image leaderboard-card"></a>
+  </div>
 
-          <div class="experience-copy">
-            <h2>Leaderboard</h2>
-            <p>A quieter way to track the round.</p>
+</section>
 
-            <a href="prototype.html" target="_blank" rel="noopener noreferrer"
-               class="button button-dark button-square">
-              Start a round
-            </a>
-          </div>
-        </article>
-
-        <article class="experience-item">
-          <a href="test.html"
-             class="experience-image lostball-card lostball-link"></a>
-
-          <div class="experience-copy">
-            <h2>Lost Ball</h2>
-            <p>A ritual for the shots you cannot take back.</p>
-
-            <a href="test.html" class="button button-dark button-square lostball-link">
-              Enter
-            </a>
-          </div>
-        </article>
-
-      </div>
-    </section>
+</section>
 
     <section id="about" class="about-section">
       <div class="about-content">
@@ -168,17 +181,16 @@
           who notices <em>more.</em>
         </h2>
 
-        <p>
-          SØNNER is a golf brand built around presence, observation, and release.
-          We make objects that belong to the game, but are not limited by performance.
-        </p>
-      </div>
+<p>
+SØNNER creates golf objects shaped by observation, presence, and the quiet moments that exist beyond the scorecard.
+</p>
+</div>
     </section>
 
   </main>
 
   <footer class="site-footer">
-    <p>© 2026 SØNNER</p>
+    <p>© 2026 SØNNER. Designed in Seoul.</p>
   </footer>
 
   <script>
@@ -197,6 +209,7 @@
       });
     });
   </script>
+
 
 </body>
 </html>
