@@ -13,47 +13,7 @@ body {
   height: 100%;
 }
 
-/* ================= ARCHIVE ================= */
-.top-archive {
-  width: 100%;
-  display: flex;
-  justify-content: center;
 
-  margin-top: 40px;
-  margin-bottom: 40px;
-
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.top-archive.hidden {
-  opacity: 0;
-  transform: translateY(-20px);
-  pointer-events: none;
-}
-
-.archive-card-top {
-  width: 320px;
-  height: 140px;
-  border-radius: 20px;
-
-  background-image: url("image/eye.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 2px;
-  font-size: 12px;
-  cursor: pointer;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-
-  overflow: hidden;
-}
 /* ================= CENTER ================= */
 .center-wrap {
   height: 100vh;
