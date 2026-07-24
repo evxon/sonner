@@ -25,39 +25,17 @@
 
 <body>
 
-
 <header class="site-header">
 
+    <a href="index.html" class="wordmark">
+        SØNNER
+    </a>
 
-<a href="index.html" class="wordmark">
-SØNNER
-</a>
-
-
-
-<header class="site-header">
-
-<a href="index.html" class="wordmark">
-SØNNER
-</a>
-
-
-<a href="cart.html" class="header-bag">
-Bag (0)
-</a>
-
+    <a href="#" class="header-bag" id="bagButton">
+        Bag (<span id="bagCount">0</span>)
+    </a>
 
 </header>
-
-
-
-<a href="cart.html" class="header-bag">
-Bag (0)
-</a>
-
-
-</header>
-
 
 
 
@@ -97,7 +75,7 @@ Driver Headcover
 
 
 <p class="price">
-$109 USD
+$129 USD
 </p>
 
 
@@ -116,9 +94,21 @@ the quiet rituals of golf.
 
 
 
-<a href="cart.html" class="button">
-Add to Cart
+<div class="product-buttons">
+
+<a
+href="https://www.paypal.com/ncp/payment/CCX4BKDEPP57S"
+class="button">
+Buy Now
 </a>
+
+<button
+class="button button-outline"
+id="add-driver">
+Add to Bag
+</button>
+
+</div>
 
 
 </div>
@@ -220,6 +210,245 @@ after delivery.
 </footer>
 
 
+<div class="bag-overlay" id="bagOverlay"></div>
+
+<aside class="bag-drawer" id="bagDrawer">
+
+    <div class="bag-header">
+
+        <h2>Bag</h2>
+
+        <button id="closeBag">✕</button>
+
+    </div>
+
+    <div id="bagItems"></div>
+
+    <div class="bag-footer">
+
+        <p id="subtotal">
+            Subtotal $0
+        </p>
+
+
+    </div>
+
+</aside>
+
+<script>
+
+/* ---------- PRODUCT ---------- */
+
+const driver = {
+    id: "driver",
+    name: "Driver Headcover",
+    price: 129,
+    image: "image/drivercover.png",
+    quantity: 1
+};
+
+/* ---------- ADD TO BAG ---------- */
+
+document.getElementById("add-driver").addEventListener("click", function(){
+
+    let bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+    const existing = bag.find(item => item.id === driver.id);
+
+
+    if(existing){
+
+        if(existing.quantity < 2){
+
+            existing.quantity++;
+
+        }
+
+    }else{
+
+        bag.push(driver);
+
+    }
+
+
+    localStorage.setItem(
+        "bag",
+        JSON.stringify(bag)
+    );
+
+
+    loadBag();
+
+
+    bagDrawer.classList.add("active");
+
+    bagOverlay.classList.add("active");
+
+
+});
+
+
+/* ---------- BAG DRAWER ---------- */
+
+const bagButton = document.getElementById("bagButton");
+const bagDrawer = document.getElementById("bagDrawer");
+const bagOverlay = document.getElementById("bagOverlay");
+const closeBag = document.getElementById("closeBag");
+
+bagButton.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    loadBag();
+
+    bagDrawer.classList.add("active");
+    bagOverlay.classList.add("active");
+
+});
+
+closeBag.addEventListener("click", function(){
+
+    bagDrawer.classList.remove("active");
+    bagOverlay.classList.remove("active");
+
+});
+
+bagOverlay.addEventListener("click", function(){
+
+    bagDrawer.classList.remove("active");
+    bagOverlay.classList.remove("active");
+
+});
+
+
+/* ---------- LOAD BAG ---------- */
+
+function loadBag(){
+
+    const bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+    const container = document.getElementById("bagItems");
+
+    container.innerHTML = "";
+
+    let total = 0;
+    let totalItems = 0;
+
+    bag.forEach(item=>{
+
+    total += item.price * item.quantity;
+    totalItems += item.quantity;
+
+    container.innerHTML += `
+
+        <div class="bag-item">
+
+            <img src="${item.image}" class="bag-image">
+
+            <div class="bag-info">
+
+                <strong>${item.name}</strong>
+
+                <p>$${item.price}</p>
+
+<div class="quantity-control">
+
+    <button onclick="changeQuantity('${item.id}', -1)">
+        −
+    </button>
+
+    <span>
+        ${item.quantity}
+    </span>
+
+    <button onclick="changeQuantity('${item.id}', 1)">
+        +
+    </button>
+
+</div>
+                <button 
+                class="remove-btn"
+                onclick="removeItem('${item.id}')">
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+});
+
+    document.getElementById("subtotal").textContent =
+    "Subtotal $" + total;
+
+    document.getElementById("bagCount").textContent =
+    totalItems;
+
+    if(bag.length===0){
+
+        container.innerHTML =
+        "<p style='opacity:.6;'>Your bag is empty.</p>";
+
+    }
+
+}
+
+/* ---------- INITIALIZE ---------- */
+
+loadBag();
+
+function removeItem(id){
+
+    let bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+    bag = bag.filter(item => item.id !== id);
+
+    localStorage.setItem("bag", JSON.stringify(bag));
+
+    loadBag();
+
+}
+function changeQuantity(id, change){
+
+    let bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+    let item = bag.find(item => item.id === id);
+
+
+    if(item){
+
+        item.quantity += change;
+
+
+        if(item.quantity < 1){
+
+            item.quantity = 1;
+
+        }
+
+
+        if(item.quantity > 2){
+
+            item.quantity = 2;
+
+        }
+
+    }
+
+
+    localStorage.setItem(
+        "bag",
+        JSON.stringify(bag)
+    );
+
+
+    loadBag();
+
+}
+
+</script>
 
 </body>
 
