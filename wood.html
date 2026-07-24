@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SØNNER | Driver Headcover</title>
+<title>SØNNER | Fairway Wood Headcover</title>
 
-<meta name="description" content="SØNNER Driver Headcover from The Gaze Collection. Golf objects beyond performance.">
+<meta name="description" content="SØNNER Fairway Wood Headcover from The Gaze Collection. Golf objects beyond performance.">
 
 <link rel="icon" type="image/png" href="image/sonner_favicon_48.png">
 
@@ -22,62 +22,35 @@
 </head>
 
 
-
 <body>
 
 
 <header class="site-header">
 
+    <a href="index.html" class="wordmark">
+        SØNNER
+    </a>
 
-<a href="index.html" class="wordmark">
-SØNNER
-</a>
-
-
-
-<header class="site-header">
-
-<a href="index.html" class="wordmark">
-SØNNER
-</a>
-
-
-<a href="cart.html" class="header-bag">
-Bag (0)
-</a>
-
+    <a href="#" class="header-bag" id="bagButton">
+        Bag (<span id="bagCount">0</span>)
+    </a>
 
 </header>
-
-
-
-<a href="cart.html" class="header-bag">
-Bag (0)
-</a>
-
-
-</header>
-
-
 
 
 
 <main>
 
 
-
 <section class="product-page">
-
 
 
 <div class="product-gallery">
 
-<img src="image/drivercover.png"
-alt="SØNNER Driver Headcover">
+<img src="image/woodcover.png"
+alt="SØNNER Fairway Wood Headcover">
 
 </div>
-
-
 
 
 
@@ -89,23 +62,19 @@ The Gaze Collection
 </p>
 
 
-
 <h1>
 Fairway Wood Headcover
 </h1>
 
 
-
 <p class="price">
-$99 USD
+$109 USD
 </p>
-
-
 
 
 <p class="description">
 
-Crafted for the club that begins every round.
+Crafted for the club that carries possibility.
 
 A minimal silhouette designed with soft protection
 and embroidered detailing — an object that reflects
@@ -115,14 +84,26 @@ the quiet rituals of golf.
 
 
 
+<div class="product-buttons">
 
-<a href="cart.html" class="button">
-Add to Cart
+<a
+href="https://www.paypal.com/ncp/payment/F8PSJ2SHHBS5N"
+class="button">
+Buy Now
 </a>
+
+
+<button
+class="button button-outline"
+id="add-wood">
+Add to Bag
+</button>
 
 
 </div>
 
+
+</div>
 
 
 </section>
@@ -130,12 +111,7 @@ Add to Cart
 
 
 
-
-
-
-
 <section class="product-details">
-
 
 
 <div class="detail-block">
@@ -144,26 +120,21 @@ Add to Cart
 The Object
 </h2>
 
-
 <p>
-Designed to protect your driver while maintaining
+Designed to protect your club while maintaining
 a refined and minimal presence inside the golf bag.
 </p>
-
 
 </div>
 
 
 
 
-
 <div class="detail-block">
-
 
 <h2>
 Craftsmanship
 </h2>
-
 
 <p>
 Constructed with carefully selected materials,
@@ -173,20 +144,16 @@ Each piece is created around protection,
 form, and the quiet rituals of the game.
 </p>
 
-
 </div>
-
 
 
 
 
 <div class="detail-block">
 
-
 <h2>
 Delivery
 </h2>
-
 
 <p>
 Each order is carefully prepared before shipping.
@@ -195,17 +162,13 @@ Returns are accepted within the stated return period
 after delivery.
 </p>
 
-
 </div>
-
 
 
 </section>
 
 
-
 </main>
-
 
 
 
@@ -219,6 +182,381 @@ after delivery.
 
 </footer>
 
+
+
+
+
+<div class="bag-overlay" id="bagOverlay"></div>
+
+
+<aside class="bag-drawer" id="bagDrawer">
+
+
+<div class="bag-header">
+
+<h2>
+Bag
+</h2>
+
+<button id="closeBag">
+✕
+</button>
+
+</div>
+
+
+
+<div id="bagItems"></div>
+
+
+
+<div class="bag-footer">
+
+<p id="subtotal">
+Subtotal $0
+</p>
+
+
+<a href="https://www.paypal.com/ncp/payment/F8PSJ2SHHBS5N"
+class="button">
+Checkout
+</a>
+
+
+</div>
+
+
+</aside>
+
+
+
+
+
+<script>
+
+
+/* ---------- PRODUCT ---------- */
+
+
+const wood = {
+
+    id: "wood",
+
+    name: "Fairway Wood Headcover",
+
+    price: 109,
+
+    image: "image/woodcover.png",
+
+    quantity: 1
+
+};
+
+
+
+/* ---------- ADD TO BAG ---------- */
+
+
+document.getElementById("add-wood")
+.addEventListener("click", function(){
+
+
+    let bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+
+    const existing = bag.find(item => item.id === wood.id);
+
+
+
+if(existing){
+
+    if(existing.quantity < 2){
+
+        existing.quantity++;
+
+    }
+
+} else {
+
+    bag.push(wood);
+
+}
+
+
+
+    localStorage.setItem(
+        "bag",
+        JSON.stringify(bag)
+    );
+
+
+    loadBag();
+
+
+    bagDrawer.classList.add("active");
+
+    bagOverlay.classList.add("active");
+
+
+});
+
+
+
+
+
+/* ---------- BAG DRAWER ---------- */
+
+
+const bagButton = document.getElementById("bagButton");
+
+const bagDrawer = document.getElementById("bagDrawer");
+
+const bagOverlay = document.getElementById("bagOverlay");
+
+const closeBag = document.getElementById("closeBag");
+
+
+
+bagButton.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+
+    loadBag();
+
+
+    bagDrawer.classList.add("active");
+
+    bagOverlay.classList.add("active");
+
+
+});
+
+
+
+closeBag.addEventListener("click", function(){
+
+
+    bagDrawer.classList.remove("active");
+
+    bagOverlay.classList.remove("active");
+
+
+});
+
+
+
+bagOverlay.addEventListener("click", function(){
+
+
+    bagDrawer.classList.remove("active");
+
+    bagOverlay.classList.remove("active");
+
+
+});
+
+
+
+
+
+
+/* ---------- LOAD BAG ---------- */
+
+
+function loadBag(){
+
+
+    const bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+
+    const container = document.getElementById("bagItems");
+
+
+    container.innerHTML = "";
+
+
+
+    let total = 0;
+
+    let totalItems = 0;
+
+
+
+    bag.forEach(item => {
+
+
+
+        total += item.price * item.quantity;
+
+        totalItems += item.quantity;
+
+
+
+        container.innerHTML += `
+
+
+        <div class="bag-item">
+
+
+            <img src="${item.image}" class="bag-image">
+
+
+            <div class="bag-info">
+
+
+                <strong>
+                ${item.name}
+                </strong>
+
+
+                <p>
+                $${item.price}
+                </p>
+
+
+<div class="quantity-control">
+
+    <button onclick="changeQuantity('${item.id}', -1)">
+        −
+    </button>
+
+    <span>
+        ${item.quantity}
+    </span>
+
+    <button onclick="changeQuantity('${item.id}', 1)">
+        +
+    </button>
+
+</div>
+
+
+
+                <button
+                class="remove-btn"
+                onclick="removeItem('${item.id}')">
+
+                Remove
+
+                </button>
+
+
+
+            </div>
+
+
+        </div>
+
+
+        `;
+
+
+    });
+
+
+
+    if(bag.length === 0){
+
+
+        container.innerHTML =
+        "<p style='opacity:.6;'>Your bag is empty.</p>";
+
+
+    }
+
+
+
+
+    document.getElementById("subtotal").textContent =
+    "Subtotal $" + total;
+
+
+
+    document.getElementById("bagCount").textContent =
+    totalItems;
+
+
+}
+
+
+
+
+
+/* ---------- REMOVE ITEM ---------- */
+
+
+function removeItem(id){
+
+
+    let bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+
+
+    bag = bag.filter(item => item.id !== id);
+
+
+
+    localStorage.setItem(
+        "bag",
+        JSON.stringify(bag)
+    );
+
+
+
+    loadBag();
+
+
+}
+
+function changeQuantity(id, change){
+
+    let bag = JSON.parse(localStorage.getItem("bag")) || [];
+
+    let item = bag.find(item => item.id === id);
+
+
+    if(item){
+
+        item.quantity += change;
+
+
+        if(item.quantity < 1){
+
+            item.quantity = 1;
+
+        }
+
+
+        if(item.quantity > 2){
+
+            item.quantity = 2;
+
+        }
+
+    }
+
+
+    localStorage.setItem(
+        "bag",
+        JSON.stringify(bag)
+    );
+
+
+    loadBag();
+
+}
+
+
+
+
+/* ---------- INITIALIZE ---------- */
+
+
+loadBag();
+
+
+</script>
 
 
 </body>
