@@ -574,26 +574,6 @@ img {
 
 }
 
-/* ---------- MOBILE ---------- */
-
-@media (max-width: 800px) {
-  .site-nav {
-    display: none;
-  }
-
-  .experience-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .experience-image {
-    width: 100%;
-  }
-}
-/* ================================
-   BAG DRAWER (MATCH DRIVER / WOOD)
-================================ */
-
 
 .bag-overlay{
 
@@ -912,5 +892,617 @@ img {
     background:transparent;
 
     color:#111;
+
+}
+
+/* =====================================
+   MOBILE VERSION ONLY
+===================================== */
+
+@media (max-width: 800px) {
+
+
+/* ---------- HEADER ---------- */
+
+.site-header {
+
+  padding: 22px 6%;
+
+  grid-template-columns: 1fr auto 1fr;
+
+}
+
+
+.wordmark {
+
+  font-size:0.85rem;
+
+}
+
+
+.site-nav {
+
+  display:flex;
+
+  gap:18px;
+
+}
+
+
+.site-nav a {
+
+  font-size:0.55rem;
+
+}
+
+
+.header-bag {
+
+  font-size:0.55rem;
+
+}
+
+
+
+/* ---------- HERO ---------- */
+
+.hero-content {
+
+  left:8%;
+
+  bottom:12%;
+
+}
+
+
+.hero h1 {
+
+  font-size:3.2rem;
+
+}
+
+
+
+/* ---------- COLLECTION ---------- */
+
+
+.collection-section {
+
+  padding:100px 6% 120px;
+
+}
+
+
+.product-list {
+
+  gap:80px;
+
+}
+
+
+.product-row,
+.product-row-reverse {
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:35px;
+
+  align-items:flex-start;
+
+}
+
+
+/* BIGGER PRODUCT IMAGES */
+
+.product-image-link {
+
+  width:85%;
+
+  max-width:420px;
+
+  aspect-ratio:4 / 5;
+
+  margin-left:0;
+
+  border-radius:14px;
+
+}
+
+
+.product-image {
+
+  width:100%;
+
+  height:100%;
+
+}
+
+
+
+/* TEXT BELOW IMAGE */
+
+.product-info {
+
+  max-width:100%;
+
+}
+
+
+.product-info h3 {
+
+  font-size:2.4rem;
+
+}
+
+
+.product-description {
+
+  font-size:0.88rem;
+
+}
+
+
+
+/* ---------- STATEMENT ---------- */
+
+
+.statement-section {
+
+  min-height:auto;
+
+  padding:100px 6%;
+
+}
+
+
+.gaze-intro h2 {
+
+  font-size:2.6rem;
+
+}
+
+
+
+/* ---------- EXPERIENCE ---------- */
+
+
+.experience-section {
+
+  padding:100px 6%;
+
+  min-height:auto;
+
+}
+
+
+.experience-section .product-row {
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:35px;
+
+}
+
+
+.experience-section .product-image-link {
+
+  width:100%;
+
+  max-width:none;
+
+  margin-left:0;
+
+  aspect-ratio:4 / 3;
+
+}
+
+
+.experience-section .product-info {
+
+  max-width:100%;
+
+}
+
+
+
+/* ---------- ABOUT ---------- */
+
+
+.about-section {
+
+  padding:120px 6%;
+
+}
+
+
+.about-content {
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:40px;
+
+}
+
+
+.about-content h2 {
+
+  font-size:3rem;
+
+}
+
+
+.about-content p {
+
+  max-width:100%;
+
+}
+
+
+
+/* ---------- BAG ---------- */
+
+
+.bag-drawer {
+
+  width:100%;
+
+}
+
+
+}
+
+/* =====================================
+   MOBILE VERSION ONLY
+===================================== */
+
+@media (max-width: 800px) {
+
+
+/* ---------- HEADER ---------- */
+
+.site-header {
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  padding:22px 6%;
+
+}
+
+
+.wordmark {
+
+  font-size:0.85rem;
+
+}
+
+
+/* RIGHT SIDE MENU */
+
+.site-nav {
+
+  position:absolute;
+
+  top:22px;
+  right:6%;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:16px;
+
+  align-items:flex-end;
+
+}
+
+
+.site-nav a {
+
+  font-size:0.6rem;
+
+  letter-spacing:0.12em;
+
+}
+
+
+/* BAG BELOW MENU */
+
+.header-bag {
+
+  position:absolute;
+
+  top:22px;
+
+  right:6%;
+
+  transform:translateY(112px);
+
+  font-size:0.6rem;
+
+}
+
+
+
+/* ---------- HERO ---------- */
+
+
+.hero-content {
+
+  left:8%;
+
+  bottom:12%;
+
+}
+
+
+.hero h1 {
+
+  font-size:3.2rem;
+
+}
+
+
+
+/* ---------- COLLECTION ---------- */
+
+
+.collection-section {
+
+  padding:100px 6% 120px;
+
+}
+
+
+.product-list {
+
+  gap:80px;
+
+}
+
+
+.collection-section .product-row,
+.collection-section .product-row-reverse {
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:35px;
+
+}
+
+
+
+/* PRODUCT IMAGE */
+
+.collection-section .product-image-link {
+
+  width:65%;
+
+  max-width:300px;
+
+  aspect-ratio:4 / 5;
+
+  margin-left:auto;
+
+  margin-right:auto;
+
+  border-radius:14px;
+
+}
+
+
+
+/* PRODUCT TEXT */
+
+
+.collection-section .product-info {
+
+  width:100%;
+
+  max-width:100%;
+
+}
+
+
+.collection-section .product-info h3 {
+
+  font-size:2rem;
+
+}
+
+
+.collection-section .product-description {
+
+  font-size:0.78rem;
+
+  line-height:1.6;
+
+  margin:18px 0;
+
+}
+
+
+.collection-section .product-meta {
+
+  font-size:0.65rem;
+
+}
+
+
+
+/* ---------- STATEMENT ---------- */
+
+
+.statement-section {
+
+  min-height:auto;
+
+  padding:100px 6%;
+
+}
+
+
+.gaze-intro h2 {
+
+  font-size:2.6rem;
+
+}
+
+
+
+/* ---------- EXPERIENCE / LOST BALL ---------- */
+
+
+.experience-section {
+
+  padding:100px 6%;
+
+  min-height:auto;
+
+}
+
+
+.experience-section .product-row {
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:35px;
+
+}
+
+
+.experience-section .product-image-link {
+
+  width:85%;
+
+  max-width:420px;
+
+  margin-left:auto;
+
+  margin-right:auto;
+
+  aspect-ratio:4 / 3;
+
+}
+
+
+.experience-section .product-info {
+
+  width:100%;
+
+  max-width:100%;
+
+}
+
+
+/* MAKE LOST BALL TEXT MATCH DRIVER / WOOD */
+
+.experience-section .product-info h3 {
+
+  font-size:2rem;
+
+}
+
+
+.experience-section .product-description {
+
+  font-size:0.78rem;
+
+  line-height:1.6;
+
+  margin:18px 0;
+
+}
+
+
+.experience-section .product-type {
+
+  margin-bottom:16px;
+
+}
+
+
+.experience-section .button {
+
+  margin-top:10px;
+
+}
+
+
+
+/* ---------- ABOUT ---------- */
+
+
+.about-section {
+
+  padding:120px 6%;
+
+}
+
+
+.about-content {
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:40px;
+
+}
+
+
+.about-content h2 {
+
+  font-size:3rem;
+
+}
+
+
+.about-content p {
+
+  max-width:100%;
+
+}
+
+
+
+/* ---------- BAG DRAWER ---------- */
+
+
+.bag-drawer {
+
+  width:100%;
+
+  max-width:100%;
+
+  right:-100%;
+
+}
+
+
+
+/* ---------- PREVENT HORIZONTAL SCROLL ---------- */
+
+
+html,
+body {
+
+  overflow-x:hidden;
+
+}
+
 
 }
