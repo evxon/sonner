@@ -1,4 +1,4 @@
-const WORKER_URL = "https://YOUR-WORKER.workers.dev";
+const WORKER_URL = "https://sonner-paypal.ebsonn05.workers.dev";
 
 async function checkout() {
 
