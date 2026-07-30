@@ -68,7 +68,7 @@ Fairway Wood Headcover
 
 
 <p class="price">
-$109 USD
+$79 USD
 </p>
 
 
@@ -86,19 +86,11 @@ the quiet rituals of golf.
 
 <div class="product-buttons">
 
-<a
-href="https://www.paypal.com/ncp/payment/F8PSJ2SHHBS5N"
-class="button">
-Buy Now
-</a>
-
-
 <button
-class="button button-outline"
+class="button"
 id="add-wood">
 Add to Bag
 </button>
-
 
 </div>
 
@@ -216,11 +208,12 @@ Bag
 Subtotal $0
 </p>
 
-
-<a href="https://www.paypal.com/ncp/payment/F8PSJ2SHHBS5N"
-class="button">
-Checkout
-</a>
+<button
+class="button"
+id="checkoutButton"
+onclick="checkout()">
+    Checkout
+</button>
 
 
 </div>
@@ -244,7 +237,7 @@ const wood = {
 
     name: "Fairway Wood Headcover",
 
-    price: 109,
+    price: 79,
 
     image: "image/woodcover.png",
 
@@ -558,6 +551,7 @@ loadBag();
 
 </script>
 
+<script src="checkout.js"></script>
 
 </body>
 
