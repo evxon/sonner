@@ -19,21 +19,32 @@ async function checkout() {
     }
 
 
+    const cart = bag.map(item => ({
+        id: item.id,
+        quantity: item.quantity
+    }));
+
+
+    console.log("SENDING CART:", cart);
+
+
     try {
 
-const response = await fetch(WORKER_URL, {
 
-    method: "POST",
+        const response = await fetch(WORKER_URL, {
 
-    headers: {
-        "Content-Type": "application/json"
-    },
+            method: "POST",
 
-    body: JSON.stringify({
-        cart: cart
-    })
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-});
+            body: JSON.stringify({
+                cart: cart
+            })
+
+        });
+
 
         console.log("WORKER STATUS:", response.status);
 
