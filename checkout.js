@@ -21,8 +21,19 @@ async function checkout() {
 
     try {
 
-        const response = await fetch(WORKER_URL);
+const response = await fetch(WORKER_URL, {
 
+    method: "POST",
+
+    headers: {
+        "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+        cart: cart
+    })
+
+});
 
         console.log("WORKER STATUS:", response.status);
 
