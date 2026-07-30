@@ -75,7 +75,7 @@ Driver Headcover
 
 
 <p class="price">
-$129 USD
+$89 USD
 </p>
 
 
@@ -83,11 +83,9 @@ $129 USD
 
 <p class="description">
 
-Crafted for the club that begins every round.
+The Gaze Collection is a reminder to notice what surrounds you.
 
-A minimal silhouette designed with soft protection
-and embroidered detailing — an object that reflects
-the quiet rituals of golf.
+Created for golfers who value the moments beyond the score.
 
 </p>
 
@@ -96,14 +94,8 @@ the quiet rituals of golf.
 
 <div class="product-buttons">
 
-<a
-href="https://www.paypal.com/ncp/payment/CCX4BKDEPP57S"
-class="button">
-Buy Now
-</a>
-
 <button
-class="button button-outline"
+class="button"
 id="add-driver">
 Add to Bag
 </button>
@@ -118,80 +110,58 @@ Add to Bag
 </section>
 
 
+<section class="product-gallery-grid">
 
+    <img src="image/test.png" alt="Driver Headcover Front">
 
-
-
-
-
-<section class="product-details">
-
-
-
-<div class="detail-block">
-
-<h2>
-The Object
-</h2>
-
-
-<p>
-Designed to protect your driver while maintaining
-a refined and minimal presence inside the golf bag.
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="detail-block">
-
-
-<h2>
-Craftsmanship
-</h2>
-
-
-<p>
-Constructed with carefully selected materials,
-balanced proportions, and embroidered detailing.
-
-Each piece is created around protection,
-form, and the quiet rituals of the game.
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="detail-block">
-
-
-<h2>
-Delivery
-</h2>
-
-
-<p>
-Each order is carefully prepared before shipping.
-
-Returns are accepted within the stated return period
-after delivery.
-</p>
-
-
-</div>
-
+    <img src="image/test2.png" alt="Driver Headcover Back">
 
 
 </section>
 
+
+
+<section class="product-info-grid">
+
+    <div class="info-column">
+
+        <p class="section-label">Features</p>
+
+        <ul class="spec-list">
+            <li>Premium synthetic leather</li>
+            <li>Soft microfiber lining</li>
+            <li>Embroidered artwork</li>
+            <li>One size fits all drivers</li>
+        </ul>
+
+    </div>
+
+    <div class="info-column">
+
+        <p class="section-label">Shipping</p>
+
+        <ul class="spec-list">
+            <li>Worldwide shipping</li>
+            <li>Estimated delivery 3–10 business days</li>
+            <li>14-day returns</li>
+        </ul>
+
+    </div>
+
+    <div class="info-column">
+
+        <p class="section-label">SØNNER</p>
+
+        <p class="info-text">
+            Designed in Seoul.
+
+            Objects created to remind golfers to notice the course,
+            not only the result.
+        </p>
+
+    </div>
+
+</section>
 
 
 </main>
@@ -230,11 +200,12 @@ after delivery.
         Subtotal $0
     </p>
 
-
-    <a href="https://www.paypal.com/ncp/payment/CCX4BKDEPP57S"
-    class="button">
-        Checkout
-    </a>
+<button
+class="button"
+id="checkoutButton"
+onclick="checkout()">
+    Checkout
+</button>
 
 
 </div>
@@ -247,7 +218,7 @@ after delivery.
 const driver = {
     id: "driver",
     name: "Driver Headcover",
-    price: 129,
+    price: 89,
     image: "image/drivercover.png",
     quantity: 1
 };
@@ -454,6 +425,8 @@ function changeQuantity(id, change){
 }
 
 </script>
+
+<script src="checkout.js"></script>
 
 </body>
 
