@@ -14,6 +14,17 @@ async function checkout() {
         quantity: item.quantity
     }));
 
-    console.log(cart);
+    try {
 
+        const response = await fetch(WORKER_URL);
+
+        const text = await response.text();
+
+        console.log(text);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
 }
