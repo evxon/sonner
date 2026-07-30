@@ -28,6 +28,7 @@ async function checkout() {
     console.log("SENDING CART:", cart);
 
 
+
     try {
 
 
@@ -46,13 +47,44 @@ async function checkout() {
         });
 
 
+
         console.log("WORKER STATUS:", response.status);
 
 
-        const text = await response.text();
+
+        const order = await response.json();
 
 
-        console.log("WORKER RESPONSE:", text);
+
+        console.log("PAYPAL ORDER:", order);
+
+
+
+        if(order.links){
+
+
+            const approveLink = order.links.find(
+                link => link.rel === "approve"
+            );
+
+
+            if(approveLink){
+
+                window.location.href = approveLink.href;
+
+            } else {
+
+                console.error("No PayPal approval link found");
+
+            }
+
+
+        } else {
+
+            console.error("No PayPal order returned");
+
+        }
+
 
 
     } catch(error){
