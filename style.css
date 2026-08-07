@@ -470,9 +470,6 @@ img {
 
 }
 
-.collection-section .product-description {
-  display: none;
-}
 
 /* ---------- ABOUT ---------- */
 
@@ -1351,6 +1348,10 @@ img {
 
   font-size:0.65rem;
 
+}
+
+.collection-section .product-description {
+  display: none;
 }
 
 
