@@ -318,11 +318,9 @@ img {
 /* BODY */
 
 .gaze-description {
-  font-size: 1.2rem;
-  line-height: 1.75;
-  font-weight: 400;
-  opacity: 0.82;
-  max-width: 680px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 100%;
 }
 /* ---------- EXPERIENCE (FIXED PROPERLY) ---------- */
 /* ---------- EXPERIENCE ---------- */
@@ -1368,6 +1366,18 @@ img {
 
   font-size:2.6rem;
 
+}
+
+.gaze-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 16px;
+}
+
+.gaze-description {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 320px;
 }
 
 
