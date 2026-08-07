@@ -254,6 +254,7 @@ img {
 }
 
 /* ---------- PHILOSOPHY / GAZE COLLECTION ---------- */
+/* ---------- PHILOSOPHY / GAZE COLLECTION ---------- */
 
 .statement-section {
   min-height: 620px;
@@ -290,33 +291,39 @@ img {
 }
 
 .gaze-intro {
-  max-width: 600px;
+  max-width: 760px;
 }
+
+/* SECTION LABEL */
 
 .gaze-label {
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
+
+/* HEADLINE */
 
 .gaze-intro h2 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(2.8rem, 4vw, 3.8rem);
   font-weight: 400;
   line-height: 1.05;
-  letter-spacing: -0.05em;
-  max-width: 600px;
-  margin-bottom: 35px;
+  letter-spacing: -0.045em;
+  max-width: 620px;
+  margin-bottom: 28px;
 }
+
+/* BODY */
 
 .gaze-description {
-  font-size: 1rem;
-  line-height: 1.8;
-  opacity: 0.75;
-  max-width: 380px;
+  font-size: 1.2rem;
+  line-height: 1.75;
+  font-weight: 400;
+  opacity: 0.82;
+  max-width: 680px;
 }
-
 /* ---------- EXPERIENCE (FIXED PROPERLY) ---------- */
 /* ---------- EXPERIENCE ---------- */
 
@@ -458,6 +465,10 @@ img {
     max-width: 100%;
   }
 
+}
+
+.collection-section .product-description {
+  display: none;
 }
 
 /* ---------- ABOUT ---------- */
@@ -1324,11 +1335,11 @@ img {
 
 .collection-section .product-description {
 
-  font-size:0.78rem;
-
-  line-height:1.6;
-
-  margin:18px 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 18px auto;
+  max-width: 250px;   /* adjust between 240–270px */
+  text-align: left;
 
 }
 
