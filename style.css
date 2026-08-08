@@ -498,6 +498,25 @@ img {
   line-height: 1.8;
 }
 
+.about-contact {
+  margin-top: 70px;
+}
+
+.about-contact p {
+  margin-bottom: 10px;
+}
+
+.about-contact a {
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.about-contact a:hover {
+  opacity: 0.55;
+}
+
+
+
 /* ---------- FOOTER ---------- */
 
 .site-footer {
