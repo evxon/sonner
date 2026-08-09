@@ -134,11 +134,9 @@ img {
 
 
 .product-gallery img {
-
-    width: 100%;
-
-    max-width: 520px;
-
+    width: 120%;
+    max-width: none;
+    transform: scale(1.15);
 }
 
 
@@ -146,10 +144,11 @@ img {
 
 
 .product-info {
-
     max-width: 360px;
-
+    margin-left: 80px;
 }
+
+
 
 
 
@@ -643,3 +642,4 @@ img {
     font-size:0.8rem;
 
 }
+
