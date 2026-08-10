@@ -415,6 +415,10 @@ img {
 }
 
 
+.lostball-tagline {
+  font-style: italic;
+}
+
 /* BUTTON */
 
 .experience-section .button {
@@ -514,6 +518,8 @@ img {
 .about-contact a:hover {
   opacity: 0.55;
 }
+
+
 
 
 
