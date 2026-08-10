@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,12 +75,21 @@ html, body {
 
 <body>
 
+<!-- BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="image/9jackjack8-ocean-bubbles-frutiger-aqua-game-550245.mp3" type="audio/mpeg">
+</audio>
+
 <div id="bg"></div>
 <div id="field"></div>
 
 <script>
+
 const field = document.getElementById("field");
 const bg = document.getElementById("bg");
+const bgMusic = document.getElementById("bgMusic");
+
+let musicStarted = false;
 
 const ballCount = 24;
 
@@ -96,7 +106,8 @@ function setBackground() {
   bg.style.backgroundImage = `url('${randomBackground()}')`;
 }
 
-/* distance check BUT relaxed */
+
+/* DISTANCE CHECK */
 function isValid(x, y, positions, minDist) {
   for (const p of positions) {
     const dx = x - p.x;
@@ -105,10 +116,12 @@ function isValid(x, y, positions, minDist) {
 
     if (dist < minDist) return false;
   }
+
   return true;
 }
 
-/* softer clustering generator */
+
+/* POSITION GENERATOR */
 function generatePositions() {
   const positions = [];
   const padding = 90;
@@ -134,11 +147,16 @@ function generatePositions() {
   return positions;
 }
 
+
+/* CREATE BALLS */
 function createBalls() {
+
   const positions = generatePositions();
 
   positions.forEach((pos) => {
+
     const ball = document.createElement("div");
+
     ball.classList.add("ball");
 
     const size = 185 + Math.random() * 12;
@@ -151,33 +169,80 @@ function createBalls() {
 
     field.appendChild(ball);
 
+
+    /* BALL CLICK */
     ball.addEventListener("click", () => {
+
+      /* START MUSIC ON FIRST CLICK */
+      if (!musicStarted) {
+
+        bgMusic.volume = 0.35;
+
+        const playPromise = bgMusic.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              musicStarted = true;
+            })
+            .catch((error) => {
+              console.log("Music could not autoplay:", error);
+            });
+        }
+
+      }
+
+
+      /* REMOVE BALL */
       ball.style.pointerEvents = "none";
       ball.classList.add("fade");
 
+
       setTimeout(() => {
+
         ball.remove();
 
+
+        /* RESET WHEN ALL BALLS ARE GONE */
         if (field.querySelectorAll(".ball").length === 0) {
+
           setTimeout(reset, 900);
+
         }
+
       }, 700);
+
     });
+
   });
+
 }
 
+
+/* RESET GAME */
 function reset() {
+
   field.innerHTML = "";
+
   setBackground();
+
   createBalls();
+
 }
 
+
+/* START GAME */
 function start() {
+
   setBackground();
+
   createBalls();
+
 }
+
 
 window.addEventListener("load", start);
+
 </script>
 
 </body>
