@@ -416,9 +416,8 @@ img {
 
 
 .lostball-tagline {
-  font-style: italic;
+  color: #383838;
 }
-
 /* BUTTON */
 
 .experience-section .button {
@@ -481,11 +480,24 @@ img {
   padding: 190px 8% 230px;
   border-top: 1px solid rgba(17, 17, 17, 0.24);
 }
+
 .about-content {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 18vw;   /* was 12vw */
+  gap: 18vw;
   align-items: center;
+}
+
+.about-text {
+  max-width: 340px;
+}
+
+.about-text p {
+  max-width: 340px;
+  margin: 0;
+  padding: 0;
+  font-size: 0.92rem;
+  line-height: 1.8;
 }
 
 .about-content h2 {
@@ -495,31 +507,19 @@ img {
   letter-spacing: -0.05em;
 }
 
-.about-content p {
-  max-width: 340px;
-  padding-bottom: 8px;
-  font-size: 0.92rem;
-  line-height: 1.8;
-}
-
 .about-contact {
-  margin-top: 70px;
-}
-
-.about-contact p {
-  margin-bottom: 10px;
+  margin-top: 16px;
 }
 
 .about-contact a {
   text-decoration: none;
   font-size: 0.92rem;
+  color: #aba2a2;
 }
 
 .about-contact a:hover {
   opacity: 0.55;
 }
-
-
 
 
 
